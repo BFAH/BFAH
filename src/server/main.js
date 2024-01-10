@@ -7,6 +7,7 @@ app.get("/hello", (req, res) => {
   res.send("Hello Vite + React!");
 });
 
-ViteExpress.listen(app, 3000, () =>
+const PORT = process.env.PORT || 3000;
+ViteExpress.listen(app, PORT, () =>
   console.log("Server is listening on port 3000..."),
 );
