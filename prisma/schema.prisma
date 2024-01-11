@@ -9,3 +9,65 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  username     String
+  password     String
+  isAdmin      Boolean
+  Account      Account[]
+  UserAuctions UserAuctions[]
+}
+
+model Account {
+  id            Int    @unique
+  firstName     String
+  lastName      String
+  streetAddress String
+  city          String
+  state         String
+  zipCode       BigInt
+  country       String
+  phoneNumber   BigInt
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        Int
+}
+
+model UserAuctions {
+  isActive  Boolean
+  isHighest Boolean
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  auctions  Auctions @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  auctionId Int
+
+  @@id([userId, auctionId])
+}
+
+model Auctions {
+  id                   Int            @id @default(autoincrement())
+  bidStartTime         DateTime
+  bidEndTime           DateTime
+  incrementPricePerBid Int
+  currentBidPrice      BigInt
+  products             Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId            Int
+  UserAuctions         UserAuctions[]
+}
+
+model Products {
+  id              Int        @id @default(autoincrement())
+  name            String
+  description     String
+  initialBidPrice BigInt
+  category        Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId      Int
+  Auctions        Auctions[]
+}
+
+model Category {
+  id       Int        @id @default(autoincrement())
+  type     String
+  Products Products[]
+}
