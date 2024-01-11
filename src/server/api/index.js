@@ -1,0 +1,9 @@
+const router = require("express").Router();
+
+router.use("/users", require("./users"));
+router.use("/products", require("./products"));
+router.use("/auctions", require("./auctions"));
+router.use("/accounts", require("./accounts"));
+router.use("/categories", require("./categories"));
+
+module.exports = router;
