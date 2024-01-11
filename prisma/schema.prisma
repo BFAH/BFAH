@@ -61,6 +61,7 @@ model Products {
   name            String
   description     String
   initialBidPrice BigInt
+  imageUrl        String
   category        Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId      Int
   Auctions        Auctions[]
