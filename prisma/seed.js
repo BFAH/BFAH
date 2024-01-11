@@ -20,8 +20,22 @@ const createUsers = async () => {
 	})
 }
 
+const createProducts = async () => {
+	console.log(`Creating Products...`)
+	const data = Array.from({ length: 20 }).map(() => ({
+		name: faker.commerce.product(),
+		description: faker.commerce.productDescription(),
+		imageUrl: faker.image.avatar(),
+		initialBidPrice: faker.commerce.price(),
+	}))
+	await prisma.product.createMany({
+		data
+	})
+}
+
 const main = async() => {
     await createUsers()
+    await createProducts()
 }
 
 main()
