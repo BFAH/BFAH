@@ -1,11 +1,11 @@
 const express = require("express");
 const ViteExpress = require("vite-express");
+require("dotenv").config();
 
 const app = express();
+app.use(express.json());
 
-app.get("/hello", (req, res) => {
-  res.send("Hello Vite + React!");
-});
+
 
 const PORT = process.env.PORT || 3000;
 ViteExpress.listen(app, PORT, () =>
