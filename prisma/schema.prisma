@@ -62,14 +62,13 @@ model Products {
   description String
   price       Decimal?
   imageUrl    String
+  category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  Int
   Auctions    Auctions[]
-  Category    Category[]
 }
 
 model Category {
-  type      String
-  products  Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-
-  @@id([productId])
+  id       Int        @id @default(autoincrement())
+  type     String
+  Products Products[]
 }

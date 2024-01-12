@@ -16,6 +16,47 @@ const createUsers = async () => {
   });
 };
 
+const createCategories = async () => {
+	console.log('Creating Categories...')
+	await prisma.category.createMany({
+		data: [
+			{
+				type: "auto"
+			},
+			{
+				type: 'books'
+			},
+			{
+				type: 'clothes'
+			},
+			{
+				type: 'collectibles'
+			},
+			{
+				type: 'electronics'
+			},
+			{
+				type: 'furniture'
+			},
+			{
+				type: 'games'
+			},
+			{
+				type: 'jewelry'
+			},
+			{
+				type: 'kitchen'
+			},
+			{
+				type: 'sports'
+			},
+			{
+				type: 'toys'
+			},
+		]
+	})
+}
+
 const createProducts = async () => {
   console.log(`Creating Products...`);
   const data = Array.from({ length: 20 }).map(() => ({
@@ -23,6 +64,7 @@ const createProducts = async () => {
     description: faker.commerce.productDescription(),
     imageUrl: faker.image.urlPicsumPhotos(),
     price: faker.commerce.price(),
+	categoryId: faker.helpers.arrayElement([1,2,3,4,5,6,7,8,9,10,11])
   }));
   await prisma.products.createMany({
     data,
@@ -74,6 +116,7 @@ const createAuctions = async () => {
 
 const main = async () => {
   await createUsers();
+  await createCategories();
   await createProducts();
   await createAuctions();
 };
@@ -88,83 +131,3 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
-
-//   userAuctions: {
-// 	create: [
-// 	  {
-// 		isActive: true,
-// 		userId: 1,
-// 		auctionId: 5,
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		isActive: true,
-// 		userId: 2,
-// 		auctionId: 3,
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		isActive: true,
-// 		userId: 3,
-// 		auctionId: 1,
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		isActive: true,
-// 		userId: 4,
-// 		auctionId: 2,
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		isActive: true,
-// 		userId: 5,
-// 		auctionId: 1,
-// 	  },
-// 	],
-//   },
-//   auctions: {
-// 	create: [
-// 	  {
-// 		currentBidPrice: 500,
-// 		productId: 1,
-// 		bidStartTime: "2024-01-08",
-// 		bidEndTime: "2024-01-15",
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		  currentBidPrice: 200,
-// 		  productId: 2,
-// 		  bidStartTime: "2024-01-09",
-// 		  bidEndTime: "2024-01-16",
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		  currentBidPrice: 50,
-// 		  productId: 3,
-// 		  bidStartTime: "2024-01-10",
-// 		  bidEndTime: "2024-01-17",
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		  currentBidPrice: 100,
-// 		  productId: 4,
-// 		  bidStartTime: "2024-01-11",
-// 		  bidEndTime: "2024-01-18",
-// 	  },
-// 	],
-// 	create: [
-// 	  {
-// 		  currentBidPrice: 300,
-// 		  productId: 5,
-// 		  bidStartTime: "2024-01-13",
-// 		  bidEndTime: "2024-01-20",
-// 	  },
-// 	],
-//   },
