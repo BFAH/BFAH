@@ -2,10 +2,15 @@
   "name": "vite-react-starter",
   "private": true,
   "version": "0.0.0",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
     "start": "NODE_ENV=production node src/server/main.js",
-    "build": "vite build"
+    "build": "vite build",
+    "seed": "npx prisma migrate reset $$ node prisma/seed.js"
+    
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",

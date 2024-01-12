@@ -27,7 +27,7 @@ model Account {
   streetAddress String
   city          String
   state         String
-  zipCode       BigInt
+  zipCode       String
   country       String
   phoneNumber   BigInt
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -47,28 +47,29 @@ model UserAuctions {
 
 model Auctions {
   id                   Int            @id @default(autoincrement())
-  bidStartTime         DateTime
-  bidEndTime           DateTime
-  incrementPricePerBid Int
-  currentBidPrice      BigInt
+  bidStartTime         DateTime?
+  bidEndTime           DateTime?
+  incrementPricePerBid Decimal?
+  currentBidPrice      Decimal?
   products             Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId            Int
   UserAuctions         UserAuctions[]
 }
 
 model Products {
-  id              Int        @id @default(autoincrement())
-  name            String
-  description     String
-  initialBidPrice BigInt
-  imageUrl        String
-  category        Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId      Int
-  Auctions        Auctions[]
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String
+  price       Decimal?
+  imageUrl    String
+  Auctions    Auctions[]
+  Category    Category[]
 }
 
 model Category {
-  id       Int        @id @default(autoincrement())
-  type     String
-  Products Products[]
+  type      String
+  products  Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+
+  @@id([productId])
 }
