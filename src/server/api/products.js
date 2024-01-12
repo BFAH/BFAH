@@ -3,10 +3,12 @@ const prisma = new PrismaClient();
 const router = require('express').Router();
 
 
-//Get All Products
+// ROUTE: api/products
+// WHAT IT DOES: Returns all Auction Products in the database
+
 router.get('/', async (req, res, next) => {
     try {
-        const products = await prisma.products.findMAny();
+        const products = await prisma.products.findMany();
         res.status(200).send(products);
     } catch (error) {
         console.error('ERROR - Could Not Fetch All Auction Products', error);

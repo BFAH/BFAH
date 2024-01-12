@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -14,12 +15,11 @@ import Auction from "./components/Auction";
 function App() {
 
   return (
-    <div className="App">
-      <div>
-        
-      </div>
-      <h1>Big Fancy Auction House</h1>
-      </div>
+    <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path="/all-products" element={<AllProducts />} />
+    </Routes>
+
   );
 }
 
