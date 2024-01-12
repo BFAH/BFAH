@@ -36,7 +36,7 @@ model Account {
 
 model UserAuctions {
   isActive  Boolean
-  isHighest Boolean
+  isHighest Boolean?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   auctions  Auctions @relation(fields: [auctionId], references: [id], onDelete: Cascade)

@@ -17,45 +17,45 @@ const createUsers = async () => {
 };
 
 const createCategories = async () => {
-	console.log('Creating Categories...')
-	await prisma.category.createMany({
-		data: [
-			{
-				type: "auto"
-			},
-			{
-				type: 'books'
-			},
-			{
-				type: 'clothes'
-			},
-			{
-				type: 'collectibles'
-			},
-			{
-				type: 'electronics'
-			},
-			{
-				type: 'furniture'
-			},
-			{
-				type: 'games'
-			},
-			{
-				type: 'jewelry'
-			},
-			{
-				type: 'kitchen'
-			},
-			{
-				type: 'sports'
-			},
-			{
-				type: 'toys'
-			},
-		]
-	})
-}
+  console.log("Creating Categories...");
+  await prisma.category.createMany({
+    data: [
+      {
+        type: "auto",
+      },
+      {
+        type: "books",
+      },
+      {
+        type: "clothes",
+      },
+      {
+        type: "collectibles",
+      },
+      {
+        type: "electronics",
+      },
+      {
+        type: "furniture",
+      },
+      {
+        type: "games",
+      },
+      {
+        type: "jewelry",
+      },
+      {
+        type: "kitchen",
+      },
+      {
+        type: "sports",
+      },
+      {
+        type: "toys",
+      },
+    ],
+  });
+};
 
 const createProducts = async () => {
   console.log(`Creating Products...`);
@@ -64,7 +64,7 @@ const createProducts = async () => {
     description: faker.commerce.productDescription(),
     imageUrl: faker.image.urlPicsumPhotos(),
     price: faker.commerce.price(),
-	categoryId: faker.helpers.arrayElement([1,2,3,4,5,6,7,8,9,10,11])
+    categoryId: faker.helpers.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
   }));
   await prisma.products.createMany({
     data,
@@ -114,11 +114,45 @@ const createAuctions = async () => {
   });
 };
 
+const createUserAuctions = async () => {
+  console.log(`Creating Products...`);
+  await prisma.userAuctions.createMany({
+    data: [
+      {
+        isActive: true,
+        userId: 1,
+        auctionId: 5,
+      },
+	  {
+        isActive: true,
+        userId: 2,
+        auctionId: 4,
+      },
+	  {
+        isActive: true,
+        userId: 3,
+        auctionId: 2,
+      },
+	  {
+        isActive: true,
+        userId: 4,
+        auctionId: 1,
+      },
+	  {
+        isActive: true,
+        userId: 5,
+        auctionId: 3,
+      },
+    ],
+  });
+};
+
 const main = async () => {
   await createUsers();
   await createCategories();
   await createProducts();
   await createAuctions();
+  await createUserAuctions();
 };
 
 main()
