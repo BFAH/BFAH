@@ -16,17 +16,15 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       // token request
-      const response = await axios.post("api/register", formData);
+      const response = await axios.post("auth/register", formData);
       
       // if sucessful, store locally
       const token = response.data.token;
       localStorage.setItem("TOKEN", token);
-      
+    
       // take user to home page
       navigate("/");
 
-      // store new user's date to database
-      await axios.post("api/users", formData);
     } catch (error) {
       console.error("ERROR - Could Not Register New User", error);
     }
