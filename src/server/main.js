@@ -6,6 +6,8 @@ const app = express();
 app.use(express.json());
 
 app.use("/api", require("../server/api/index.js"));
+app.use("/auth", require("../server/auth/index.js"));
+
 
 
 const PORT = process.env.PORT || 3000;
