@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 
 
-const FilterBar = ({products}) => {
+const FilterBar = ({products,setFiltered}) => {
     const [category, setCategory] = useState('1');
     const [bidTime, setBidTime] = useState('');
 
@@ -15,7 +15,7 @@ const FilterBar = ({products}) => {
                 return product.categoryId === +category;
             }
         );
-        console.log(filteredCategoryResults);
+        setFiltered(filteredCategoryResults);
     }
 
     return (
