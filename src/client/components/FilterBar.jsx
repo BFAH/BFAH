@@ -42,7 +42,7 @@ const FilterBar = ({products,setFiltered}) => {
                             <option value="expiring">Soonest Expiring</option>
                         </select>
                 </label>
-                <button type="reset">Reset</button>
+                <button type="reset" onClick={()=> {setFiltered(null)}}>Reset</button>
                 <button type="submit">Submit</button>
             </form>
         </>
