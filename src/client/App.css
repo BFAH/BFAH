@@ -40,3 +40,30 @@
 .read-the-docs {
   color: #888;
 }
+
+.all-products {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+}
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+button {
+  background-color: gold;
+  color: black;
+  margin: 10px;
+}
