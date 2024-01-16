@@ -33,13 +33,39 @@ router.get('/current/account', verify, async (req, res, next) => {
 })
 
 //POST creates users account profile information
-router.post('/account/edit', verify, async (req, res, next) => {
+router.post('/account/create', verify, async (req, res, next) => {
     const {firstName, lastName, streetAddress, city, state, 
         zipCode, country, phoneNumber} = req.body;
         try {
 const account = await prisma.account.create({
     data: {
-        id: 1,
+        firstName,
+        lastName,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        country,
+        phoneNumber,
+        userId: req.user.id
+    }
+})
+res.status(201).send(account)
+        } catch(err) {
+            console.error(err)
+        }
+})
+
+//PATCH users can edit their account profile information
+router.patch('/account/edit', verify, async (req, res, next) => {
+    const {id, firstName, lastName, streetAddress, city, state, 
+        zipCode, country, phoneNumber} = req.body;
+        try {
+const account = await prisma.account.update({
+    where: {
+        id: +id
+    },
+    data: {
         firstName,
         lastName,
         streetAddress,
