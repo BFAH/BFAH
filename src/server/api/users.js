@@ -3,7 +3,17 @@ const prisma = new PrismaClient();
 const router = require("express").Router();
 const {verify} = require('../util')
 
-// returns user by id
+//GET returns all users
+router.get('/', async (req, res, next) => {
+	try {
+		const users = await prisma.user.findMany();
+		res.status(200).send(users)
+	} catch (err) {
+		console.error(err);
+	}
+})
+
+//GET returns user by id
 router.get('/:id', async (req, res, next) => {
 	const { id } = req.params
 	try {
