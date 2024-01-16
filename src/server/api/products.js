@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = require("express").Router();
 
-const verify = require('../util')
+const {verify} = require('../util')
 
 // ROUTE: api/products
 // WHAT IT DOES: Returns all Auction Products in the database
@@ -26,6 +26,8 @@ router.get("/:id", async (req, res, next) => {
         id: +id,
       },
     });
+res.status(201).send(product)
+
   } catch (err) {
     console.error("ERROR - Could not FETCH the PRODUCT you REQUESTED!", err);
     res.status(500).json({ err: "SERVER ERROR" });
@@ -45,6 +47,7 @@ const product = await prisma.products.create({
         categoryId
     }
 })
+res.status(201).send(product)
     } catch(err) {
         console.error("ERROR - Could not CREATE your new PRODUCT!", err);
     res.status(500).json({ err: "SERVER ERROR" });
