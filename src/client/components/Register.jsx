@@ -11,12 +11,12 @@ const Register = () => {
   });
 
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
     try {
       // token request
-      const response = await axios.post("auth/register", formData);
+      const response = await axios.post("/auth/register", formData);
       
       // if sucessful, store locally
       const token = response.data.token;
@@ -41,6 +41,7 @@ const Register = () => {
             type="text"
             name="email"
             value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             
           />
         </label>
@@ -52,6 +53,8 @@ const Register = () => {
             type="text"
             name="username"
             value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+
            
           />
         </label>
@@ -63,6 +66,8 @@ const Register = () => {
             type="password"
             name="password"
             value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+
             
           />
         </label>
