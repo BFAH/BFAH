@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = require("express").Router();
 
-const verify = require('../util')
+const {verify} = require('../util')
 
 // ROUTE: api/products
 // WHAT IT DOES: Returns all Auction Products in the database
