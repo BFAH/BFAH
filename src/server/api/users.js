@@ -32,4 +32,28 @@ router.get('/current/account', verify, async (req, res, next) => {
 	}
 })
 
+//POST creates users account profile information
+router.post('/account/edit', verify, async (req, res, next) => {
+    const {firstName, lastName, streetAddress, city, state, 
+        zipCode, country, phoneNumber} = req.body;
+        try {
+const account = await prisma.account.create({
+    data: {
+        id: 1,
+        firstName,
+        lastName,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        country,
+        phoneNumber,
+    }
+})
+res.status(201).send(account)
+        } catch(err) {
+            console.error(err)
+        }
+})
+
 module.exports = router;
