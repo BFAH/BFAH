@@ -46,6 +46,7 @@ const Register = () => {
           />
         </label>
         <br />
+        <br />
         <label>
           Username
           < br/>
@@ -58,6 +59,7 @@ const Register = () => {
            
           />
         </label>
+        <br />
         <br />
         <label>
           Password
