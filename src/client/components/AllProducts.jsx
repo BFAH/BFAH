@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from "react";
 import axios from "axios";
 import FilterBar from "./FilterBar";
+import { Link } from "react-router-dom";
+import SingleProduct from "./SingleProduct";
 
 const AllProducts = () => {
 
@@ -32,24 +34,36 @@ console.log(filtered);
                 <div className="cards">
                     {filtered && filtered.map((product)=> {
                         return (
-                            <div key={product.id} style={{height:"330px", width:"300px", border:"black solid 4px", margin:"20px", backgroundColor:"#def2f1", color:"black"}}>
+                            
+                            <div key={product.id} >
+                                <Link to={`/${product.id}`} style={{textDecoration:"none"}}>
+                                <div style={{height:"330px", width:"300px", border:"black solid 4px", margin:"20px", backgroundColor:"#def2f1", color:"black"}}>
                                 <h3>{product.name}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.imageUrl} style={{height:"100px", width:"100px"}}/>
                                 <h4>${product.price}</h4>
-                            </div> )})}
+                                </div>
+                                </Link>
+                            </div>
+                                 )})}
                 </div>
                             :
 
                 <div className="cards">
                     {products && products.map((product)=> {
                         return (
-                            <div key={product.id} style={{height:"330px", width:"300px", border:"black solid 4px", margin:"20px", backgroundColor:"#def2f1", color:"black"}}>
+                           
+                            <div key={product.id} >
+                                <Link to={`/${product.id}`} style={{textDecoration:"none"}}>
+                                <div style={{height:"330px", width:"300px", border:"black solid 4px", margin:"20px", backgroundColor:"#def2f1", color:"black"}}>
                                 <h3>{product.name}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.imageUrl} style={{height:"100px", width:"100px"}}/>
                                 <h4>${product.price}</h4>
+                                </div>
+                                </Link>
                             </div>
+                            
                         )})}
                 </div> }
             </div>
