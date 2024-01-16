@@ -10,11 +10,10 @@
     "start": "NODE_ENV=production node src/server/main.js",
     "build": "vite build",
     "seed": "npx prisma migrate reset $$ node prisma/seed.js"
-    
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "^5.8.1",
     "axios": "^1.6.5",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
