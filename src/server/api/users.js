@@ -110,4 +110,22 @@ router.patch('/admin', async (req, res, next) => {
 	}
 })
 
+//PATCH updates user isAdmin to false
+router.patch('/admin/remove', async (req, res, next) => {
+	const { id } = req.body;
+	try {
+		const updateUser = await prisma.user.update({
+			where: {
+				id: +id
+			},
+			data: {
+				isAdmin: false
+			}
+		})
+		res.status(201).send(updateUser)
+	} catch (err) {
+		console.error(err)
+	}
+})
+
 module.exports = router;
