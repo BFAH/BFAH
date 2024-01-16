@@ -21,7 +21,7 @@ model User {
 }
 
 model Account {
-  id            Int    @unique
+  id            Int    @unique @default(autoincrement())
   firstName     String
   lastName      String
   streetAddress String
