@@ -49,7 +49,6 @@ model Auctions {
   id                   Int            @id @default(autoincrement())
   bidStartTime         DateTime?
   bidEndTime           DateTime?
-  incrementPricePerBid Decimal?
   currentBidPrice      Decimal?
   products             Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId            Int
