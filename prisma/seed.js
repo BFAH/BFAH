@@ -80,35 +80,30 @@ const createAuctions = async () => {
     data: [
       {
         currentBidPrice: "500.00",
-        incrementPricePerBid: "5.00",
         productId: 1,
         bidStartTime: "2023-01-08T00:00:00.500Z",
         bidEndTime: "2023-01-15T23:59:59.500Z",
       },
       {
         currentBidPrice: "200.00",
-        incrementPricePerBid: "5.00",
         productId: 2,
         bidStartTime: "2023-01-09T00:00:00.500Z",
         bidEndTime: "2023-01-16T23:59:59.500Z",
       },
       {
         currentBidPrice: "50.00",
-        incrementPricePerBid: "5.00",
         productId: 3,
         bidStartTime: "2023-01-10T00:00:00.500Z",
         bidEndTime: "2023-01-17T23:59:59.500Z",
       },
       {
         currentBidPrice: "100.00",
-        incrementPricePerBid: "5.00",
         productId: 4,
         bidStartTime: "2023-01-11T00:00:00.500Z",
         bidEndTime: "2023-01-18T23:59:59.500Z",
       },
       {
         currentBidPrice: "300.00",
-        incrementPricePerBid: "5.00",
         productId: 5,
         bidStartTime: "2023-01-13T00:00:00.500Z",
         bidEndTime: "2023-01-20T23:59:59.500Z",
