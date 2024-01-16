@@ -32,6 +32,7 @@
 .cards {
   display: flex;
   flex-flow: row wrap;
+  color: black;
 }
 
 button {

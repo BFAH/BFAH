@@ -18,15 +18,14 @@ const FilterBar = ({products,setFiltered}) => {
             }
         );
         setFiltered(filteredCategoryResults);
-        setCategory([1,2,3,4,5,6,7,8,9,10,11]);
-        setPriceRange('999999999999');
+        
     }
 
     return (
         <>
             <form className="filter-bar" onSubmit={filterCategories}>
                 <label>Category
-                        <select name="selectedCategory" defaultValue={category} onChange={(e)=>setCategory(e.target.value)}>
+                        <select name="selectedCategory"  onChange={(e)=>setCategory(e.target.value)}>
                             <option value="[1,2,3,4,5,6,7,8,9,10,11]">All</option>
                             <option value="1">Auto</option>
                             <option value="2">Books</option>
@@ -42,20 +41,20 @@ const FilterBar = ({products,setFiltered}) => {
                         </select>
                 </label>
                 <label>Bid Time
-                        <select name="selectedTime" defaultValue={bidTime}>
+                        <select name="selectedTime">
                             <option value="newest">Newest</option>
                             <option value="expiring">Soonest Expiring</option>
                         </select>
                 </label>
                 <label>Price Range
-                    <select name="selectedPrice" defaultValue={priceRange} onChange={(e) => {setPriceRange(e.target.value)}}>
+                    <select name="selectedPrice" onChange={(e) => {setPriceRange(e.target.value)}}>
                         <option value="999999999">All</option>
                         <option value="300">less 300</option>
                         <option value="600"> less 600</option>
                         <option value="2000">less 2000</option>
                     </select>
                 </label>
-                <button type="reset" onClick={()=> {setFiltered(null)}}>Reset</button>
+                <button type="reset" onClick={()=> {setFiltered(null); setCategory([1,2,3,4,5,6,7,8,9,10,11]);setPriceRange("99999999999");}}>Reset</button>
                 <button type="submit">Submit</button>
             </form>
         </>
