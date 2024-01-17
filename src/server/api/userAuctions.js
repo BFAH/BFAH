@@ -36,4 +36,23 @@ router.post('/', verify, async (req, res, next) => {
 	}
 })
 
+//PATCH updates a users bid for isHighest true
+router.patch('/update', verify, async (req, res, next) => {
+	const { auctionId, isHighest } = req.body;
+	try {
+		const auction = await prisma.userAuctions.update({
+			where: {
+				userId: req.user.id,
+				auctionId
+			},
+			data: {
+				isHighest,
+			}
+		})
+		res.status(201).send(auction)
+	} catch (err) {
+		console.error(err);
+	}
+})
+
 module.exports = router;
