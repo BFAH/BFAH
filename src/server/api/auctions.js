@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = require("express").Router();
-const {verify} = require('../util')
+const { verify } = require('../util')
 
 //GET gets all auctions
 router.get('/', async (req, res, next) => {
@@ -29,15 +29,15 @@ router.get('/:id', async (req, res, next) => {
 })
 
 //POST creates a new auction
-router.post('/auction/create', verify, async (req, res, next) => {
-    const {bidStartTime, bidEndTime, currentBidPrice, productId} = req.body;
-    try {
+router.post('/', verify, async (req, res, next) => {
+	const { bidStartTime, bidEndTime, currentBidPrice, productId } = req.body;
+	try {
 		const auction = await prisma.auctions.create({
 			data: {
 				bidStartTime,
-                bidEndTime,
-                currentBidPrice,
-                productId
+				bidEndTime,
+				currentBidPrice,
+				productId
 			}
 		})
 		res.status(201).send(auction)
@@ -46,5 +46,22 @@ router.post('/auction/create', verify, async (req, res, next) => {
 	}
 })
 
+//PATCH updates an auction
+router.patch('/', verify, async (req, res, next) => {
+	const { currentBidPrice } = req.body;
+	try {
+		const auction = await prisma.auctions.update({
+			where: {
+				id: auction.id
+			},
+			data: {
+				currentBidPrice,
+			}
+		})
+		res.status(201).send(auction)
+	} catch (err) {
+		console.error(err);
+	}
+})
 
 module.exports = router;
