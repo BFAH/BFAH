@@ -13,6 +13,21 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
+//GET get single auction by ID
+router.get('/:id', async (req, res, next) => {
+	const { id } = req.params
+	try {
+		const auction = await prisma.auctions.findUnique({
+			where: {
+				id: +id
+			}
+		})
+		res.status(200).send(auction);
+	} catch (err) {
+		console.error();
+	}
+})
+
 //POST creates a new auction
 router.post('/auction/create', verify, async (req, res, next) => {
     const {bidStartTime, bidEndTime, currentBidPrice, productId} = req.body;
