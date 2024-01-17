@@ -51,17 +51,14 @@ const SingleProduct = () => {
 
   return (
     <div>
-      {/* Navbar */}
       <div>
-        <h1>Navbar</h1>
+        <h1>{product.name}</h1>
       </div>
 
-      {/* Back to All Products button */}
       <div>
         <button onClick={() => navigate('/')}>Back to All Products</button>
       </div>
 
-      {/* Product Image */}
       <div>
         <img src={product.imageUrl} alt={product.name} />
       </div>
