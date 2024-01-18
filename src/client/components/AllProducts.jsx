@@ -34,6 +34,7 @@ if(auctionData){
     for(let auction of auctionData) {
         console.log(auction.bidEndTime);
         products[auction.productId].bidTime = new Date(auction.bidEndTime).toLocaleString();
+        products[auction.productId].currentBid = auction.currentBidPrice;
     }
 }
 console.log(products);
@@ -53,8 +54,9 @@ console.log(products);
                                 <h3>{product.name}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.imageUrl} style={{height:"100px", width:"100px"}}/>
-                                <h4>${product.price}</h4>
-                                <h5>{product.bidTime}</h5>
+                                <h4>Buy Now: ${product.price}</h4>
+                                <h4>Current Bid: ${product.currentBid}</h4>
+                                <h5>Bid End: {product.bidTime}</h5>
                                 </div>
                                 </Link>
                             </div>
@@ -72,8 +74,9 @@ console.log(products);
                                 <h3>{product.name}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.imageUrl} style={{height:"100px", width:"100px"}}/>
-                                <h4>${product.price}</h4>
-                                <h5>{product.bidTime}</h5>
+                                <h4>Buy Now: ${product.price}</h4>
+                                <h4>Current Bid: ${product.currentBid}</h4>
+                                <h5>Bid End: {product.bidTime}</h5>
                                 </div>
                                 </Link>
                                 
