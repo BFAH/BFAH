@@ -26,18 +26,13 @@ useEffect(() => {
 fetchAllProducts();
 
 }, []);
-console.log(filtered);
-console.log(products);
-console.log(auctionData);
 if(auctionData){
     
     for(let auction of auctionData) {
-        console.log(auction.bidEndTime);
         products[auction.productId].bidTime = new Date(auction.bidEndTime).toLocaleString();
         products[auction.productId].currentBid = auction.currentBidPrice;
     }
 }
-console.log(products);
     return (
         <div className="all-products">
             <h1>All Products</h1>
