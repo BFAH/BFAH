@@ -3,54 +3,120 @@ import axios from "axios";
 
 const EditAccountInfo = () => {
     const [formData, setFormData] = useState({
-        //Fields - Will add more as project expands
-        email: "",
-        username: "",
-        password: "",
-    });
+        firstName: ``,
+        lastName: ``,
+        streetAddress: ``,
+        city: ``,
+        zipCode: ``,
+        state: ``,
+        country: ``,
+        phoneNumber: ``,
 
+    });
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleEditAccount = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
         try {
-            const response = await axios.put("api/users", formData);
-            
-    } catch (error) {
-        console.error("ERROR - Could Not Update User Account Information", error);
-    }
+            const result = await axios.post(`/api/users/account/create`, formData, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+                },
+            });
+            console.log(result)
+        } catch (error) {
+            console.log(error);
+        }
     };
-    
+
     return (
         <>
             <h1> Edit Account Information</h1>
-            < br/>
             <form>
                 <label>
-                    Username
-                    < br/>
-                    <input 
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                    />
-                </label>
-                < br/>
-                < br/>
-                <label>
-                    Password
-                    < br/>
+                    First Name
                     <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
+                        type="text"
+                        name="firstName"
+                        placeholder="Enter First Name"
+                        value={formData.firstName}
                         onChange={handleChange}
                     />
                 </label>
-                < br/>
-                <button type="button" onClick={handleEditAccount}>
+                <label>
+                    Last Name
+                    <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Enter Last Name"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    Street Address
+                    <input
+                        type="text"
+                        name="streetAddress"
+                        placeholder="Enter Street Address"
+                        value={formData.streetAddress}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    City
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="Enter City"
+                        value={formData.city}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    State
+                    <input
+                        type="text"
+                        name="state"
+                        placeholder="Enter State"
+                        value={formData.state}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    Zip Code
+                    <input
+                        type="text"
+                        name="zipCode"
+                        placeholder="Enter Zip Code"
+                        value={formData.zipCode}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    Country
+                    <input
+                        type="text"
+                        name="country"
+                        placeholder="Enter Country"
+                        value={formData.country}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    Phone Number
+                    <input
+                        type="text"
+                        name="phoneNumber"
+                        placeholder="000-000-0000"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                    />
+                </label>
+                <button type="button" onClick={handleSubmit}>
                     Save changes
                 </button>
             </form>

@@ -47,7 +47,7 @@ router.post('/account/create', verify, async (req, res, next) => {
     const {firstName, lastName, streetAddress, city, state, 
         zipCode, country, phoneNumber} = req.body;
         try {
-const account = await prisma.account.create({
+const accountInfo = await prisma.account.create({
     data: {
         firstName,
         lastName,
@@ -60,7 +60,7 @@ const account = await prisma.account.create({
         userId: req.user.id
     }
 })
-res.status(201).send(account)
+res.status(201).send(accountInfo)
         } catch(err) {
             console.error(err)
         }
