@@ -10,6 +10,7 @@ const SingleProduct = () => {
   const [auctionData, setAuctionData] = useState('');
   const [bidAmount, setBidAmount] = useState('');
   const [minimumBid, setMinimumBid] = useState(0);
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -24,7 +25,8 @@ const SingleProduct = () => {
     };
 
     fetchSingleProduct();
-  }, []);
+    setFlag(false);
+  }, [flag]);
 console.log(product);
 console.log(auctionData);
 
@@ -32,8 +34,10 @@ console.log(auctionData);
 if(auctionData){
     
   for(let auction of auctionData) {
+    const seconds = Date.parse(auction.bidEndTime) - 
+    Date.parse(auction.bidStartTime);
     if(product.id === auction.productId){
-        product.bidTime = new Date(auction.bidEndTime).toLocaleString();
+        product.bidTime = new Date(seconds * 1000).toISOString().slice(11,19);
         product.currentBid = auction.currentBidPrice;
 
     }
@@ -48,12 +52,22 @@ if(auctionData){
     setBidAmount(newBidAmount);
   };
 
-  const handleSubmitBid = (event) => {
+  const handleSubmitBid = async(event) => {
     event.preventDefault();
 
     // Check if the bid amount meets the minimum bid limit
     if (bidAmount >= minimumBid) {
-      // Your logic to submit the bid
+      try {
+        const response = await axios.patch(`/api/auctions/${product.id}`,
+        {currentBidPrice: bidAmount},
+        {headers: {
+          Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+        }});
+        setFlag(true);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
       console.log('Bid submitted:', bidAmount);
     } else {
       // Alert or display an error message for insufficient bid amount
@@ -78,7 +92,7 @@ if(auctionData){
       {/* not yet dropdown */}
       <div>
         <h3>Description</h3>
-        <p>{product.description}</p>
+        <p style={{width:"300px"}}>{product.description}</p>
       </div>
 
       {/* Current Bid and Time Left not yet functional*/}
