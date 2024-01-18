@@ -7,26 +7,42 @@ const SingleProduct = () => {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
-  const [selectedDescription, setSelectedDescription] = useState('');
+  const [auctionData, setAuctionData] = useState('');
   const [bidAmount, setBidAmount] = useState('');
   const [minimumBid, setMinimumBid] = useState(0);
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
       try {
         const response = await axios.get(`/api/products/${id}`);
         setProduct(response.data);
-
-        // Set the minimum bid to 5% more than the current bid
-        setMinimumBid(response.data.currentBidPrice * 1.05);
+        const response2 = await axios.get(`/api/auctions`);
+        setAuctionData(response2.data);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
 
     fetchSingleProduct();
-  }, [id]);
+    setFlag(false);
+  }, [flag]);
+console.log(product);
+console.log(auctionData);
 
+
+if(auctionData){
+    
+  for(let auction of auctionData) {
+    const seconds = Date.parse(auction.bidEndTime) - 
+    Date.parse(auction.bidStartTime);
+    if(product.id === auction.productId){
+        product.bidTime = new Date(seconds * 1000).toISOString().slice(11,19);
+        product.currentBid = auction.currentBidPrice;
+
+    }
+  }
+}
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -36,12 +52,22 @@ const SingleProduct = () => {
     setBidAmount(newBidAmount);
   };
 
-  const handleSubmitBid = (event) => {
+  const handleSubmitBid = async(event) => {
     event.preventDefault();
 
     // Check if the bid amount meets the minimum bid limit
     if (bidAmount >= minimumBid) {
-      // Your logic to submit the bid
+      try {
+        const response = await axios.patch(`/api/auctions/${product.id}`,
+        {currentBidPrice: bidAmount},
+        {headers: {
+          Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+        }});
+        setFlag(true);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
       console.log('Bid submitted:', bidAmount);
     } else {
       // Alert or display an error message for insufficient bid amount
@@ -66,16 +92,16 @@ const SingleProduct = () => {
       {/* not yet dropdown */}
       <div>
         <h3>Description</h3>
-        <p>{product.description}</p>
+        <p style={{width:"300px"}}>{product.description}</p>
       </div>
 
       {/* Current Bid and Time Left not yet functional*/}
       <div>
         <div>
-          <p>Current Highest Bid: ${product.currentBidPrice}</p>
+          <p>Current Highest Bid: ${product.currentBid}</p>
         </div>
         <div>
-          <p>Time Left: 2 days</p>
+          <p>Time Left: {product.bidTime}</p>
         </div>
       </div>
 

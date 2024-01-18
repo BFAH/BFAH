@@ -47,12 +47,13 @@ router.post('/', verify, async (req, res, next) => {
 })
 
 //PATCH updates an auction
-router.patch('/', verify, async (req, res, next) => {
+router.patch('/:id', verify, async (req, res, next) => {
+	const { id } = req.params;
 	const { currentBidPrice } = req.body;
 	try {
 		const auction = await prisma.auctions.update({
 			where: {
-				id: auction.id
+				id:+id
 			},
 			data: {
 				currentBidPrice,
