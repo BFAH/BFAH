@@ -29,7 +29,7 @@ model Account {
   state         String
   zipCode       String
   country       String
-  phoneNumber   BigInt
+  phoneNumber   String
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        Int
 }
