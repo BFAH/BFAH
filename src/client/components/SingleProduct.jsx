@@ -7,7 +7,7 @@ const SingleProduct = () => {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
-  const [selectedDescription, setSelectedDescription] = useState('');
+  const [auctionData, setAuctionData] = useState('');
   const [bidAmount, setBidAmount] = useState('');
   const [minimumBid, setMinimumBid] = useState(0);
 
@@ -16,17 +16,29 @@ const SingleProduct = () => {
       try {
         const response = await axios.get(`/api/products/${id}`);
         setProduct(response.data);
-
-        // Set the minimum bid to 5% more than the current bid
-        setMinimumBid(response.data.currentBidPrice * 1.05);
+        const response2 = await axios.get(`/api/auctions`);
+        setAuctionData(response2.data);
       } catch (error) {
         console.error('Error fetching product:', error);
       }
     };
 
     fetchSingleProduct();
-  }, [id]);
+  }, []);
+console.log(product);
+console.log(auctionData);
 
+
+if(auctionData){
+    
+  for(let auction of auctionData) {
+    if(product.id === auction.productId){
+        product.bidTime = new Date(auction.bidEndTime).toLocaleString();
+        product.currentBid = auction.currentBidPrice;
+
+    }
+  }
+}
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -72,10 +84,10 @@ const SingleProduct = () => {
       {/* Current Bid and Time Left not yet functional*/}
       <div>
         <div>
-          <p>Current Highest Bid: ${product.currentBidPrice}</p>
+          <p>Current Highest Bid: ${product.currentBid}</p>
         </div>
         <div>
-          <p>Time Left: 2 days</p>
+          <p>Time Left: {product.bidTime}</p>
         </div>
       </div>
 
