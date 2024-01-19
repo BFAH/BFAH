@@ -38,6 +38,7 @@ router.post("/", verify, async (req, res, next) => {
         bidEndTime,
         currentBidPrice,
         productId,
+        userId: req.user.id
       },
     });
     res.status(201).send(auction);
