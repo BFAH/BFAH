@@ -5,13 +5,19 @@
   text-align: center;
 }
 
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  background-color: #2b7a78;
+  min-width: 320px;
+  min-height: 100vh;
+}
 
-
-
-
-
-
-
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
 
 .all-products {
   display: flex;
