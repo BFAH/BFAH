@@ -6,7 +6,7 @@ const Navigation = () => {
     <nav>
       <Link to="/">Home</Link>
       <Link to="/login">Login</Link>
-      <Link to="/account">My Account</Link>
+      <Link to="/account-info">My Account</Link>
       <Link to="/sell">Sell</Link>
       <form>
         <input type="text" placeholder="Search..." />
