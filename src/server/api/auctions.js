@@ -57,6 +57,7 @@ router.patch("/:id", verify, async (req, res, next) => {
       },
       data: {
         currentBidPrice,
+        currentBidUserId: req.user.id,
       },
     });
     res.status(201).send(auction);
