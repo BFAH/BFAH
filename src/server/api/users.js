@@ -31,10 +31,13 @@ router.get("/:id", async (req, res, next) => {
 //GET returns logged in user's ID
 router.get("/current/account", verify, async (req, res, next) => {
   try {
-    const currentUser = await prisma.user.findFirst({
+    const currentUser = await prisma.account.findFirst({
       where: {
-        id: req.user.id,
+        userId: req.user.id,
       },
+      include: {
+        user: true
+      }
     });
     res.status(200).send(currentUser);
   } catch (err) {

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const EditAccountInfo = () => {
+  const [currentUser, setCurrentUser] = useState({})
   const [formData, setFormData] = useState({
     firstName: ``,
     lastName: ``,
@@ -31,10 +32,29 @@ const EditAccountInfo = () => {
     }
   };
 
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const result = await axios.get(`http://localhost:3000/api/users/current/account`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        })
+        const userInfo = result.data
+        setCurrentUser(userInfo)
+        console.log(userInfo)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }; getCurrentUser()
+  }, [])
+
+
   return (
     <>
       <h1> Edit Account Information</h1>
-      <form>
+      < form>
         <label>
           First Name
           <input
