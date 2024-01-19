@@ -29,8 +29,8 @@ fetchAllProducts();
 if(auctionData){
     
     for(let auction of auctionData) {
-        products[auction.productId].bidTime = new Date(auction.bidEndTime).toLocaleString();
-        products[auction.productId].currentBid = auction.currentBidPrice;
+        products[auction.productId-1].bidTime = new Date(auction.bidEndTime).toLocaleString();
+        products[auction.productId-1].currentBid = auction.currentBidPrice;
     }
 }
     return (
