@@ -12,7 +12,7 @@ const SingleProduct = () => {
   const [minimumBid, setMinimumBid] = useState(0);
   const [auctionTime, setAuctionTime] = useState();
   const [currentBid, setCurrentBid] = useState('');
-  const [timeRemaining, setTimeRemaining] = useState(1000);
+  const [timeRemaining, setTimeRemaining] = useState('');
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
@@ -43,7 +43,12 @@ if(auctionData && !flag){
 }
 
 const timer = () => {
-  setTimeRemaining(auctionTime - Date.parse(new Date()));
+  let secondsRemain = Math.floor((auctionTime - Date.parse(new Date()))/1000);
+  let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
+  let hoursRemain = Math.floor((secondsRemain - daysRemain * (60 * 60 * 24))/ (60 * 60));
+  let minutesRemain = Math.floor((secondsRemain - (daysRemain * 60 * 60 * 24)- (hoursRemain * 60 * 60)) / 60);
+  let finalSeconds = Math.floor((secondsRemain - (daysRemain * 60 * 60 * 24)- (hoursRemain * 60 * 60) - (minutesRemain * 60)));
+  setTimeRemaining(`${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`);
   setTimeout(timer,1000);
 }
 setTimeout(timer,1000);
