@@ -13,6 +13,23 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//GET gets all auctions related to user
+router.get("/user", async (req, res, next) => {
+  try {
+    const auction = await prisma.auctions.findMany({
+      where: {
+        userId: req.user.id
+      },
+      include: {
+        products: true
+      }
+    });
+    res.status(200).send(auction);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //GET get single auction by ID
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -21,6 +38,10 @@ router.get("/:id", async (req, res, next) => {
       where: {
         id: +id,
       },
+      include: {
+        user: true,
+        products: true
+      }
     });
     res.status(200).send(auction);
   } catch (err) {
