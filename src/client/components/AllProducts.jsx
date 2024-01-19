@@ -20,16 +20,16 @@ const AllProducts = () => {
         console.error("ERROR - Could Not Fetch All Products", error);
       }
     };
-    fetchAllProducts();
-  }, []);
-  if (auctionData) {
-    for (let auction of auctionData) {
-      products[auction.productId].bidTime = new Date(
-        auction.bidEndTime
-      ).toLocaleString();
-      products[auction.productId].currentBid = auction.currentBidPrice;
+fetchAllProducts();
+}, []);
+
+  if(auctionData){   
+    for(let auction of auctionData) {
+        products[auction.productId-1].bidTime = new Date(auction.bidEndTime).toLocaleString();
+        products[auction.productId-1].currentBid = auction.currentBidPrice;
     }
   }
+  
   return (
     <div className="all-products">
       <h1>All Products</h1>

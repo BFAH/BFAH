@@ -10,6 +10,9 @@ const SingleProduct = () => {
   const [auctionData, setAuctionData] = useState('');
   const [bidAmount, setBidAmount] = useState('');
   const [minimumBid, setMinimumBid] = useState(0);
+  const [auctionTime, setAuctionTime] = useState();
+  const [currentBid, setCurrentBid] = useState('');
+  const [timeRemaining, setTimeRemaining] = useState('');
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
@@ -23,26 +26,34 @@ const SingleProduct = () => {
         console.error('Error fetching product:', error);
       }
     };
-
     fetchSingleProduct();
-    setFlag(false);
-  }, [flag]);
-console.log(product);
-console.log(auctionData);
+  }, []);
 
 
-if(auctionData){
+if(auctionData && !flag){
     
   for(let auction of auctionData) {
-    const seconds = Date.parse(auction.bidEndTime) - 
-    Date.parse(auction.bidStartTime);
+    const seconds = Date.parse(auction.bidEndTime);
     if(product.id === auction.productId){
-        product.bidTime = new Date(seconds * 1000).toISOString().slice(11,19);
-        product.currentBid = auction.currentBidPrice;
-
+        setAuctionTime(seconds);
+        setCurrentBid(auction.currentBidPrice);
     }
   }
+  setFlag(true);
 }
+
+const timer = () => {
+  let secondsRemain = Math.floor((auctionTime - Date.parse(new Date()))/1000);
+  let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
+  let hoursRemain = Math.floor((secondsRemain - daysRemain * (60 * 60 * 24))/ (60 * 60));
+  let minutesRemain = Math.floor((secondsRemain - (daysRemain * 60 * 60 * 24)- (hoursRemain * 60 * 60)) / 60);
+  let finalSeconds = Math.floor((secondsRemain - (daysRemain * 60 * 60 * 24)- (hoursRemain * 60 * 60) - (minutesRemain * 60)));
+  setTimeRemaining(`${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`);
+  setTimeout(timer,1000);
+}
+setTimeout(timer,1000);
+
+
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -63,12 +74,11 @@ if(auctionData){
         {headers: {
           Authorization: "Bearer " + localStorage.getItem("TOKEN"),
         }});
-        setFlag(true);
-        console.log(response);
+        setCurrentBid(response.data.currentBidPrice);
+        setBidAmount('');
       } catch (error) {
         console.log(error);
       }
-      console.log('Bid submitted:', bidAmount);
     } else {
       // Alert or display an error message for insufficient bid amount
       alert(`Bid amount must be at least ${minimumBid}`);
@@ -89,23 +99,20 @@ if(auctionData){
         <img src={product.imageUrl} alt={product.name} />
       </div>
 
-      {/* not yet dropdown */}
-      <div>
+      <div style={{display:"flex", flexDirection:"column"}}>
         <h3>Description</h3>
-        <p style={{width:"300px"}}>{product.description}</p>
+        <div style={{width:"300px", alignSelf:"center"}}>{product.description}</div>
       </div>
 
-      {/* Current Bid and Time Left not yet functional*/}
       <div>
         <div>
-          <p>Current Highest Bid: ${product.currentBid}</p>
+          <p>Current Highest Bid: ${currentBid}</p>
         </div>
         <div>
-          <p>Time Left: {product.bidTime}</p>
+          <p>Time Left: {timeRemaining}</p>
         </div>
       </div>
 
-      {/* Bid Form not yet functional */}
       <div>
         <form onSubmit={handleSubmitBid}>
           <label htmlFor="bidAmount">Bid Amount:</label>
