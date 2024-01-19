@@ -17,7 +17,7 @@ model User {
   password     String
   isAdmin      Boolean
   Account      Account[]
-  UserAuctions UserAuctions[]
+  Auctions     Auctions[]
 }
 
 model Account {
@@ -34,25 +34,17 @@ model Account {
   userId        Int
 }
 
-model UserAuctions {
-  isActive  Boolean
-  isHighest Boolean?
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  auctions  Auctions @relation(fields: [auctionId], references: [id], onDelete: Cascade)
-  auctionId Int
-
-  @@id([userId, auctionId])
-}
-
 model Auctions {
-  id                   Int            @id @default(autoincrement())
-  bidStartTime         DateTime?
-  bidEndTime           DateTime?
-  currentBidPrice      Decimal?
-  products             Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId            Int
-  UserAuctions         UserAuctions[]
+  id              Int            @id @default(autoincrement())
+  bidStartTime    DateTime?
+  bidEndTime      DateTime?
+  isActive        Boolean
+  currentBidUserId Int?
+  currentBidPrice Decimal?
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  products        Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId       Int
 }
 
 model Products {

@@ -23,39 +23,17 @@ const createCategories = async () => {
   console.log("Creating Categories...");
   await prisma.category.createMany({
     data: [
-      {
-        type: "auto",
-      },
-      {
-        type: "books",
-      },
-      {
-        type: "clothes",
-      },
-      {
-        type: "collectibles",
-      },
-      {
-        type: "electronics",
-      },
-      {
-        type: "furniture",
-      },
-      {
-        type: "games",
-      },
-      {
-        type: "jewelry",
-      },
-      {
-        type: "kitchen",
-      },
-      {
-        type: "sports",
-      },
-      {
-        type: "toys",
-      },
+      {type: "auto",},
+      {type: "books",},
+      {type: "clothes",},
+      {type: "collectibles",},
+      {type: "electronics",},
+      {type: "furniture",},
+      {type: "games",},
+      {type: "jewelry",},
+      {type: "kitchen",},
+      {type: "sports",},
+      {type: "toys",},
     ],
   });
 };
@@ -80,66 +58,43 @@ const createAuctions = async () => {
     data: [
       {
         currentBidPrice: "500.00",
+        isActive: true,
+        userId: 5,
         productId: 1,
-        bidStartTime: "2023-01-08T00:00:00.500Z",
-        bidEndTime: "2023-01-15T23:59:59.500Z",
+        bidStartTime: "2024-01-08T00:00:00.500Z",
+        bidEndTime: "2024-02-15T23:59:59.500Z",
       },
       {
         currentBidPrice: "200.00",
+        isActive: true,
+        userId: 3,
         productId: 2,
-        bidStartTime: "2023-01-09T00:00:00.500Z",
-        bidEndTime: "2023-01-16T23:59:59.500Z",
+        bidStartTime: "2024-01-09T00:00:00.500Z",
+        bidEndTime: "2024-02-16T23:59:59.500Z",
       },
       {
         currentBidPrice: "50.00",
+        isActive: true,
+        userId: 1,
         productId: 3,
-        bidStartTime: "2023-01-10T00:00:00.500Z",
-        bidEndTime: "2023-01-17T23:59:59.500Z",
+        bidStartTime: "2024-01-10T00:00:00.500Z",
+        bidEndTime: "2024-02-17T23:59:59.500Z",
       },
       {
         currentBidPrice: "100.00",
+        isActive: true,
+        userId: 4,
         productId: 4,
-        bidStartTime: "2023-01-11T00:00:00.500Z",
-        bidEndTime: "2023-01-18T23:59:59.500Z",
+        bidStartTime: "2024-01-11T00:00:00.500Z",
+        bidEndTime: "2024-02-18T23:59:59.500Z",
       },
       {
         currentBidPrice: "300.00",
-        productId: 5,
-        bidStartTime: "2023-01-13T00:00:00.500Z",
-        bidEndTime: "2023-01-20T23:59:59.500Z",
-      },
-    ],
-  });
-};
-
-const createUserAuctions = async () => {
-  console.log(`Creating Products...`);
-  await prisma.userAuctions.createMany({
-    data: [
-      {
-        isActive: true,
-        userId: 1,
-        auctionId: 5,
-      },
-	  {
         isActive: true,
         userId: 2,
-        auctionId: 4,
-      },
-	  {
-        isActive: true,
-        userId: 3,
-        auctionId: 2,
-      },
-	  {
-        isActive: true,
-        userId: 4,
-        auctionId: 1,
-      },
-	  {
-        isActive: true,
-        userId: 5,
-        auctionId: 3,
+        productId: 5,
+        bidStartTime: "2024-01-13T00:00:00.500Z",
+        bidEndTime: "2024-02-20T23:59:59.500Z",
       },
     ],
   });
@@ -150,7 +105,6 @@ const main = async () => {
   await createCategories();
   await createProducts();
   await createAuctions();
-  await createUserAuctions();
 };
 
 main()
