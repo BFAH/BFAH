@@ -14,7 +14,9 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
+        console.log(formData)
       const response = await axios.post("/auth/login", formData);
+    
 
       const token = response.data.token;
       localStorage.setItem("TOKEN", token);
