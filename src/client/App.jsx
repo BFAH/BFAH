@@ -20,18 +20,18 @@ function App() {
 
 
   return (
-    
-    <Routes>
-          <Route path='/' element={<AllProducts />} />
-          <Route path='/login' element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/account-info" element={<AccountInfo />} />
-          <Route path="/:id" element={<SingleProduct />} />
-          <Route path="/payment" element={<PaymentForm />} />
-          <Route path="/confirmation" element={<Confirmation />} />
-
-    </Routes>
-  
+    <>
+      <Navigation />
+      <Routes>
+        <Route path='/' element={<AllProducts />} />
+        <Route path='/login' element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/account-info" element={<AccountInfo />} />
+        <Route path="/:id" element={<SingleProduct />} />
+        <Route path="/payment" element={<PaymentForm />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+      </Routes>
+    </>
   );
 }
 
