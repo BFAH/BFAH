@@ -99,7 +99,6 @@ setTimeout(timer,1000);
         <div style={{width:"300px", alignSelf:"center"}}>{product.description}</div>
       </div>
 
-      {/* Current Bid and Time Left not yet functional*/}
       <div>
         <div>
           <p>Current Highest Bid: ${currentBid}</p>
@@ -109,7 +108,6 @@ setTimeout(timer,1000);
         </div>
       </div>
 
-      {/* Bid Form not yet functional */}
       <div>
         <form onSubmit={handleSubmitBid}>
           <label htmlFor="bidAmount">Bid Amount:</label>
