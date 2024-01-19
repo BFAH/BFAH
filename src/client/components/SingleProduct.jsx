@@ -14,6 +14,7 @@ const SingleProduct = () => {
   const [currentBid, setCurrentBid] = useState('');
   const [timeRemaining, setTimeRemaining] = useState('');
   const [flag, setFlag] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -66,7 +67,8 @@ setTimeout(timer,1000);
 
   const handleSubmitBid = async(event) => {
     event.preventDefault();
-
+    if(!localStorage.getItem("TOKEN")){setErrorMsg('Must be logged in to place a bid!');}
+    else{
     // Check if the bid amount meets the minimum bid limit
     if (bidAmount >= minimumBid) {
       try {
@@ -87,6 +89,7 @@ setTimeout(timer,1000);
       alert(`Bid amount must be at least ${minimumBid}`);
       setBidAmount('');
     }
+  }
   };
 
   return (
@@ -131,6 +134,7 @@ setTimeout(timer,1000);
           <button type="submit">BID</button>
         </form>
         <p>Minimum Bid: ${minimumBid}</p>
+        <p>{errorMsg}</p>
       </div>
     </div>
   );
