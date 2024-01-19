@@ -80,7 +80,6 @@ router.post("/account/create", verify, async (req, res, next) => {
 //PATCH users can edit their account profile information
 router.patch("/account/edit", verify, async (req, res, next) => {
   const {
-    id,
     firstName,
     lastName,
     streetAddress,
@@ -93,7 +92,7 @@ router.patch("/account/edit", verify, async (req, res, next) => {
   try {
     const account = await prisma.account.update({
       where: {
-        id: +id,
+        userId: req.user.id,
       },
       data: {
         firstName,
