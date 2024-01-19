@@ -44,7 +44,7 @@ const user = await prisma.user.findUnique({
     username
   }
 })
-
+console.log(user)
 if (!user) {
   res.status(401).send('Username or password is incorrect')
   return

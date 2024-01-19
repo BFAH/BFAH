@@ -12,20 +12,26 @@ import FilterBar from "./components/FilterBar";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import Auction from "./components/Auction";
+import PaymentForm from "./components/PaymentForm";
+import Confirmation from "./components/Confirmation";
+
 
 function App() {
 
+
   return (
-    <div>
-      <Navigation />
-      <Routes>
-        <Route path='/' element={<AllProducts />} />
-        <Route path='/login' element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/account-info" element={<AccountInfo />} />
-        <Route path="/:id" element={<SingleProduct />} />
-      </Routes>
-    </div>
+    
+    <Routes>
+          <Route path='/' element={<AllProducts />} />
+          <Route path='/login' element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/account-info" element={<AccountInfo />} />
+          <Route path="/:id" element={<SingleProduct />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/confirmation" element={<Confirmation />} />
+
+    </Routes>
+  
   );
 }
 
