@@ -32,7 +32,7 @@ fetchAllProducts();
   
   return (
     <div className="all-products">
-      <h1>All Products</h1>
+      <h1>Big Fancy Auction House</h1>
       <div className="main">
         <FilterBar products={products} setFiltered={setFiltered} />
         {filtered ? (
