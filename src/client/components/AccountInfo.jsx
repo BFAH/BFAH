@@ -3,7 +3,7 @@ import axios from "axios";
 
 const EditAccountInfo = () => {
     const [formData, setFormData] = useState({
-        //Fields - Will add more as project expands
+        //Fields - Will add more as project expands0
         email: "",
         username: "",
         password: "",
