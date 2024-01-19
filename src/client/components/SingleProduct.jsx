@@ -74,6 +74,7 @@ setTimeout(timer,1000);
         {headers: {
           Authorization: "Bearer " + localStorage.getItem("TOKEN"),
         }});
+        console.log(response.data);
         setCurrentBid(response.data.currentBidPrice);
         setBidAmount('');
       } catch (error) {
