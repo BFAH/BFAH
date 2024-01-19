@@ -37,6 +37,7 @@ if(auctionData && !flag){
     if(product.id === auction.productId){
         setAuctionTime(seconds);
         setCurrentBid(auction.currentBidPrice);
+        setMinimumBid(auction.currentBidPrice * 1.05);
     }
   }
   setFlag(true);
@@ -77,12 +78,14 @@ setTimeout(timer,1000);
         console.log(response.data);
         setCurrentBid(response.data.currentBidPrice);
         setBidAmount('');
+        setMinimumBid(Math.ceil(response.data.currentBidPrice * 1.05));
       } catch (error) {
         console.log(error);
       }
     } else {
       // Alert or display an error message for insufficient bid amount
       alert(`Bid amount must be at least ${minimumBid}`);
+      setBidAmount('');
     }
   };
 
@@ -121,14 +124,13 @@ setTimeout(timer,1000);
             type="number"
             id="bidAmount"
             name="bidAmount"
-            min={minimumBid}
             value={bidAmount}
             onChange={handleBidAmountChange}
             required
           />
           <button type="submit">BID</button>
         </form>
-        <p>Minimum Bid: +5% Current Highest Bid</p>
+        <p>Minimum Bid: ${minimumBid}</p>
       </div>
     </div>
   );
