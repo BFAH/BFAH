@@ -19,6 +19,22 @@ const createUsers = async () => {
   });
 };
 
+const createOneUser = async () => {
+  console.log(`Creating John...`)
+  const password = `123`
+  const SALT_ROUNDS = 5;
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
+  const data = ({
+    email: `john123@aol.com`,
+    username: `jj`,
+    password: hashedPassword,
+    isAdmin: false,
+  })
+  await prisma.user.create({
+    data,
+  })
+}
+
 const createCategories = async () => {
   console.log("Creating Categories...");
   await prisma.category.createMany({
@@ -102,6 +118,7 @@ const createAuctions = async () => {
 
 const main = async () => {
   await createUsers();
+  await createOneUser();
   await createCategories();
   await createProducts();
   await createAuctions();
