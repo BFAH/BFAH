@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Accordion from 'react-bootstrap/Accordion';
-
+import Accordion from "react-bootstrap/Accordion";
 
 const EditAccountInfo = () => {
-  const [currentAccount, setCurrentAccount] = useState(null)
-  const [userAuctions, setUserAuctions] = useState([])
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const [userAuctions, setUserAuctions] = useState([]);
   const [formData, setFormData] = useState({
     firstName: ``,
     lastName: ``,
@@ -39,20 +38,20 @@ const EditAccountInfo = () => {
   useEffect(() => {
     const getCurrentAccount = async () => {
       try {
-        const result = await axios.get(`/api/users/current/account`, {
+        const result = await axios.get(`/api/users/current/user`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
-        })
-        const userInfo = result.data
-        setCurrentAccount(userInfo)
-        console.log(userInfo)
+        });
+        const userInfo = result.data;
+        setCurrentAccount(userInfo);
+        console.log(userInfo);
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
-        console.log(error)
-      }
-    }; getCurrentAccount()
-  }, [])
+    };
+    getCurrentAccount();
+  }, []);
 
   useEffect(() => {
     const getUserAuctions = async () => {
@@ -61,28 +60,25 @@ const EditAccountInfo = () => {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
-        })
-        const userInfo = result.data
-        setUserAuctions(userInfo)
-        console.log(userInfo)
+        });
+        const userInfo = result.data;
+        setUserAuctions(userInfo);
+        console.log(userInfo);
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
-        console.log(error)
-      }
-    }; getUserAuctions()
-  }, [])
-
-  
-
+    };
+    getUserAuctions();
+  }, []);
 
   return (
     <>
-      <Accordion defaultActiveKey="0">
+      <Accordion>
         {!currentAccount ? (
           <Accordion.Item eventKey="0">
             <Accordion.Header>Account Information</Accordion.Header>
             <Accordion.Body>
-              < form>
+              <form>
                 <label>
                   First Name
                   <input
@@ -173,7 +169,7 @@ const EditAccountInfo = () => {
           <Accordion.Item eventKey="1">
             <Accordion.Header>Account Information</Accordion.Header>
             <Accordion.Body>
-              < form>
+              <form>
                 <label>
                   First Name
                   <input
@@ -264,8 +260,8 @@ const EditAccountInfo = () => {
         <Accordion.Item eventKey="0">
           <Accordion.Header>My Store</Accordion.Header>
           <Accordion.Body>
-          <div className="cards">
-            {userAuctions.map((product) => {
+            <div className="cards">
+              {userAuctions.map((product) => {
                 return (
                   <div key={product.products.id}>
                     <Link
@@ -289,14 +285,16 @@ const EditAccountInfo = () => {
                           style={{ height: "100px", width: "100px" }}
                         />
                         <h4>Current Bid: ${product.currentBidPrice}</h4>
-                        <h5>Bid End: {new Date(product.bidEndTime)
-                        .toLocaleString()}</h5>
+                        <h5>
+                          Bid End:{" "}
+                          {new Date(product.bidEndTime).toLocaleString()}
+                        </h5>
                       </div>
                     </Link>
                   </div>
                 );
               })}
-          </div>
+            </div>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
