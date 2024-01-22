@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Accordion from "react-bootstrap/Accordion";
 
-const EditAccountInfo = () => {
-  const [currentAccount, setCurrentAccount] = useState([]);
+const AccountInfo = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [account, setAccount] = useState(null);
   const [formData, setFormData] = useState({
     firstName: ``,
     lastName: ``,
@@ -28,14 +29,13 @@ const EditAccountInfo = () => {
           Authorization: "Bearer " + localStorage.getItem("TOKEN"),
         },
       });
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const getCurrentAccount = async () => {
+    const getCurrentUser = async () => {
       try {
         const result = await axios.get(`/api/users/current/user`, {
           headers: {
@@ -43,19 +43,24 @@ const EditAccountInfo = () => {
           },
         });
         const userInfo = result.data;
-        setCurrentAccount(userInfo);
-        console.log(userInfo);
+        setCurrentUser(userInfo);
+        setAccount(userInfo.Account[0])
+        console.log(userInfo)
       } catch (error) {
         console.log(error);
       }
     };
-    getCurrentAccount();
+    getCurrentUser();
   }, []);
+
+  console.log(currentUser)
+  console.log(account)
+
 
   return (
     <>
       <Accordion>
-        {!currentAccount ? (
+        {!account ? (
           <Accordion.Item eventKey="0">
             <Accordion.Header>Account Information</Accordion.Header>
             <Accordion.Body>
@@ -156,7 +161,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="firstName"
-                    placeholder={currentAccount.firstName}
+                    placeholder={account.firstName}
                     value={formData.firstName}
                     onChange={handleChange}
                   />
@@ -166,7 +171,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="lastName"
-                    placeholder={currentAccount.lastName}
+                    placeholder={account.lastName}
                     value={formData.lastName}
                     onChange={handleChange}
                   />
@@ -176,7 +181,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="streetAddress"
-                    placeholder={currentAccount.streetAddress}
+                    placeholder={account.streetAddress}
                     value={formData.streetAddress}
                     onChange={handleChange}
                   />
@@ -186,7 +191,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="city"
-                    placeholder={currentAccount.city}
+                    placeholder={account.city}
                     value={formData.city}
                     onChange={handleChange}
                   />
@@ -196,7 +201,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="state"
-                    placeholder={currentAccount.state}
+                    placeholder={account.state}
                     value={formData.state}
                     onChange={handleChange}
                   />
@@ -206,7 +211,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="zipCode"
-                    placeholder={currentAccount.zipCode}
+                    placeholder={account.zipCode}
                     value={formData.zipCode}
                     onChange={handleChange}
                   />
@@ -216,7 +221,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="country"
-                    placeholder={currentAccount.country}
+                    placeholder={account.country}
                     value={formData.country}
                     onChange={handleChange}
                   />
@@ -226,7 +231,7 @@ const EditAccountInfo = () => {
                   <input
                     type="text"
                     name="phoneNumber"
-                    placeholder={currentAccount.phoneNumber}
+                    placeholder={account.phoneNumber}
                     value={formData.phoneNumber}
                     onChange={handleChange}
                   />
@@ -241,10 +246,10 @@ const EditAccountInfo = () => {
         <Accordion.Item eventKey="0">
           <Accordion.Header>My Store</Accordion.Header>
           <Accordion.Body>
-            <div className="cards">
-              {currentAccount.map((user) => {
-                return (
-                  <div key={user.products.id}>
+            {currentUser && currentUser.Auctions.map((user, idx) => {
+              return (
+                <div className="cards" key={idx}>
+                  <div>
                     <Link
                       to={`/${user.products.id}`}
                       style={{ textDecoration: "none" }}
@@ -259,7 +264,7 @@ const EditAccountInfo = () => {
                           color: "black",
                         }}
                       >
-                        <h3>{user.products.name}</h3>
+                        <h3>{user.productId}</h3>
                         <p>{user.products.description}</p>
                         <img
                           src={user.products.imageUrl}
@@ -273,9 +278,9 @@ const EditAccountInfo = () => {
                       </div>
                     </Link>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -283,4 +288,4 @@ const EditAccountInfo = () => {
   );
 };
 
-export default EditAccountInfo;
+export default AccountInfo;

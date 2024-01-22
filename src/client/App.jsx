@@ -30,6 +30,7 @@ function App() {
         <Route path="/:id" element={<SingleProduct />} />
         <Route path="/payment" element={<PaymentForm />} />
         <Route path="/confirmation" element={<Confirmation />} />
+        <Route path='/sell' element={<Auction />} />
       </Routes>
     </>
   );
