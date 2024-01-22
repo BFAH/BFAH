@@ -56,7 +56,7 @@ const EditAccountInfo = () => {
   useEffect(() => {
     const getUserAuctions = async () => {
       try {
-        const result = await axios.get(`/api/auctions/user`, {
+        const result = await axios.get(`/api/user/current/auctions`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
