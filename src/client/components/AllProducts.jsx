@@ -32,7 +32,7 @@ fetchAllProducts();
   
   return (
     <div className="all-products">
-      <h1>Big Fancy Auction House</h1>
+      <img src="./public/Logo_art.jpg" style={{width: "900px", border:"black double 10px"}}/>
       <div className="main">
         <FilterBar products={products} setFiltered={setFiltered} />
         {filtered ? (
