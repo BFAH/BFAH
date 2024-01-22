@@ -37,7 +37,11 @@ router.get("/current/user", verify, async (req, res, next) => {
       },
       include: {
         Account: true,
-        Auctions: true
+        Auctions: {
+          include: {
+            products: true
+          }
+        }
       }
     });
     res.status(200).send(currentUser);

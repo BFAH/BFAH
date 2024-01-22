@@ -4,8 +4,7 @@ import axios from "axios";
 import Accordion from "react-bootstrap/Accordion";
 
 const EditAccountInfo = () => {
-  const [currentAccount, setCurrentAccount] = useState(null);
-  const [userAuctions, setUserAuctions] = useState([]);
+  const [currentAccount, setCurrentAccount] = useState([]);
   const [formData, setFormData] = useState({
     firstName: ``,
     lastName: ``,
@@ -51,24 +50,6 @@ const EditAccountInfo = () => {
       }
     };
     getCurrentAccount();
-  }, []);
-
-  useEffect(() => {
-    const getUserAuctions = async () => {
-      try {
-        const result = await axios.get(`/api/user/current/auctions`, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        });
-        const userInfo = result.data;
-        setUserAuctions(userInfo);
-        console.log(userInfo);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUserAuctions();
   }, []);
 
   return (
@@ -261,11 +242,11 @@ const EditAccountInfo = () => {
           <Accordion.Header>My Store</Accordion.Header>
           <Accordion.Body>
             <div className="cards">
-              {userAuctions.map((product) => {
+              {currentAccount.map((user) => {
                 return (
-                  <div key={product.products.id}>
+                  <div key={user.products.id}>
                     <Link
-                      to={`/${product.products.id}`}
+                      to={`/${user.products.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <div
@@ -278,16 +259,16 @@ const EditAccountInfo = () => {
                           color: "black",
                         }}
                       >
-                        <h3>{product.products.name}</h3>
-                        <p>{product.products.description}</p>
+                        <h3>{user.products.name}</h3>
+                        <p>{user.products.description}</p>
                         <img
-                          src={product.products.imageUrl}
+                          src={user.products.imageUrl}
                           style={{ height: "100px", width: "100px" }}
                         />
-                        <h4>Current Bid: ${product.currentBidPrice}</h4>
+                        <h4>Current Bid: ${user.currentBidPrice}</h4>
                         <h5>
                           Bid End:{" "}
-                          {new Date(product.bidEndTime).toLocaleString()}
+                          {new Date(user.bidEndTime).toLocaleString()}
                         </h5>
                       </div>
                     </Link>
