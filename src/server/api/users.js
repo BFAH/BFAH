@@ -36,7 +36,23 @@ router.get("/current/user", verify, async (req, res, next) => {
         id: req.user.id,
       },
       include: {
-        account: true,
+        account: true
+      }
+    });
+    res.status(200).send(currentUser);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+//GET returns logged in user's ID
+router.get("/current/auctions", verify, async (req, res, next) => {
+  try {
+    const currentUser = await prisma.user.findFirst({
+      where: {
+        id: req.user.id,
+      },
+      include: {
         auctions: true
       }
     });

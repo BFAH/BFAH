@@ -49,6 +49,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+
 //POST creates a new auction
 router.post("/", verify, async (req, res, next) => {
   const { bidStartTime, bidEndTime, currentBidPrice, productId } = req.body;
