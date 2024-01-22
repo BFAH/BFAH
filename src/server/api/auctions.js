@@ -57,6 +57,7 @@ router.post("/", verify, async (req, res, next) => {
       data: {
         bidStartTime,
         bidEndTime,
+        isActive,
         currentBidPrice,
         productId,
         userId: req.user.id
