@@ -15,6 +15,7 @@ model User {
   email    String     @unique
   username String     @unique
   password String
+  stripeAccount String
   isAdmin  Boolean
   Account  Account[]
   Auctions Auctions[]
@@ -52,6 +53,7 @@ model Products {
   name        String
   description String
   price       Decimal?
+  stripePriceId String
   imageUrl    String
   category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId  Int
