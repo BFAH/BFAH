@@ -90,4 +90,23 @@ router.patch("/:id", verify, async (req, res, next) => {
   }
 });
 
+//DELETE user deletes an auction
+router.delete("/:id", verify, async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const auction = await prisma.auctions.delete({
+      where: {
+        id: +id,
+        userId: req.user.id, // Ensure that the auction belongs to the authenticated user
+      },
+    });
+
+    res.status(204).send(); // 204 No Content - indicates successful deletion
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
