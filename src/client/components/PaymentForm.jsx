@@ -1,6 +1,8 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const PaymentForm = () => {
+  let location = useLocation();
   const handleCheckout = async () => {
     try {
       // const shippingInfoCheck = await axios.get("api/users/shipping-info", {
@@ -20,7 +22,8 @@ const PaymentForm = () => {
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([{ name: "ball", price: 1000, quantity: 1 }])  // isHighest will go here
+        body: JSON.stringify([{ price: 'price_1ObafvE2Js1fhUcTb1q0GUH5',
+        quantity: 1 }])  // isHighest will go here
       });
 
       if (!response.ok) {
