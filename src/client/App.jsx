@@ -12,6 +12,7 @@ import FilterBar from "./components/FilterBar";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import Auction from "./components/Auction";
+import myBids from "./components/MyBids";
 import PaymentForm from "./components/PaymentForm";
 import ShippingForm from "./components/ShippingForm";
 import Confirmation from "./components/Confirmation";
