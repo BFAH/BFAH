@@ -14,7 +14,7 @@ import SearchResults from "./components/SearchResults";
 import Auction from "./components/Auction";
 import PaymentForm from "./components/PaymentForm";
 import Confirmation from "./components/Confirmation";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
