@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 
 const Auction = () => {
     const [productId, setProductId] = useState(null)
@@ -85,9 +86,6 @@ const Auction = () => {
                         onChange={handleProduct}
                     />
                 </label>
-                <button type="button" onClick={handleSubmit}>
-                    Save changes
-                </button>
             </form>
             <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -106,10 +104,9 @@ const Auction = () => {
                     <Dropdown.Item href="#/action-9" onClick={setCount + 9}>Kitchen</Dropdown.Item>
                     <Dropdown.Item href="#/action-10" onClick={setCount + 10}>Sports</Dropdown.Item>
                     <Dropdown.Item href="#/action-11" onClick={setCount + 11}>Toys</Dropdown.Item>
-
-
                 </Dropdown.Menu>
             </Dropdown>
+            <Button variant="dark" onClick={handleSubmit}>Post Auction</Button>
         </>
     );
 };

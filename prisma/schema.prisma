@@ -11,17 +11,17 @@ datasource db {
 }
 
 model User {
-  id           Int            @id @default(autoincrement())
-  email        String         @unique
-  username     String         @unique
-  password     String
-  isAdmin      Boolean
-  Account      Account[]
-  Auctions     Auctions[]
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  username String     @unique
+  password String
+  isAdmin  Boolean
+  Account  Account[]
+  Auctions Auctions[]
 }
 
 model Account {
-  id            Int    @unique @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   firstName     String
   lastName      String
   streetAddress String
@@ -35,16 +35,16 @@ model Account {
 }
 
 model Auctions {
-  id              Int            @id @default(autoincrement())
-  bidStartTime    DateTime?
-  bidEndTime      DateTime?
-  isActive        Boolean
+  id               Int       @id @default(autoincrement())
+  bidStartTime     DateTime?
+  bidEndTime       DateTime?
+  isActive         Boolean
   currentBidUserId Int?
-  currentBidPrice Decimal?
-  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId          Int
-  products        Products       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId       Int
+  currentBidPrice  Decimal?
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int
+  products         Products  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        Int
 }
 
 model Products {
