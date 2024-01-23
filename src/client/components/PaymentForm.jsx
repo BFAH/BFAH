@@ -2,9 +2,21 @@ import React from "react";
 
 const PaymentForm = () => {
   const handleCheckout = async () => {
-    console.log("hit");
-
     try {
+      // const shippingInfoCheck = await axios.get("api/users/shipping-info", {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
+      //   },
+      // });
+
+      // const hasShippingInfo = shippingInfoCheck.data;
+
+      // if (!hasShippingInfo) {
+      //   window.location = "/shipping";
+      //   return;
+      // }
+
+
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -29,7 +41,7 @@ const PaymentForm = () => {
 
   return (
     <>
-      <button onClick={handleCheckout}>Checkout</button>
+      <button onClick={handleCheckout}>Pay Now</button>
     </>
   );
 };
