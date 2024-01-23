@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FilterBar from "./FilterBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Auction from "./Auction";
+import PaymentForm from "./PaymentForm";
 
 const AllProducts = () => {
   const [products, setProducts] = useState();
   const [filtered, setFiltered] = useState(null);
   const [auctionData, setAuctionData] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -30,9 +32,15 @@ fetchAllProducts();
     }
   }
   
+  const handleBuyNow = (price1) => {
+    if(confirm("Confirm Buy Now")) {
+      return navigate("/payment", { state: {price: price1 }});
+    }
+  }
+
   return (
     <div className="all-products">
-      <img src="./public/Logo_art.jpg" style={{width: "900px", border:"black double 10px"}}/>
+      <img src="./Logo_art.jpg" style={{width: "900px", border:"black double 10px"}}/>
       <div className="main">
         <FilterBar products={products} setFiltered={setFiltered} />
         {filtered ? (
@@ -41,6 +49,8 @@ fetchAllProducts();
               filtered.map((product) => {
                 return (
                   <div key={product.id}>
+                    <div style={{position:"relative", top:"85%",left:"10px", zIndex:"2"}}>
+                          <button onClick={handleBuyNow}>Buy Now</button>:${product.price}</div>
                     <Link
                       to={`/${product.id}`}
                       style={{ textDecoration: "none" }}
@@ -61,7 +71,6 @@ fetchAllProducts();
                           src={product.imageUrl}
                           style={{ height: "100px", width: "100px" }}
                         />
-                        <h4>Buy Now: ${product.price}</h4>
                         <h4>Current Bid: ${product.currentBid}</h4>
                         <h5>Bid End: {product.bidTime}</h5>
                       </div>
@@ -76,6 +85,8 @@ fetchAllProducts();
               products.map((product) => {
                 return (
                   <div key={product.id}>
+                    <div style={{position:"relative", top:"85%",left:"10px", zIndex:"2"}}>
+                          <button onClick={()=>handleBuyNow(product.price)}>Buy Now</button>:${product.price}</div>
                     <Link
                       to={`/${product.id}`}
                       style={{ textDecoration: "none" }}
@@ -96,7 +107,7 @@ fetchAllProducts();
                           src={product.imageUrl}
                           style={{ height: "100px", width: "100px" }}
                         />
-                        <h4>Buy Now: ${product.price}</h4>
+                        
                         <h4>Current Bid: ${product.currentBid}</h4>
                         <h5>Bid End: {product.bidTime}</h5>
                       </div>
