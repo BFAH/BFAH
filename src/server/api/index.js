@@ -6,6 +6,7 @@ router.use("/auctions", require("./auctions"));
 router.use("/categories", require("./categories"));
 router.use("/user-auctions", require("./userAuctions"));
 router.use("/stripe", require("./stripe"));
+router.use("/order", require("./orderDetails"));
 
 
 

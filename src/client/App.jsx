@@ -13,8 +13,9 @@ import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 import Auction from "./components/Auction";
 import PaymentForm from "./components/PaymentForm";
+import ShippingForm from "./components/ShippingForm";
 import Confirmation from "./components/Confirmation";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
@@ -28,8 +29,10 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/account-info" element={<AccountInfo />} />
         <Route path="/:id" element={<SingleProduct />} />
+        <Route path='/shipping' element={<ShippingForm />} />
         <Route path="/payment" element={<PaymentForm />} />
         <Route path="/confirmation" element={<Confirmation />} />
+        <Route path='/sell' element={<Auction />} />
       </Routes>
     </>
   );
