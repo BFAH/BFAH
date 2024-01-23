@@ -39,10 +39,10 @@ router.get("/current/user", verify, async (req, res, next) => {
         Account: true,
         Auctions: {
           include: {
-            products: true
-          }
-        }
-      }
+            products: true,
+          },
+        },
+      },
     });
     res.status(200).send(currentUser);
   } catch (err) {
@@ -149,6 +149,42 @@ router.patch("/admin/remove", async (req, res, next) => {
     res.status(201).send(updateUser);
   } catch (err) {
     console.error(err);
+  }
+});
+
+// Endpoint to handle shipping info submission
+router.post("/shipping-info", verify, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const {
+      firstName,
+      lastName,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+      phoneNumber,
+    } = req.body;
+
+    await prisma.account.update({
+      where: { userId },
+      data: {
+        firstName,
+        lastName,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        phoneNumber,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Shipping information submitted successfully." });
+  } catch (error) {
+    console.error("Error submitting shipping information:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
