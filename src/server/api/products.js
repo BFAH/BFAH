@@ -54,4 +54,26 @@ router.post('/', verify, async (req, res, next) => {
   }
 })
 
+// DELETE deletes a product by ID (only allowed for admins)
+router.delete("/:id", verify, async (req, res, next) => {
+  const { id } = req.params;
+  
+  // Check if the user making the request is an admin
+  if (!req.user.isAdmin) {
+    return res.status(403).json({ error: "Permission Denied. Only admins can delete products." });
+  }
+
+  try {
+    const deletedProduct = await prisma.products.delete({
+      where: {
+        id: +id,
+      },
+    });
+    res.status(200).send(deletedProduct);
+  } catch (err) {
+    console.error("ERROR - Could not DELETE the PRODUCT!", err);
+    res.status(500).json({ err: "SERVER ERROR" });
+  }
+});
+
 module.exports = router;
