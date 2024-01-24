@@ -17,10 +17,14 @@ const Navigation = () => {
 
   return (
     <nav>
-      <Link to="/">Home</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/account-info">My Account</Link>
-      <Link to="/sell">Sell</Link>
+      <Link to="/">
+        <button>Home</button></Link>
+      <Link to="/login">
+        <button>Login</button></Link>
+      <Link to="/account-info">
+        <button>My Account</button></Link>
+      <Link to="/sell">
+        <button>Sell</button></Link>
       <button onClick={handleLogout}>Logout</button>
       {logoutMessage && window.alert(logoutMessage)}
       <form>
