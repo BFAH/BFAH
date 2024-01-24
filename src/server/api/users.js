@@ -6,19 +6,7 @@ const { verify } = require("../util");
 //GET returns all users
 router.get("/", async (req, res, next) => {
   try {
-    const users = await prisma.user.findMany({
-      where: {
-        isAdmin: true && false
-      },
-      include: {
-        account: true,
-        Auctions: {
-          include: {
-            products: true,
-          },
-        },
-      }
-    });
+    const users = await prisma.user.findMany();
     res.status(200).send(users);
   } catch (err) {
     console.error(err);
@@ -40,6 +28,24 @@ router.get("/:id", async (req, res, next) => {
             products: true,
           },
         },
+      },
+    });
+    res.status(200).send(user);
+  } catch (err) {
+    console.error();
+  }
+});
+
+//GET UserName by User's ID
+router.get("/seller/store", async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        username: true,
       },
     });
     res.status(200).send(user);
@@ -115,12 +121,12 @@ router.patch("/account/edit", verify, async (req, res, next) => {
     phoneNumber,
     accountId,
   } = req.body;
-  console.log(req.body)
+  console.log(req.body);
 
   try {
     const account = await prisma.account.update({
       where: {
-        id: accountId
+        id: accountId,
       },
       data: {
         firstName,
@@ -134,10 +140,10 @@ router.patch("/account/edit", verify, async (req, res, next) => {
       },
     });
     res.status(201).send(account);
-    console.log(account)
+    console.log(account);
   } catch (err) {
     console.error(err);
-    res.status(500).send(err.message)
+    res.status(500).send(err.message);
   }
 });
 
@@ -184,7 +190,9 @@ router.delete("/:id", async (req, res, next) => {
   try {
     // Check if the logged-in user is an admin
     if (!req.user.isAdmin) {
-      return res.status(403).json({ message: "Permission denied. Admins only." });
+      return res
+        .status(403)
+        .json({ message: "Permission denied. Admins only." });
     }
 
     // Proceed with deleting the user
@@ -194,7 +202,9 @@ router.delete("/:id", async (req, res, next) => {
       },
     });
 
-    res.status(200).json({ message: "User deleted successfully.", user: deletedUser });
+    res
+      .status(200)
+      .json({ message: "User deleted successfully.", user: deletedUser });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });

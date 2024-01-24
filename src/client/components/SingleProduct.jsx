@@ -19,7 +19,9 @@ const SingleProduct = () => {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [flag, setFlag] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [users, setUsers] = useState("");
+  const [sellerUsername, setSellerUsername] = useState(null);
+  const [username, setUsername] = useState("");
+
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -28,6 +30,7 @@ const SingleProduct = () => {
         setProduct(response.data);
         const response2 = await axios.get(`/api/auctions`);
         setAuctionData(response2.data);
+        setSellerUsername(response2.data.userId)
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -47,23 +50,22 @@ const SingleProduct = () => {
     setFlag(true);
   }
 
-  const getUserName = (userId, users) => {
-    const user = users.find((user) => user.id === userId);
-    return user ? user.username : "Unknown User";
+  const getUserName = async () => {
+    try {
+      const response = await axios.get(`/api/users/seller/store`);  
+      setUsername(response.data)
+    } catch (error) {
+      console.error("Error Fetching Username", error);
+    }
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("api/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("ERROR - Could Not Fetch User", error);
-      }
-    };
+ 
+  useEffect(()=>{
+    if (sellerUsername !== null) {
+      getUserName()
+    }
+  },[sellerUsername])
 
-    fetchUsers();
-  }, []);
 
   const timer = () => {
     let secondsRemain = Math.floor(
@@ -154,8 +156,8 @@ const SingleProduct = () => {
         <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
+        <Card.Link href="#" to={`/${auctionData.userId}`}>{username.username}</Card.Link>
+        <Card.Link href="#">Link</Card.Link>
       </Card.Body>
     </Card>
 
