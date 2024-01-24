@@ -6,7 +6,15 @@ const { verify } = require("../util");
 //GET gets all auctions
 router.get("/", async (req, res, next) => {
   try {
-    const auction = await prisma.auctions.findMany();
+    const auction = await prisma.auctions.findMany({
+      where: {
+        isActive: true,
+      },
+      include: {
+        products: true,
+        users: true,
+      },
+    });
     res.status(200).send(auction);
   } catch (err) {
     console.error(err);
@@ -18,11 +26,11 @@ router.get("/user", verify, async (req, res, next) => {
   try {
     const auction = await prisma.auctions.findMany({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
       },
       include: {
-        products: true
-      }
+        products: true,
+      },
     });
     res.status(200).send(auction);
   } catch (err) {
@@ -40,8 +48,8 @@ router.get("/:id", async (req, res, next) => {
       },
       include: {
         user: true,
-        products: true
-      }
+        products: true,
+      },
     });
     res.status(200).send(auction);
   } catch (err) {
@@ -49,11 +57,11 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-
 //POST creates a new auction
 router.post("/", verify, async (req, res, next) => {
-  const { bidStartTime, bidEndTime, currentBidPrice, productId, isActive } = req.body;
-  console.log(req.body)
+  const { bidStartTime, bidEndTime, currentBidPrice, productId, isActive } =
+    req.body;
+  console.log(req.body);
   try {
     const auction = await prisma.auctions.create({
       data: {
@@ -62,11 +70,11 @@ router.post("/", verify, async (req, res, next) => {
         isActive,
         currentBidPrice,
         productId,
-        userId: req.user.id
+        userId: req.user.id,
       },
     });
     res.status(201).send(auction);
-    console.log(auction)
+    console.log(auction);
   } catch (err) {
     console.error(err);
   }
