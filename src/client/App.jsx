@@ -16,6 +16,7 @@ import PaymentForm from "./components/PaymentForm";
 import ShippingForm from "./components/ShippingForm";
 import Confirmation from "./components/Confirmation";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserStore from "./components/UserStore"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/payment" element={<PaymentForm />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path='/sell' element={<Auction />} />
+        <Route path='/store' element={< UserStore/>} />
       </Routes>
     </>
   );
