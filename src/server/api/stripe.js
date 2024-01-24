@@ -1,15 +1,21 @@
 const express = require("express");
 const router = express.Router();
 require('dotenv').config();
-const stripe = require('stripe')('sk_test_51ObTM0E2Js1fhUcTLQKFNo2gHjPI1z5m8YuphzkhSTauoRW5NmuIipCBI80scv6gixoWPyHmznIkjK3mmGVYmpL100euiLRz6s');
+const stripe = require('stripe')(process.env.STRIPE);
 
 router.post("/create-checkout-session", async (req, res, next) => {
   console.log("body", req.body);
+  const {price, quantity, stripeAcct} = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: req.body,
+      line_items:[ 
+        {
+          price:price,
+          quantity:quantity,
+        }],
+      
       success_url: `${process.env.SERVER_URL}/confirmation`,
       cancel_url: `${process.env.SERVER_URL}/payment`,
     });

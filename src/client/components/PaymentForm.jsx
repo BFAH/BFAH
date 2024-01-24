@@ -1,8 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const PaymentForm = () => {
+  const [sellerData, setSellerData] = useState();
   let location = useLocation();
+  let stripePriceId = location.state;
+  const seller = stripePriceId.seller;
+  console.log(stripePriceId, seller);
+
+  useEffect(()=> {
+    const getSellerData = async() => {
+      try {
+        const response2 = await axios.get(`/api/users/${seller}`);
+        setSellerData(response2.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getSellerData();
+  },[]);
+  console.log(sellerData);
   const handleCheckout = async () => {
     try {
       // const shippingInfoCheck = await axios.get("api/users/shipping-info", {
@@ -18,12 +36,11 @@ const PaymentForm = () => {
       //   return;
       // }
 
-
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([{ price: 'price_1ObafvE2Js1fhUcTb1q0GUH5',
-        quantity: 1 }])  // isHighest will go here
+        body: JSON.stringify({ price: stripePriceId.price,
+        quantity: 1, stripeAcct: sellerData.stripeAccount })  
       });
 
       if (!response.ok) {
