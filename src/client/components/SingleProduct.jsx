@@ -30,7 +30,6 @@ const SingleProduct = () => {
         setProduct(response.data);
         const response2 = await axios.get(`/api/auctions`);
         setAuctionData(response2.data);
-        setSellerUsername(response2.data.userId)
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -45,25 +44,28 @@ const SingleProduct = () => {
         setAuctionTime(seconds);
         setCurrentBid(auction.currentBidPrice);
         setMinimumBid(auction.currentBidPrice * 1.05);
+        setSellerUsername(auction.userId);
       }
     }
     setFlag(true);
   }
-
-  const getUserName = async () => {
-    try {
-      const response = await axios.get(`/api/users/seller/store`);  
-      setUsername(response.data)
-    } catch (error) {
-      console.error("Error Fetching Username", error);
-    }
-  };
-
+  
  
   useEffect(()=>{
-    if (sellerUsername !== null) {
+
+    const getUserName = async () => {
+      try {
+        console.log(sellerUsername);
+  
+        const response = await axios.get(`/api/users/store/${sellerUsername}`
+        );  
+        setUsername(response.data);
+      } catch (error) {
+        console.error("Error Fetching Username", error);
+      }
+    };
+  
       getUserName()
-    }
   },[sellerUsername])
 
 
