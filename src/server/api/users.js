@@ -6,7 +6,19 @@ const { verify } = require("../util");
 //GET returns all users
 router.get("/", async (req, res, next) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: {
+        isAdmin: true && false
+      },
+      include: {
+        account: true,
+        Auctions: {
+          include: {
+            products: true,
+          },
+        },
+      }
+    });
     res.status(200).send(users);
   } catch (err) {
     console.error(err);

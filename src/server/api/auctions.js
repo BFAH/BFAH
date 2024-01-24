@@ -6,15 +6,7 @@ const { verify } = require("../util");
 //GET gets all auctions
 router.get("/", async (req, res, next) => {
   try {
-    const auction = await prisma.auctions.findMany({
-      where: {
-        isActive: true,
-      },
-      include: {
-        products: true,
-        users: true,
-      },
-    });
+    const auction = await prisma.auctions.findMany();
     res.status(200).send(auction);
   } catch (err) {
     console.error(err);
@@ -38,6 +30,24 @@ router.get("/user", verify, async (req, res, next) => {
   }
 });
 
+//GET gets all auctions related to user
+router.get("/user/store/:id", verify, async (req, res, next) => {
+  const {id} = req.params;
+  try {
+    const auction = await prisma.auctions.findMany({
+      where: {
+        userId: +id,
+      },
+      include: {
+        products: true,
+      },
+    });
+    res.status(200).send(auction);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //GET get single auction by ID
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -47,7 +57,6 @@ router.get("/:id", async (req, res, next) => {
         id: +id,
       },
       include: {
-        user: true,
         products: true,
       },
     });

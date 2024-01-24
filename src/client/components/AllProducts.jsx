@@ -22,8 +22,9 @@ const AllProducts = () => {
         console.error("ERROR - Could Not Fetch All Products", error);
       }
     };
-fetchAllProducts();
-}, []);
+    fetchAllProducts();
+  }, []);
+  console.log(auctionData)
 
   if(auctionData){   
     for(let auction of auctionData) {
