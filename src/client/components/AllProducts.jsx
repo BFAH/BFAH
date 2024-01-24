@@ -9,6 +9,7 @@ const AllProducts = () => {
   const [products, setProducts] = useState();
   const [filtered, setFiltered] = useState(null);
   const [auctionData, setAuctionData] = useState();
+  const [seller, setSeller] =useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const AllProducts = () => {
         setProducts(response.data);
         const response2 = await axios.get(`/api/auctions`);
         setAuctionData(response2.data);
+        console.log(auctionData);
       } catch (error) {
         console.error("ERROR - Could Not Fetch All Products", error);
       }
@@ -29,13 +31,14 @@ fetchAllProducts();
     for(let auction of auctionData) {
         products[auction.productId-1].bidTime = new Date(auction.bidEndTime).toLocaleString();
         products[auction.productId-1].currentBid = auction.currentBidPrice;
+        products[auction.productId-1].sellerId = auction.userId;
     }
   }
   
-  const handleBuyNow = (price1) => {
+  const handleBuyNow = (price1, sellerId) => {
     console.log(price1);
     if(confirm("Confirm Buy Now")) {
-      return navigate("/payment", { state: {price: price1 }});
+      return navigate("/payment", { state: {price: price1, seller:sellerId }});
     }
   }
 
@@ -87,7 +90,7 @@ fetchAllProducts();
                 return (
                   <div key={product.id}>
                     <div style={{position:"relative", top:"85%",left:"10px", zIndex:"2"}}>
-                          <button onClick={()=>handleBuyNow(product.stripePriceId)}>Buy Now</button>:${product.price}</div>
+                          <button onClick={()=>handleBuyNow(product.stripePriceId, product.sellerId)}>Buy Now</button>:${product.price}</div>
                     <Link
                       to={`/${product.id}`}
                       style={{ textDecoration: "none" }}

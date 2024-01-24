@@ -5,11 +5,17 @@ const stripe = require('stripe')(process.env.STRIPE);
 
 router.post("/create-checkout-session", async (req, res, next) => {
   console.log("body", req.body);
+  const {price, quantity, stripeAcct} = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: req.body,
+      line_items:[ 
+        {
+          price:price,
+          quantity:quantity,
+        }],
+      
       success_url: `${process.env.SERVER_URL}/confirmation`,
       cancel_url: `${process.env.SERVER_URL}/payment`,
     });
