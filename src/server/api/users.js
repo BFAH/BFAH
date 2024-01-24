@@ -85,7 +85,6 @@ router.post("/account/create", verify, async (req, res, next) => {
 //PATCH users can edit their account profile information
 router.patch("/account/edit", verify, async (req, res, next) => {
   const {
-    accountId,
     firstName,
     lastName,
     streetAddress,
@@ -94,6 +93,7 @@ router.patch("/account/edit", verify, async (req, res, next) => {
     zipCode,
     country,
     phoneNumber,
+    accountId,
   } = req.body;
   console.log(req.body)
 

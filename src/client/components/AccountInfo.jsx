@@ -45,7 +45,7 @@ const AccountInfo = () => {
     e.preventDefault();
 
     try {
-      const result = await axios.patch(`/api/users/account/edit`, {accountForm, accountId}, {
+      const result = await axios.patch(`/api/users/account/edit`, { ...accountForm, accountId}, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("TOKEN"),
         },

@@ -39,6 +39,7 @@ router.get("/:id", async (req, res, next) => {
 //POST creates a new product
 router.post('/', verify, async (req, res, next) => {
   const { name, description, price, imageUrl, categoryId } = req.body;
+  console.log(req.body)
   try {
     const stripeProduct = await stripe.products.create({
       name: name,
