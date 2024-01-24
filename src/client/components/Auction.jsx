@@ -71,11 +71,6 @@ const Auction = () => {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
-
-            const product = result.data
-            console.log(product)
-        } catch (error) {
-            console.log(error);
         }
       );
       const newAuction = result.data;
