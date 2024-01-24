@@ -157,32 +157,6 @@ router.patch("/admin/remove", async (req, res, next) => {
   }
 });
 
-// DELETE deletes a user (only accessible to Admin)
-router.delete("/:id", async (req, res, next) => {
-  const { id } = req.params;
-
-  try {
-    // Check if the logged-in user is an admin
-    if (!req.user.isAdmin) {
-      return res.status(403).json({ message: "Permission denied. Admins only." });
-    }
-
-    // Proceed with deleting the user
-    const deletedUser = await prisma.user.delete({
-      where: {
-        id: +id,
-      },
-    });
-
-    res.status(200).json({ message: "User deleted successfully.", user: deletedUser });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-module.exports = router;
-
 // Endpoint to handle shipping info submission
 router.post("/shipping-info", verify, async (req, res) => {
   try {
