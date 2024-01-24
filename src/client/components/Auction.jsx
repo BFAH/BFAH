@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
+import { Action } from "@remix-run/router";
 
 const Auction = () => {
     const [productId, setProductId] = useState(null)
@@ -11,7 +12,6 @@ const Auction = () => {
         description: ``,
         price: ``,
         imageUrl: ``,
-        categoryId: count
     });
     const [auctionData, setAuctionData] = useState({
         bidStartTime: ``,
@@ -21,9 +21,8 @@ const Auction = () => {
     });
 
 
-
     const handleProduct = (e) => {
-        setProductData({ ...productData, [e.target.name]: e.target.value });
+        setProductData({ ...productData, [e.target.name]: e.target.value});
     };
 
     const handleSubmit = async (e) => {
@@ -31,7 +30,7 @@ const Auction = () => {
 
         try {
 
-            const result = await axios.post(`/api/products`, productData, {
+            const result = await axios.post(`/api/products`, { ...productData, categoryId: count}, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("TOKEN"),
                 },
@@ -87,23 +86,23 @@ const Auction = () => {
                     />
                 </label>
             </form>
-            <Dropdown>
+            <Dropdown  onSelect={(eventKey) => {setCount(+eventKey)}}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                     Select Category
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1" onClick={setCount + 1}>Auto</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2" onClick={setCount + 2}>Books</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" onClick={setCount + 3}>Clothes</Dropdown.Item>
-                    <Dropdown.Item href="#/action-4" onClick={setCount + 4}>Collectibles</Dropdown.Item>
-                    <Dropdown.Item href="#/action-5" onClick={setCount + 5}>Electronics</Dropdown.Item>
-                    <Dropdown.Item href="#/action-6" onClick={setCount + 6}>Furniture</Dropdown.Item>
-                    <Dropdown.Item href="#/action-7" onClick={setCount + 7}>Games</Dropdown.Item>
-                    <Dropdown.Item href="#/action-8" onClick={setCount + 8}>Jewelry</Dropdown.Item>
-                    <Dropdown.Item href="#/action-9" onClick={setCount + 9}>Kitchen</Dropdown.Item>
-                    <Dropdown.Item href="#/action-10" onClick={setCount + 10}>Sports</Dropdown.Item>
-                    <Dropdown.Item href="#/action-11" onClick={setCount + 11}>Toys</Dropdown.Item>
+                    <Dropdown.Item eventKey="1" href="#/action-1">Auto</Dropdown.Item>
+                    <Dropdown.Item eventKey="2" href="#/action-2">Books</Dropdown.Item>
+                    <Dropdown.Item eventKey="3" href="#/action-3">Clothes</Dropdown.Item>
+                    <Dropdown.Item eventKey="4" href="#/action-4">Collectibles</Dropdown.Item>
+                    <Dropdown.Item eventKey="5" href="#/action-5">Electronics</Dropdown.Item>
+                    <Dropdown.Item eventKey="6" href="#/action-6">Furniture</Dropdown.Item>
+                    <Dropdown.Item eventKey="7" href="#/action-7">Games</Dropdown.Item>
+                    <Dropdown.Item eventKey="8" href="#/action-8">Jewelry</Dropdown.Item>
+                    <Dropdown.Item eventKey="9" href="#/action-9">Kitchen</Dropdown.Item>
+                    <Dropdown.Item eventKey="10" href="#/action-10">Sports</Dropdown.Item>
+                    <Dropdown.Item eventKey="11" href="#/action-11">Toys</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
             <Button variant="dark" onClick={handleSubmit}>Post Auction</Button>

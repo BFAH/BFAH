@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE);
 
 const router = require("express").Router();
 
@@ -11,10 +13,17 @@ router.post("/register", async (req, res, next) => {
   const SALT_ROUNDS = 5;
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
   try {
+    const account = await stripe.accounts.create({
+      type: 'standard',
+      country: 'US',
+      email: email,
+    });
+
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
+        stripeAccount: account.id,
         isAdmin: false,
         username,
       },
@@ -23,6 +32,7 @@ router.post("/register", async (req, res, next) => {
       { id: user.id, email: user.email, isAdmin: user.isAdmin },
       process.env.JWT_SECRET
     );
+    console.log(user);
     res.status(201).send({ token });
   } catch (err) {
     console.error("ERROR - Could Not REGISTER!!!", err);
