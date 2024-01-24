@@ -21,6 +21,14 @@ router.get("/:id", async (req, res, next) => {
       where: {
         id: +id,
       },
+      include: {
+        Account: true,
+        Auctions: {
+          include: {
+            products: true,
+          },
+        },
+      },
     });
     res.status(200).send(user);
   } catch (err) {
