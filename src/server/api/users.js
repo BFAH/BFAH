@@ -13,6 +13,23 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//GET UserName by User's ID
+router.get("/store/:id", async (req, res, next) => {
+  const  userId  = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +userId.id,
+      },
+    });
+    res.status(200).send(user);
+  } catch (err) {
+    console.error();
+  }
+});
+
+
+
 //GET returns user by id
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -28,24 +45,6 @@ router.get("/:id", async (req, res, next) => {
             products: true,
           },
         },
-      },
-    });
-    res.status(200).send(user);
-  } catch (err) {
-    console.error();
-  }
-});
-
-//GET UserName by User's ID
-router.get("/seller/store", async (req, res, next) => {
-  const { userId } = req.body;
-  try {
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-      select: {
-        username: true,
       },
     });
     res.status(200).send(user);
