@@ -11,15 +11,13 @@ const Auction = () => {
   const [newProductPrice, setNewProductPrice] = useState(null);
   const [count, setCount] = useState(null);
   const categoryId = count;
-  // const currentBidPrice = newProductPrice;
-  // const productId = newProductId;
-
+    
   const [productData, setProductData] = useState({
-    name: ``,
-    description: ``,
-    price: ``,
-    imageUrl: ``,
-  });
+        name: ``,
+        description: ``,
+        price: ``,
+        imageUrl: ``,
+    });
 
   const handleProduct = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
@@ -30,6 +28,7 @@ const Auction = () => {
       createAuction()
     }
   },[newProductId, newProductPrice])
+
 
   const createProduct = async () => {
     try {
@@ -72,6 +71,11 @@ const Auction = () => {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
+
+            const product = result.data
+            console.log(product)
+        } catch (error) {
+            console.log(error);
         }
       );
       const newAuction = result.data;
@@ -81,8 +85,6 @@ const Auction = () => {
     }
   };
 
- // console.log(newProductId);
-  //console.log(newProductPrice);
   console.log(count);
 
   return (

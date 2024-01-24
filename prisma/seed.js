@@ -11,6 +11,7 @@ const createUsers = async () => {
   const data = Array.from({ length: 5 }).map(() => ({
     email: faker.internet.email(),
     username: faker.internet.userName(),
+    stripeAccount: '123456789',
     password: hashedPassword,
     isAdmin: false,
   }));
@@ -27,6 +28,7 @@ const createOneUser = async () => {
   const data = ({
     email: `john123@aol.com`,
     username: `jj`,
+    stripeAccount: '123456789',
     password: hashedPassword,
     isAdmin: false,
   })
@@ -59,6 +61,7 @@ const createProducts = async () => {
   const data = Array.from({ length: 20 }).map(() => ({
     name: faker.commerce.product(),
     description: faker.commerce.productDescription(),
+    stripePriceId: '123456789',
     imageUrl: faker.image.urlPicsumPhotos(),
     price: faker.commerce.price(),
     categoryId: faker.helpers.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
