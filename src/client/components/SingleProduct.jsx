@@ -19,6 +19,7 @@ const SingleProduct = () => {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [flag, setFlag] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [users, setUsers] = useState("");
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -45,6 +46,24 @@ const SingleProduct = () => {
     }
     setFlag(true);
   }
+
+  const getUserName = (userId, users) => {
+    const user = users.find((user) => user.id === userId);
+    return user ? user.username : "Unknown User";
+  };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("api/users");
+        setUsers(response.data);
+      } catch (error) {
+        console.error("ERROR - Could Not Fetch User", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   const timer = () => {
     let secondsRemain = Math.floor(
