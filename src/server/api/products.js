@@ -46,7 +46,7 @@ router.post('/', verify, async (req, res, next) => {
     })
     const stripePrice = await stripe.prices.create({
       currency: 'usd',
-      unit_amount: price,
+      unit_amount: (price * 100),
       product: stripeProduct.id,
     });
 
