@@ -6,15 +6,22 @@ const { verify } = require("../util");
 //GET gets all auctions
 router.get("/", async (req, res, next) => {
   try {
-    const auction = await prisma.auctions.findMany({
-      where: {
-        isActive: true,
-      },
-      include: {
-        products: true,
-        users: true,
-      },
-    });
+    const auction = await prisma.auctions.findMany(
+      // {
+      // // where: {
+      // //   isActive: true,
+      // // },
+      // // include: {
+      // //   products: true,
+      //   // user: {
+      //   //   select: {
+      //   //     id: true,
+      //   //     username: true,
+      //   //   },
+      //   // },
+      // },
+    // }
+    );
     res.status(200).send(auction);
   } catch (err) {
     console.error(err);
@@ -30,6 +37,7 @@ router.get("/user", verify, async (req, res, next) => {
       },
       include: {
         products: true,
+        user: true,
       },
     });
     res.status(200).send(auction);
@@ -47,8 +55,12 @@ router.get("/:id", async (req, res, next) => {
         id: +id,
       },
       include: {
-        user: true,
         products: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
     res.status(200).send(auction);
