@@ -33,6 +33,7 @@ fetchAllProducts();
   }
   
   const handleBuyNow = (price1) => {
+    console.log(price1);
     if(confirm("Confirm Buy Now")) {
       return navigate("/payment", { state: {price: price1 }});
     }
@@ -50,7 +51,7 @@ fetchAllProducts();
                 return (
                   <div key={product.id}>
                     <div style={{position:"relative", top:"85%",left:"10px", zIndex:"2"}}>
-                          <button onClick={handleBuyNow}>Buy Now</button>:${product.price}</div>
+                          <button onClick={()=>handleBuyNow(product.stripePriceId)}>Buy Now</button>:${product.price}</div>
                     <Link
                       to={`/${product.id}`}
                       style={{ textDecoration: "none" }}
@@ -86,7 +87,7 @@ fetchAllProducts();
                 return (
                   <div key={product.id}>
                     <div style={{position:"relative", top:"85%",left:"10px", zIndex:"2"}}>
-                          <button onClick={()=>handleBuyNow(product.price)}>Buy Now</button>:${product.price}</div>
+                          <button onClick={()=>handleBuyNow(product.stripePriceId)}>Buy Now</button>:${product.price}</div>
                     <Link
                       to={`/${product.id}`}
                       style={{ textDecoration: "none" }}

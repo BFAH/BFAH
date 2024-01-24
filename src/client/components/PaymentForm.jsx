@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 
 const PaymentForm = () => {
   let location = useLocation();
+  let stripePriceId = location.state;
+  console.log(stripePriceId);
   const handleCheckout = async () => {
     try {
       // const shippingInfoCheck = await axios.get("api/users/shipping-info", {
@@ -22,7 +24,7 @@ const PaymentForm = () => {
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([{ price: 'price_1ObafvE2Js1fhUcTb1q0GUH5',
+        body: JSON.stringify([{ price: stripePriceId.price,
         quantity: 1 }])  // isHighest will go here
       });
 
