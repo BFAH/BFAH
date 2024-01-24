@@ -55,6 +55,24 @@ const AccountInfo = () => {
     }
   };
 
+  const handleDeleteAuction = async (auctionId) => {
+    const deleteConfirmed = window.confirm("Are you sure you want to delete this auction?");
+    if (deleteConfirmed) {
+      try {
+        await axios.delete(`/api/auctions/${auctionId}`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        });
+
+        // // Refresh the AccountInfo page after successful deletion
+        // window.location.reload();
+      } catch (error) {
+        console.log("Error deleting auction:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
@@ -343,9 +361,11 @@ const AccountInfo = () => {
                         />
                         <h4>Current Bid: ${user.currentBidPrice}</h4>
                         <h5>
-                          Bid End:{" "}
-                          {new Date(user.bidEndTime).toLocaleString()}
+                          Bid End: {new Date(user.bidEndTime).toLocaleString()}
                         </h5>
+                        <Button variant="danger" onClick={() => handleDeleteAuction(user.id)}>
+                          Delete Auction
+                        </Button>
                       </div>
                     </Link>
                   </div>
