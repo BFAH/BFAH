@@ -1,1 +1,44 @@
 https://buscouncoche.es/wp-content/uploads/2018/07/nissan-skyline-gt-r-r33-nismo-400r-lateral-1024x685.jpg>
+
+<form>
+                <label>
+                    What is the name of your product?
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter Product Name"
+                        value={productData.name}
+                        onChange={handleProduct}
+                    />
+                </label>
+                <label>
+                    Please enter a description of your product:
+                    <input
+                        type="text"
+                        name="description"
+                        placeholder="Enter Product Description"
+                        value={productData.description}
+                        onChange={handleProduct}
+                    />
+                </label>
+                <label>
+                    How much are you selling this for?
+                    <input
+                        type="text"
+                        name="price"
+                        placeholder="Enter Sell Price"
+                        value={productData.price}
+                        onChange={handleProduct}
+                    />
+                </label>
+                <label>
+                    Upload a Picture please:
+                    <input
+                        type="text"
+                        name="imageUrl"
+                        placeholder="Upload a picture"
+                        value={productData.imageUrl}
+                        onChange={handleProduct}
+                    />
+                </label>
+            </form>

@@ -52,7 +52,8 @@ router.get("/:id", async (req, res, next) => {
 
 //POST creates a new auction
 router.post("/", verify, async (req, res, next) => {
-  const { bidStartTime, bidEndTime, currentBidPrice, productId } = req.body;
+  const { bidStartTime, bidEndTime, currentBidPrice, productId, isActive } = req.body;
+  console.log(req.body)
   try {
     const auction = await prisma.auctions.create({
       data: {
@@ -65,6 +66,7 @@ router.post("/", verify, async (req, res, next) => {
       },
     });
     res.status(201).send(auction);
+    console.log(auction)
   } catch (err) {
     console.error(err);
   }
