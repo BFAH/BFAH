@@ -43,6 +43,7 @@ const AccountInfo = () => {
           },
         }
       );
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +61,8 @@ const AccountInfo = () => {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         }
-      );
+      ); 
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -105,11 +107,6 @@ const AccountInfo = () => {
     };
     getCurrentUser();
   }, []);
-
-  // if (currentUser) {
-  //   setFlag(false)
-  // }
-
 
   console.log(currentUser);
   console.log(account);
