@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Accordion from "react-bootstrap/Accordion";
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [account, setAccount] = useState(null);
-  const [accountId, setAccountId] = useState(null) 
+  const [accountId, setAccountId] = useState(null);
 
   const [accountForm, setAccountForm] = useState({
     firstName: ``,
@@ -31,11 +31,16 @@ const AccountInfo = () => {
     e.preventDefault();
 
     try {
-      const result = await axios.post(`/api/users/account/create`, accountForm, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-        },
-      });
+      const result = await axios.post(
+        `/api/users/account/create`,
+        accountForm,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        }
+      );
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -45,18 +50,25 @@ const AccountInfo = () => {
     e.preventDefault();
 
     try {
-      const result = await axios.patch(`/api/users/account/edit`, { ...accountForm, accountId}, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-        },
-      });
+      const result = await axios.patch(
+        `/api/users/account/edit`,
+        { ...accountForm, accountId },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        }
+      );
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleDeleteAuction = async (auctionId) => {
-    const deleteConfirmed = window.confirm("Are you sure you want to delete this auction?");
+    const deleteConfirmed = window.confirm(
+      "Are you sure you want to delete this auction?"
+    );
     if (deleteConfirmed) {
       try {
         await axios.delete(`/api/auctions/${auctionId}`, {
@@ -66,7 +78,7 @@ const AccountInfo = () => {
         });
 
         // // Refresh the AccountInfo page after successful deletion
-        // window.location.reload();
+        window.location.reload();
       } catch (error) {
         console.log("Error deleting auction:", error);
       }
@@ -83,9 +95,9 @@ const AccountInfo = () => {
         });
         const userInfo = result.data;
         setCurrentUser(userInfo);
-        setAccount(userInfo.Account[0])
-        setAccountId(userInfo.Account[0].id)
-        console.log(userInfo)
+        setAccount(userInfo.Account[0]);
+        setAccountId(userInfo.Account[0].id);
+        console.log(userInfo);
       } catch (error) {
         console.log(error);
       }
@@ -93,10 +105,9 @@ const AccountInfo = () => {
     getCurrentUser();
   }, []);
 
-  console.log(currentUser)
-  console.log(account)
-  console.log(accountId)
-
+  console.log(currentUser);
+  console.log(account);
+  console.log(accountId);
 
   return (
     <>
@@ -138,9 +149,7 @@ const AccountInfo = () => {
                       value={accountForm.streetAddress}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
@@ -153,9 +162,7 @@ const AccountInfo = () => {
                       value={accountForm.city}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom05">
                     <Form.Label>State</Form.Label>
@@ -166,9 +173,7 @@ const AccountInfo = () => {
                       value={accountForm.state}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom06">
                     <Form.Label>Zip Code</Form.Label>
@@ -179,9 +184,7 @@ const AccountInfo = () => {
                       value={accountForm.zipCode}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
@@ -194,9 +197,7 @@ const AccountInfo = () => {
                       value={accountForm.country}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom08">
                     <Form.Label>Phone Number</Form.Label>
@@ -207,12 +208,12 @@ const AccountInfo = () => {
                       value={accountForm.phoneNumber}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
-                <Button type="submit" onClick={handleCreate}>Submit form</Button>
+                <Button type="submit" onClick={handleCreate}>
+                  Submit form
+                </Button>
               </Form>
             </Accordion.Body>
           </Accordion.Item>
@@ -220,7 +221,7 @@ const AccountInfo = () => {
           <Accordion.Item eventKey="1">
             <Accordion.Header>Account Information</Accordion.Header>
             <Accordion.Body>
-            <Form noValidate>
+              <Form noValidate>
                 <Row className="mb-3">
                   <Form.Group as={Col} md="4" controlId="validationCustom01">
                     <Form.Label>First name</Form.Label>
@@ -253,9 +254,7 @@ const AccountInfo = () => {
                       value={accountForm.streetAddress}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
@@ -268,9 +267,7 @@ const AccountInfo = () => {
                       value={accountForm.city}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom05">
                     <Form.Label>State</Form.Label>
@@ -281,9 +278,7 @@ const AccountInfo = () => {
                       value={accountForm.state}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom06">
                     <Form.Label>Zip Code</Form.Label>
@@ -294,9 +289,7 @@ const AccountInfo = () => {
                       value={accountForm.zipCode}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
@@ -309,9 +302,7 @@ const AccountInfo = () => {
                       value={accountForm.country}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group as={Col} md="3" controlId="validationCustom08">
                     <Form.Label>Phone Number</Form.Label>
@@ -322,12 +313,12 @@ const AccountInfo = () => {
                       value={accountForm.phoneNumber}
                       onChange={handleChange}
                     />
-                    <Form.Control.Feedback>
-                      Looks good!
-                    </Form.Control.Feedback>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   </Form.Group>
                 </Row>
-                <Button type="submit" onClick={handleEdit}>Submit changes</Button>
+                <Button type="submit" onClick={handleEdit}>
+                  Submit changes
+                </Button>
               </Form>
             </Accordion.Body>
           </Accordion.Item>
@@ -335,43 +326,48 @@ const AccountInfo = () => {
         <Accordion.Item eventKey="2">
           <Accordion.Header>My Store</Accordion.Header>
           <Accordion.Body>
-            {currentUser && currentUser.Auctions.map((user, idx) => {
-              return (
-                <div className="cards" key={idx}>
-                  <div>
-                    <Link
-                      to={`/${user.products.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <div
-                        style={{
-                          height: "380px",
-                          width: "300px",
-                          border: "black solid 4px",
-                          margin: "20px",
-                          backgroundColor: "#def2f1",
-                          color: "black",
-                        }}
+            {currentUser &&
+              currentUser.Auctions.map((user, idx) => {
+                return (
+                  <div className="cards" key={idx}>
+                    <div>
+                      <Link
+                        to={`/${user.products.id}`}
+                        style={{ textDecoration: "none" }}
                       >
-                        <h3>{user.productId}</h3>
-                        <p>{user.products.description}</p>
-                        <img
-                          src={user.products.imageUrl}
-                          style={{ height: "100px", width: "100px" }}
-                        />
-                        <h4>Current Bid: ${user.currentBidPrice}</h4>
-                        <h5>
-                          Bid End: {new Date(user.bidEndTime).toLocaleString()}
-                        </h5>
-                        <Button variant="danger" onClick={() => handleDeleteAuction(user.id)}>
-                          Delete Auction
-                        </Button>
-                      </div>
-                    </Link>
+                        <div
+                          style={{
+                            height: "380px",
+                            width: "300px",
+                            border: "black solid 4px",
+                            margin: "20px",
+                            backgroundColor: "#def2f1",
+                            color: "black",
+                          }}
+                        >
+                          <h3>{user.productId}</h3>
+                          <p>{user.products.description}</p>
+                          <img
+                            src={user.products.imageUrl}
+                            style={{ height: "100px", width: "100px" }}
+                          />
+                          <h4>Current Bid: ${user.currentBidPrice}</h4>
+                          <h5>
+                            Bid End:{" "}
+                            {new Date(user.bidEndTime).toLocaleString()}
+                          </h5>
+                        </div>
+                      </Link>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDeleteAuction(user.id)}
+                      >
+                        Delete Auction
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
