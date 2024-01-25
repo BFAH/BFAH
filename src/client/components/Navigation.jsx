@@ -21,8 +21,6 @@ const Navigation = () => {
         <button>Home</button></Link>
       <Link to="/login">
         <button>Login</button></Link>
-      <Link to="/account-info">
-        <button>My Account</button></Link>
       <Link to="/sell">
         <button>Sell</button></Link>
       <button onClick={handleLogout}>Logout</button>
