@@ -12,7 +12,6 @@ const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
-  // const [flag, setFlag] = useState(false);
   const [TOKEN] = useState(localStorage.getItem("TOKEN"));
 
 
@@ -45,6 +44,7 @@ const AccountInfo = () => {
           },
         }
       );
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +62,8 @@ const AccountInfo = () => {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         }
-      );
+      ); 
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +82,7 @@ const AccountInfo = () => {
         });
 
         // // Refresh the AccountInfo page after successful deletion
-        // window.location.reload();
+        window.location.reload();
       } catch (error) {
         console.log("Error deleting auction:", error);
       }
@@ -100,7 +101,6 @@ const AccountInfo = () => {
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
-        // setFlag(true)
         console.log(userInfo);
       } catch (error) {
         console.log(error);
@@ -108,11 +108,6 @@ const AccountInfo = () => {
     };
     getCurrentUser();
   }, [TOKEN]);
-
-  // if (currentUser) {
-  //   setFlag(false)
-  // }
-
 
   console.log(currentUser);
   console.log(account);
