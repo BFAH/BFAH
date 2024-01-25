@@ -8,14 +8,12 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
+
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
-  // const [flag, setFlag] = useState(false);
   const [TOKEN] = useState(localStorage.getItem("TOKEN"));
-
-
 
   const [accountForm, setAccountForm] = useState({
     firstName: ``,
@@ -81,7 +79,7 @@ const AccountInfo = () => {
         });
 
         // // Refresh the AccountInfo page after successful deletion
-        // window.location.reload();
+        window.location.reload();
       } catch (error) {
         console.log("Error deleting auction:", error);
       }
@@ -100,14 +98,13 @@ const AccountInfo = () => {
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
-        // setFlag(true)
         console.log(userInfo);
       } catch (error) {
         console.log(error);
       }
     };
     getCurrentUser();
-  }, [TOKEN]);
+  }, []);
 
   // if (currentUser) {
   //   setFlag(false)
@@ -120,6 +117,7 @@ const AccountInfo = () => {
 
   return (
     <>
+
       {!TOKEN ? (
         <div></div>
       ) : (

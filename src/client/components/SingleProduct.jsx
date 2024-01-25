@@ -100,7 +100,8 @@ const SingleProduct = () => {
   const handleSubmitBid = async (event) => {
     event.preventDefault();
     if (!localStorage.getItem("TOKEN")) {
-      setErrorMsg("Must be logged in to place a bid!");
+      alert("Must be logged in to place a bid!");
+      setBidAmount('');
     } else {
       // Check if the bid amount meets the minimum bid limit
       if (bidAmount >= minimumBid) {
