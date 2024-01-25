@@ -31,7 +31,7 @@ router.get("/user", verify, async (req, res, next) => {
 });
 
 //GET gets all auctions related to user
-router.get("/user/store/:id", verify, async (req, res, next) => {
+router.get("/seller/store/:id", async (req, res, next) => {
   const {id} = req.params;
   try {
     const auction = await prisma.auctions.findMany({
