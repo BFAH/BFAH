@@ -158,7 +158,7 @@ const SingleProduct = () => {
         <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <Card.Link href="#" to={`/${auctionData.userId}`}>{username.username}</Card.Link>
+        <Card.Link href={`/store/${sellerUsername}`}>{username.username}</Card.Link>
         <Card.Link href="#">Link</Card.Link>
       </Card.Body>
     </Card>

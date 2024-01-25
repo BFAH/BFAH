@@ -34,7 +34,7 @@ function App() {
         <Route path="/payment" element={<PaymentForm />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path='/sell' element={<Auction />} />
-        <Route path='/store' element={< UserStore/>} />
+        <Route path='/store/:id' element={< UserStore/>} />
       </Routes>
     </>
   );
