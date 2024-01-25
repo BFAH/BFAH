@@ -4,7 +4,7 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Button } from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -21,7 +21,6 @@ const SingleProduct = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [sellerUsername, setSellerUsername] = useState(null);
   const [username, setUsername] = useState("");
-
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -49,25 +48,21 @@ const SingleProduct = () => {
     }
     setFlag(true);
   }
-  
- 
-  useEffect(()=>{
 
+  useEffect(() => {
     const getUserName = async () => {
       try {
         console.log(sellerUsername);
-  
-        const response = await axios.get(`/api/users/store/${sellerUsername}`
-        );  
+
+        const response = await axios.get(`/api/users/store/${sellerUsername}`);
         setUsername(response.data);
       } catch (error) {
         console.error("Error Fetching Username", error);
       }
     };
-  
-      getUserName()
-  },[sellerUsername])
 
+    getUserName();
+  }, [sellerUsername]);
 
   const timer = () => {
     let secondsRemain = Math.floor(
@@ -136,16 +131,18 @@ const SingleProduct = () => {
   };
 
   return (
-    <Card style={{ width: "38rem" }}>
-      <Card.Img variant="top" src={product.imageUrl} alt={product.name} />
-      <Card.Body>
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text>{product.description}</Card.Text>
-      </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item>Current highest bid: ${currentBid}</ListGroup.Item>
-        <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
-        <Form noValidate>
+    <>
+      <div className="all-products">
+        <Card style={{ width: "80rem" }}>
+          <Card.Img variant="top" src={product.imageUrl} alt={product.name} />
+          <Card.Body>
+            <Card.Title>{product.name}</Card.Title>
+            <Card.Text>{product.description}</Card.Text>
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+            <ListGroup.Item>Current highest bid: ${currentBid}</ListGroup.Item>
+            <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
+            <Form noValidate>
               <Form.Control
                 type="number"
                 id="bidAmount"
@@ -154,60 +151,21 @@ const SingleProduct = () => {
                 value={bidAmount}
                 onChange={handleBidAmountChange}
               />
-              <Button variant="dark" onClick={handleSubmitBid}>Bid</Button>
-        </Form>
-        <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
-      </ListGroup>
-      <Card.Body>
-        <Card.Link href={`/store/${sellerUsername}`}>{username.username}</Card.Link>
-        <Card.Link href="#">Link</Card.Link>
-      </Card.Body>
-    </Card>
-
-    // <div>
-    //   <div>
-    //     <h1>{product.name}</h1>
-    //   </div>
-
-    //   <div>
-    //     <button onClick={() => navigate('/')}>Back to All Products</button>
-    //   </div>
-
-    //   <div>
-    //     <img src={product.imageUrl} alt={product.name} />
-    //   </div>
-
-    //   <div style={{display:"flex", flexDirection:"column"}}>
-    //     <h3>Description</h3>
-    //     <div style={{width:"300px", alignSelf:"center"}}>{product.description}</div>
-    //   </div>
-
-    //   <div>
-    //     <div>
-    // <p>Current Highest Bid: ${currentBid}</p>
-    //     </div>
-    //     <div>
-    // <p>Time Left: {timeRemaining}</p>
-    //     </div>
-    //   </div>
-
-    //   <div>
-    //     <form onSubmit={handleSubmitBid}>
-    //       <label htmlFor="bidAmount">Bid Amount:</label>
-    //       <input
-    //         type="number"
-    //         id="bidAmount"
-    //         name="bidAmount"
-    //         value={bidAmount}
-    //         onChange={handleBidAmountChange}
-    //         required
-    //       />
-    //       <button type="submit">BID</button>
-    //     </form>
-    // <p>Minimum Bid: ${minimumBid}</p>
-    //     <p>{errorMsg}</p>
-    //   </div>
-    // </div>
+              <Button variant="dark" onClick={handleSubmitBid}>
+                Bid
+              </Button>
+            </Form>
+            <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
+          </ListGroup>
+          <Card.Body>
+            <Card.Link href={`/store/${sellerUsername}`}>
+              {username.username}
+            </Card.Link>
+            <Card.Link href="#">Link</Card.Link>
+          </Card.Body>
+        </Card>
+      </div>
+    </>
   );
 };
 
