@@ -105,7 +105,8 @@ const SingleProduct = () => {
   const handleSubmitBid = async (event) => {
     event.preventDefault();
     if (!localStorage.getItem("TOKEN")) {
-      setErrorMsg("Must be logged in to place a bid!");
+      alert("Must be logged in to place a bid!");
+      setBidAmount('');
     } else {
       // Check if the bid amount meets the minimum bid limit
       if (bidAmount >= minimumBid) {
@@ -135,7 +136,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "38rem" }}>
       <Card.Img variant="top" src={product.imageUrl} alt={product.name} />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
