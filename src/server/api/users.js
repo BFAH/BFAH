@@ -146,6 +146,134 @@ router.patch("/account/edit", verify, async (req, res, next) => {
   }
 });
 
+router.patch("/account/firstname", verify, async (req, res, next) => {
+  const {accountId, firstName} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {firstName}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/lastname", verify, async (req, res, next) => {
+  const {accountId, lastName} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {lastName}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/streetaddress", verify, async (req, res, next) => {
+  const {accountId, streetAddress} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {streetAddress}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/city", verify, async (req, res, next) => {
+  const {accountId, city} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {city}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/state", verify, async (req, res, next) => {
+  const {accountId, state} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {state}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/zipcode", verify, async (req, res, next) => {
+  const {accountId, zipCode} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {zipCode}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/country", verify, async (req, res, next) => {
+  const {accountId, country} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {country}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
+router.patch("/account/phonenumber", verify, async (req, res, next) => {
+  const {accountId, phoneNumber} = req.body;
+  console.log(req.body);
+  try {
+    const account = await prisma.account.update({
+      where: {id: accountId},
+      data: {phoneNumber}
+    });
+    res.status(201).send(account);
+    console.log(account);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
 //PATCH updates user isAdmin to true
 router.patch("/admin", async (req, res, next) => {
   const { id } = req.body;
