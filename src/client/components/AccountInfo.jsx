@@ -7,13 +7,14 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useLocation } from "react-router-dom";
 
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
-  const [TOKEN] = useState(localStorage.getItem("TOKEN"));
-
+  const location = useLocation();
+const TOKEN = location.state;
   const [accountForm, setAccountForm] = useState({
     firstName: ``,
     lastName: ``,
@@ -262,10 +263,11 @@ const AccountInfo = () => {
   console.log(currentUser);
   console.log(account);
   console.log(accountId);
+  console.log(TOKEN);
 
   return (
     <>
-      {!TOKEN ? (
+      {TOKEN ? (
         <div></div>
       ) : (
         <Accordion>
