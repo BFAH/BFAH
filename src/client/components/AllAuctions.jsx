@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Auction from "./Auction";
 import PaymentForm from "./PaymentForm";
 
-const AllProducts = () => {
+const AllAuctions = () => {
   // const [products, setProducts] = useState();
   const [filtered, setFiltered] = useState(null);
   const [auctionData, setAuctionData] = useState();
@@ -16,7 +16,7 @@ const AllProducts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAllProducts = async () => {
+    const getAllAuctions = async () => {
       try {
         const response = await axios.get(`/api/auctions`);
         setAuctionData(response.data);
@@ -25,7 +25,7 @@ const AllProducts = () => {
         console.error("ERROR - Could Not Fetch All Products", error);
       }
     };
-    fetchAllProducts();
+    getAllAuctions();
   }, []);
   console.log(auctionData);
 
@@ -77,7 +77,7 @@ const AllProducts = () => {
                       </ListGroup.Item>
                     </ListGroup>
                     <Card.Body>
-                      <Card.Link href={`/${auction.productId}`}>
+                      <Card.Link href={`/${auction.id}`}>
                         Look at my Auction!
                       </Card.Link>
                     </Card.Body>
@@ -138,7 +138,7 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default AllAuctions;
 
 //    <div className="all-products">
 //   <div className="main">

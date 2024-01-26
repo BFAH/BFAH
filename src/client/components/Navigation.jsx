@@ -5,8 +5,8 @@ import Logout from "./Logout";
 import Nav from "react-bootstrap/Nav";
 import Register from "./Register";
 import AccountInfo from "./AccountInfo";
-import SingleProduct from "./SingleProduct";
-import AllProducts from "./AllProducts";
+import SingleAuction from "./SingleAuction";
+import AllAuctions from "./AllAuctions";
 import Auction from "./Auction";
 import PaymentForm from "./PaymentForm";
 import ShippingForm from "./ShippingForm";
@@ -60,7 +60,7 @@ const Navigation = () => {
           element={
             <div>
               <AccountInfo />
-              <AllProducts />
+              <AllAuctions />
             </div>
           }
         />
@@ -72,7 +72,7 @@ const Navigation = () => {
           element={
             <div>
               <AccountInfo />
-              <SingleProduct />
+              <SingleAuction />
             </div>
           }
         />
