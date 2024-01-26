@@ -24,7 +24,7 @@ const Navigation = () => {
     );
     setTimeout(() => {
       setLogoutMessage(null);
-      navigate("/login");
+      navigate("/",{state:{flag:false}});
     }, 2000);
   };
 
