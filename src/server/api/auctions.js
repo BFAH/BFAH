@@ -12,10 +12,12 @@ router.get("/", async (req, res, next) => {
       },
     });
     res.status(200).send(auction);
+    console.log(auction)
   } catch (err) {
     console.error(err);
   }
 });
+
 
 //GET gets all auctions related to user
 router.get("/user", verify, async (req, res, next) => {
@@ -31,6 +33,26 @@ router.get("/user", verify, async (req, res, next) => {
     res.status(200).send(auction);
   } catch (err) {
     console.error(err);
+  }
+});
+
+//GET get single auction by ID
+router.get("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  console.log(req.params)
+  try {
+    const auction = await prisma.auctions.findFirst({
+      where: {
+        id: +id,
+      },
+      include: {
+        products: true,
+      },
+    });
+    res.status(200).send(auction);
+    console.log(auction)
+  } catch (err) {
+    console.error();
   }
 });
 
@@ -52,23 +74,6 @@ router.get("/seller/store/:id", async (req, res, next) => {
   }
 });
 
-//GET get single auction by ID
-router.get("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const auction = await prisma.auctions.findUnique({
-      where: {
-        id: +id,
-      },
-      include: {
-        products: true,
-      },
-    });
-    res.status(200).send(auction);
-  } catch (err) {
-    console.error();
-  }
-});
 
 //POST creates a new auction
 router.post("/", verify, async (req, res, next) => {
