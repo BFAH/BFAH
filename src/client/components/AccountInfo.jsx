@@ -13,6 +13,8 @@ const AccountInfo = () => {
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const [TOKEN] = useState(localStorage.getItem("TOKEN"));
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
 
   const [accountForm, setAccountForm] = useState({
     firstName: ``,
@@ -61,159 +63,12 @@ const AccountInfo = () => {
           },
         }
       );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleFirstName = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/firstname`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleLastName = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/lastname`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleStreetAddress = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/streetaddress`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleCity = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/city`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleState = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/state`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleZipCode = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/zipcode`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleCountry = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/country`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handlePhoneNumber = async (e) => {
-    e.preventDefault();
-
-    try {
-      const result = await axios.patch(
-        `/api/users/account/phonenumber`,
-        { ...accountForm, accountId },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },
-        }
-      );
-      window.location.reload();
+      setSuccessMessage("Your Account Details Have Been Successfully Updated!");
+      setShowMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(null);
+        setShowMessage(true);
+      }, 7000);
     } catch (error) {
       console.log(error);
     }
@@ -251,17 +106,22 @@ const AccountInfo = () => {
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
-        console.log(userInfo);
+        setAccountForm({
+          firstName: userInfo.Account[0].firstName,
+          lastName: userInfo.Account[0].lastName,
+          streetAddress: userInfo.Account[0].streetAddress,
+          city: userInfo.Account[0].city,
+          state: userInfo.Account[0].state,
+          zipCode: userInfo.Account[0].zipCode,
+          country: userInfo.Account[0].country,
+          phoneNumber: userInfo.Account[0].phoneNumber,
+        });
       } catch (error) {
         console.log(error);
       }
     };
     getCurrentUser();
   }, []);
-
-  console.log(currentUser);
-  console.log(account);
-  console.log(accountId);
 
   return (
     <>
@@ -390,9 +250,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleFirstName}>
-                        Edit
-                      </Button>
                     </Form.Group>
                     <Form.Group as={Col} md="4" controlId="validationCustom02">
                       <Form.Label>Last name</Form.Label>
@@ -404,9 +261,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleLastName}>
-                        Edit
-                      </Button>
                     </Form.Group>
                     <Form.Group as={Col} md="4" controlId="validationCustom03">
                       <Form.Label>Street Address</Form.Label>
@@ -418,9 +272,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleStreetAddress}>
-                        Edit
-                      </Button>
                     </Form.Group>
                   </Row>
                   <Row className="mb-3">
@@ -434,9 +285,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleCity}>
-                        Edit
-                      </Button>
                     </Form.Group>
                     <Form.Group as={Col} md="3" controlId="validationCustom05">
                       <Form.Label>State</Form.Label>
@@ -448,9 +296,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleState}>
-                        Edit
-                      </Button>
                     </Form.Group>
                     <Form.Group as={Col} md="3" controlId="validationCustom06">
                       <Form.Label>Zip Code</Form.Label>
@@ -462,9 +307,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleZipCode}>
-                        Edit
-                      </Button>
                     </Form.Group>
                   </Row>
                   <Row className="mb-3">
@@ -478,9 +320,6 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handleCountry}>
-                        Edit
-                      </Button>
                     </Form.Group>
                     <Form.Group as={Col} md="3" controlId="validationCustom08">
                       <Form.Label>Phone Number</Form.Label>
@@ -492,13 +331,10 @@ const AccountInfo = () => {
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                      <Button variant="outline-secondary" id="button-addon2" onClick={handlePhoneNumber}>
-                        Edit
-                      </Button>
                     </Form.Group>
                   </Row>
                   <Button type="submit" onClick={handleEdit}>
-                    Submit all changes
+                    Save changes
                   </Button>
                 </Form>
               </Accordion.Body>
@@ -547,6 +383,11 @@ const AccountInfo = () => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
+      )}
+      {showMessage && (
+        <div className="alert alert-success" role="alert">
+          {successMessage}
+        </div>
       )}
     </>
   );
