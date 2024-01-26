@@ -54,7 +54,7 @@ const Auction = () => {
 
   const createAuction = async () => {
     const bidStartTime = new Date().toISOString();
-    const bidEndTime = new Date(Date.now() + 604800000).toISOString();
+    const bidEndTime = new Date(Date.now() + 300000).toISOString();
     const isActive = true;
   
     try {

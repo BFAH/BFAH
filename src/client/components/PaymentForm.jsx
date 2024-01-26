@@ -3,39 +3,35 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const PaymentForm = () => {
-  const [sellerData, setSellerData] = useState();
-  let location = useLocation();
-  let stripePriceId = location.state;
-  const seller = stripePriceId.seller;
-  console.log(stripePriceId, seller);
+  const [priceData, setPriceData] = useState('');
+  const [buyerData, setBuyerData] = useState('');
+  const [productData, setProductData] = useState();
+  const location = useLocation();
 
   useEffect(()=> {
-    const getSellerData = async() => {
+    let stripePriceId = location.state;
+    const seller = stripePriceId.seller;
+    console.log(stripePriceId, seller);
+  
+    const getData = async() => {
       try {
         const response2 = await axios.get(`/api/users/${seller}`);
-        setSellerData(response2.data);
+        const response3 = await axios.get("/api/users/current/user", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        });
+        setPriceData(response2.data.Auctions[0].products.price);
+        setProductData(response2.data.Auctions[0].products.name);
+        setBuyerData(response3.data.username);
       } catch (error) {
         console.log(error);
       }
     }
-    getSellerData();
+    getData();
   },[]);
-  console.log(sellerData);
   const handleCheckout = async () => {
     try {
-      // const shippingInfoCheck = await axios.get("api/users/shipping-info", {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("TOKEN")}`,
-      //   },
-      // });
-
-      // const hasShippingInfo = shippingInfoCheck.data;
-
-      // if (!hasShippingInfo) {
-      //   window.location = "/shipping";
-      //   return;
-      // }
-
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,9 +46,6 @@ const PaymentForm = () => {
 
       const { url } = await response.json();
 
-      // Manipulate the data here if needed
-      // await axios.get("/create-order");
-
       window.location = url;
     } catch (error) {
       console.error(error);
@@ -61,6 +54,11 @@ const PaymentForm = () => {
 
   return (
     <>
+    <div>
+      <h2>Buy Now Item:{productData}</h2>
+      <h2>Buy Now Price: ${priceData}</h2>
+      <h2>Buyer Username: {buyerData}</h2>
+    </div>
       <button onClick={handleCheckout}>Pay Now</button>
     </>
   );

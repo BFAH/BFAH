@@ -18,9 +18,9 @@ const SingleProduct = () => {
   const [currentBid, setCurrentBid] = useState("");
   const [timeRemaining, setTimeRemaining] = useState("");
   const [flag, setFlag] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [sellerUsername, setSellerUsername] = useState(null);
   const [username, setUsername] = useState("");
+  const [currentAuction, setCurrentAuction] = useState();
 
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const SingleProduct = () => {
         setCurrentBid(auction.currentBidPrice);
         setMinimumBid(auction.currentBidPrice * 1.05);
         setSellerUsername(auction.userId);
+        setCurrentAuction(auction.id);
       }
     }
     setFlag(true);
@@ -68,7 +69,7 @@ const SingleProduct = () => {
       getUserName()
   },[sellerUsername])
 
-
+useEffect(()=> {
   const timer = () => {
     let secondsRemain = Math.floor(
       (auctionTime - Date.parse(new Date())) / 1000
@@ -89,9 +90,13 @@ const SingleProduct = () => {
     setTimeRemaining(
       `${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`
     );
-    setTimeout(timer, 1000);
+      if(secondsRemain > 0 ) {setTimeout(timer, 1000);}
+      
   };
-  setTimeout(timer, 1000);
+  timer();
+},[]);
+  
+
 
   if (!product) {
     return <div>Loading...</div>;
@@ -112,7 +117,7 @@ const SingleProduct = () => {
       if (bidAmount >= minimumBid) {
         try {
           const response = await axios.patch(
-            `/api/auctions/${product.id}`,
+            `/api/auctions/${currentAuction}`,
             { currentBidPrice: bidAmount },
             {
               headers: {
