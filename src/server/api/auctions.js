@@ -6,7 +6,11 @@ const { verify } = require("../util");
 //GET gets all auctions
 router.get("/", async (req, res, next) => {
   try {
-    const auction = await prisma.auctions.findMany();
+    const auction = await prisma.auctions.findMany({
+      include: {
+        products: true,
+      },
+    });
     res.status(200).send(auction);
   } catch (err) {
     console.error(err);

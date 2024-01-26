@@ -50,6 +50,7 @@ const Navigation = () => {
           <Nav.Link eventKey="link-1" onClick={handleLogout}>
             Logout
           </Nav.Link>
+          {logoutMessage && window.alert(logoutMessage)}
         </Nav.Item>
       </Nav>
 
