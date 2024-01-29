@@ -355,6 +355,7 @@ const AccountInfo = () => {
                     <Card style={{ width: "20rem" }}>
                       <Card.Img
                         variant="top"
+                        style={{height: "254px", width: "318px"}}
                         src={user.products.imageUrl}
                         alt={user.products.name}
                       />
