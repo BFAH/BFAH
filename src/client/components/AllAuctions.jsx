@@ -50,7 +50,6 @@ const AllAuctions = () => {
 
   return (
     <>
-      <div className="all-products">
       <FilterBar setFiltered={setFiltered} />
       {filtered ? (
           <div className="cards">
@@ -133,7 +132,6 @@ const AllAuctions = () => {
               })}
           </div>
       )}
-        </div>
     </>
   );
 };
