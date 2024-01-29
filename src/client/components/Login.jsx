@@ -7,12 +7,13 @@ import Form from 'react-bootstrap/Form';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     rememberMe: false
   });
-
+  
   const handleChange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
@@ -29,6 +30,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.error("ERROR - Could Not Log In", error);
+      setError("Invalid Username or Password")
     }
   };
 
@@ -40,6 +42,7 @@ const Login = () => {
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <div className="text-center">
         <h1>Login</h1>
+        {error && <p style={{color: "red" }}>{error}</p>}
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
