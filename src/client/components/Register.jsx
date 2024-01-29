@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Register = () => {
   const navigate = useNavigate();
+  const [error, setError] =useState();
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -15,24 +18,21 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
     try {
-      // token request
       const response = await axios.post("/auth/register", formData);
-      
-      // if sucessful, store locally
       const token = response.data.token;
       localStorage.setItem("TOKEN", token);
-    
-      // take user to home page
       navigate("/");
 
     } catch (error) {
       console.error("ERROR - Could Not Register New User", error);
+      setError("Username or Email is unavailable.")
     }
   };
 
   return (
     <div>
       <h1>Register</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form>
         <label>
           Email
