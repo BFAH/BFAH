@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 
 const FilterBar = ({ products, setFiltered }) => {
   const [category, setCategory] = useState(null);
@@ -19,43 +20,51 @@ const FilterBar = ({ products, setFiltered }) => {
 
   return (
     <>
-      <form className="filter-bar" onSubmit={filterCategories}>
-        <label>Category</label>
-        <select
-          name="selectedCategory"
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value={null}>All</option>
-          <option value="1">Auto</option>
-          <option value="2">Books</option>
-          <option value="3">Clothes</option>
-          <option value="4">Collectables</option>
-          <option value="5">Electronics</option>
-          <option value="6">Furniture</option>
-          <option value="7">Games</option>
-          <option value="8">Jewelry</option>
-          <option value="9">Kitchen</option>
-          <option value="10">Sports</option>
-          <option value="11">Toys</option>
-        </select>
-        <label>Bid Time</label>
-        <select name="selectedTime">
-          <option value="newest">Newest</option>
-          <option value="expiring">Soonest Expiring</option>
-        </select>
-        <label>Price Range</label>
-        <select
-          name="selectedPrice"
-          onChange={(e) => {
-            setPriceRange(e.target.value);
-          }}
-        >
-          <option value="999999999">All</option>
-          <option value="300">less 300</option>
-          <option value="600"> less 600</option>
-          <option value="2000">less 2000</option>
-        </select>
-        <button
+      <Form.Select
+        name="selectedCategory"
+        onChange={(e) => setCategory(e.target.value)}
+        style={{textAlign: "center"}}
+      >
+        <option>Please Select a category you would like to find.</option>
+        <option value="1">Auto</option>
+        <option value="2">Books</option>
+        <option value="3">Clothes</option>
+        <option value="4">Collectibles</option>
+        <option value="5">Electronics</option>
+        <option value="6">Furniture</option>
+        <option value="7">Games</option>
+        <option value="8">Jewelry</option>
+        <option value="9">Kitchen</option>
+        <option value="10">Sports</option>
+        <option value="11">Toys</option>
+      </Form.Select>
+      <Form.Select aria-label="Default select example" 
+      name="selectedTime"
+      style={{textAlign: "center"}}>
+        <option>Auction bid Times</option>
+        <option value="newest">Newest</option>
+        <option value="expiring">Expiring soon</option>
+      </Form.Select>
+      <Form.Select
+        aria-label="Default select example"
+        name="selectedPrice"
+        style={{textAlign: "center"}}
+        onChange={(e) => {
+          setPriceRange(e.target.value);
+        }}
+      >
+        <option>Price Range</option>
+        <option value="999999999">All</option>
+        <option value="300">less than 300</option>
+        <option value="600">less than 600</option>
+        <option value="2000">less than 20,00</option>
+        <option value="10000">less than 10,000</option>
+        <option value="50000">less than 50,000</option>
+      </Form.Select>
+      <div className="d-grid gap-2">
+        <Button
+          variant="warning"
+          size="lg"
           type="reset"
           onClick={() => {
             setFiltered(null);
@@ -64,9 +73,11 @@ const FilterBar = ({ products, setFiltered }) => {
           }}
         >
           Reset
-        </button>
-        <button type="submit">Submit</button>
-      </form>
+        </Button>
+        <Button variant="warning" size="lg" onClick={filterCategories}>
+          Submit
+        </Button>
+      </div>
     </>
   );
 };
