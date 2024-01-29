@@ -100,6 +100,7 @@ const AllAuctions = () => {
                   <Card style={{ width: "30rem" }}>
                     <Card.Img
                       variant="top"
+                      style={{height: "359px", width: "478px"}}
                       src={auction.products.imageUrl}
                       alt={auction.products.name}
                     />
