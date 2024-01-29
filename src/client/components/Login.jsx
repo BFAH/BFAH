@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
+    rememberMe: false
   });
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleLogin = async () => {
     try {
-        console.log(formData)
+      console.log(formData);
       const response = await axios.post("/auth/login", formData);
     
-
       const token = response.data.token;
       localStorage.setItem("TOKEN", token);
 
@@ -32,42 +37,50 @@ const Login = () => {
   };
 
   return (
-    <>
-      <h1>Login</h1>
-      <form>
-        <label>
-          Username
-          <br />
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          Password
-          <br />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <br />
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
+    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="text-center">
+        <h1>Login</h1>
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="Enter your username"
+            />
+          </Form.Group>
+          
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+            />
+          </Form.Group>
+          
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              id="autoSizingCheck2"
+              label="Remember me"
+              name="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          
+          <Button onClick={handleLogin} type="button" className="mb-3">Login</Button>
+        </Form>
+        
         <p>Or</p>
-        <button type="button" onClick={handleRegisterNavigate}>
-          Register?
-        </button>
-      </form>
-    </>
+        <Button onClick={handleRegisterNavigate}>Register?</Button>
+      </div>
+    </div>
   );
 };
 
