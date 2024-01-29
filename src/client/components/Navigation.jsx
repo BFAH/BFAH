@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Route, Routes } from "react-router-dom";
-import Login from "./Login";
-import Logout from "./Logout";
 import Nav from "react-bootstrap/Nav";
 import { Container, Form, Button, Navbar, NavDropdown } from "react-bootstrap";
+import axios from "axios";
+import Login from "./Login";
+import Logout from "./Logout";
 import Register from "./Register";
 import AccountInfo from "./AccountInfo";
 import SingleAuction from "./SingleAuction";
@@ -17,6 +18,7 @@ import UserStore from "./UserStore";
 const Navigation = () => {
   const navigate = useNavigate();
   const [logoutMessage, setLogoutMessage] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
   const handleLogout = () => {
     Logout();
@@ -25,43 +27,71 @@ const Navigation = () => {
     );
     setTimeout(() => {
       setLogoutMessage(null);
-      navigate("/",{state:{flag:false}});
+      navigate("/", { state: { flag: false } });
     }, 2000);
   };
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const result = await axios.get(`/api/users/current/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        });
+        const userInfo = result.data;
+        setCurrentUser(userInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCurrentUser();
+  }, []);
+
+  console.log(currentUser);
 
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
-      <Container fluid>
-        <Navbar.Brand><img
-        src="./Logo_art.jpg"
-        style={{ width: "900px", border: "black double 10px" }}
-      /></Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/login">Register/Login</Nav.Link>
-            <Nav.Link href="/sell">Sell My Stuff!</Nav.Link>
-            <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-            {logoutMessage && window.alert(logoutMessage)}
-          </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
+        <Container fluid>
+          <Navbar.Brand>
+            <img
+              src="./Logo_art.jpg"
+              style={{ width: "900px", border: "black double 10px" }}
             />
-            <Button variant="outline-warning">Search</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: "100px" }}
+              navbarScroll
+            >
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/login">Register/Login</Nav.Link>
+              <Nav.Link href="/sell">Sell My Stuff!</Nav.Link>
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              {logoutMessage && window.alert(logoutMessage)}
+            </Nav>
+            {!currentUser.username ? (
+              <div></div>
+            ) : (
+              <Navbar.Text style={{ marginRight: "20px" }}>
+                Signed in as: <a href="/login">{currentUser.username}</a>
+              </Navbar.Text>
+            )}
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-warning">Search</Button>
+            </Form>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
 
       <Routes>
         <Route
@@ -156,7 +186,8 @@ export default Navigation;
   </form>
 </nav>; */
 }
-{/* <Nav justify variant="tabs" defaultActiveKey="/home">
+{
+  /* <Nav justify variant="tabs" defaultActiveKey="/home">
         <Nav.Item>
           <Nav.Link href="/" eventKey="link-1">
             Home
@@ -178,4 +209,5 @@ export default Navigation;
           </Nav.Link>
           {logoutMessage && window.alert(logoutMessage)}
         </Nav.Item>
-      </Nav> */}
+      </Nav> */
+}
