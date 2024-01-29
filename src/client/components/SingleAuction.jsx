@@ -11,25 +11,24 @@ const SingleAuction = () => {
   const [auctionData, setAuctionData] = useState({});
   const [productData, setProductData] = useState({});
   const [bidAmount, setBidAmount] = useState("");
-  // const [minimumBid, setMinimumBid] = useState(0);
-  // const [auctionTime, setAuctionTime] = useState();
-  // const [currentBid, setCurrentBid] = useState("");
+   const [minimumBid, setMinimumBid] = useState(0);
+   const [auctionEndTime, setAuctionEndTime] = useState("");
+   const [currentBid, setCurrentBid] = useState("");
   const [timeRemaining, setTimeRemaining] = useState("");
   // const [flag, setFlag] = useState(false);
   // const [errorMsg, setErrorMsg] = useState("");
   const [sellerUsername, setSellerUsername] = useState({});
   const [username, setUsername] = useState(``);
 
-  console.log(id);
 
   useEffect(() => {
     const getSingleAuction = async () => {
       try {
         const response = await axios.get(`/api/auctions/${+id}`);
         setAuctionData(response.data);
-        setProductData(response.data.products)
+        setProductData(response.data.products);
         setSellerUsername(response.data.userId);
-        console.log(response.data);
+        setAuctionEndTime(response.data.bidEndTime);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -41,7 +40,6 @@ const SingleAuction = () => {
   useEffect(() => {
     const getUserName = async () => {
       try {
-        console.log(sellerUsername);
 
         const response = await axios.get(`/api/users/store/${sellerUsername}`);
         setUsername(response.data.username);
@@ -53,36 +51,33 @@ const SingleAuction = () => {
     getUserName();
   }, [sellerUsername]);
 
-  //   useEffect(() => {
-  //   const timer = () => {
-  //     let secondsRemain = Math.floor(
-  //       (auctionTime - Date.parse(new Date())) / 1000
-  //     );
-  //     let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
-  //     let hoursRemain = Math.floor(
-  //       (secondsRemain - daysRemain * (60 * 60 * 24)) / (60 * 60)
-  //     );
-  //     let minutesRemain = Math.floor(
-  //       (secondsRemain - daysRemain * 60 * 60 * 24 - hoursRemain * 60 * 60) / 60
-  //     );
-  //     let finalSeconds = Math.floor(
-  //       secondsRemain -
-  //         daysRemain * 60 * 60 * 24 -
-  //         hoursRemain * 60 * 60 -
-  //         minutesRemain * 60
-  //     );
-  //     setTimeRemaining(
-  //       `${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`
-  //     );
-  //     setTimeout(timer, 1000);
-  //   };
-  // }, [auctionTime]);
+  const handleEndAuction = () => {
+    setTimeRemaining("AUCTION HAS ENDED!");
+  }
 
-  // const handleBidAmountChange = (event) => {
-  //   const newBidAmount = parseFloat(event.target.value);
-  //   setBidAmount(newBidAmount);
-  // };
-
+  const timer = (auction) => {
+    let secondsRemain = (auction/1000 + 50) - (Date.now() /1000) ;
+    let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
+    let hoursRemain = Math.floor(
+      (secondsRemain - daysRemain * (60 * 60 * 24)) / (60 * 60),
+    );
+    let minutesRemain = Math.floor(
+      (secondsRemain - daysRemain * 60 * 60 * 24 - hoursRemain * 60 * 60) / 60,
+    );
+    let finalSeconds = Math.floor(
+      secondsRemain -
+        daysRemain * 60 * 60 * 24 -
+        hoursRemain * 60 * 60 -
+        minutesRemain * 60,
+    );
+    setTimeRemaining(`${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`);
+    if(secondsRemain < 1 ){
+      clearInterval(myinterval);
+      handleEndAuction();
+    }
+  };
+   const myinterval = setInterval(timer, 1000, Date.parse(auctionEndTime));
+  
   const handleSubmitBid = async (event) => {
     event.preventDefault();
     if (!localStorage.getItem("TOKEN")) {
@@ -116,10 +111,6 @@ const SingleAuction = () => {
     }
   };
 
-  console.log(auctionData);
-  console.log(sellerUsername);
-  console.log(username);
-  console.log(productData)
 
   return (
     <>
@@ -136,7 +127,7 @@ const SingleAuction = () => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>Current highest bid: ${auctionData.currentBidPrice}</ListGroup.Item>
-            <ListGroup.Item>Time Left: {new Date(auctionData.bidEndTime).toLocaleString()}</ListGroup.Item>
+            <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
             <Form noValidate>
               <Form.Control
                 type="number"
