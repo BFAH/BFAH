@@ -25,4 +25,17 @@ router.post("/create-checkout-session", async (req, res, next) => {
   }
 });
 
+router.post("/update/price", async (req, res, next) => {
+  const {bidPrice, product} = req.body;
+  try {
+    const response = await stripe.prices.create(
+      { currency: 'usd',
+        unit_amount: +bidPrice*100,
+        product:product});
+      res.send(response);
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 module.exports = router;

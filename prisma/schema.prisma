@@ -54,6 +54,7 @@ model Products {
   description String
   price       Decimal?
   stripePriceId String
+  stripeProductId String
   imageUrl    String
   category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId  Int
