@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userBids, setUserBids] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const location = useLocation();
@@ -98,12 +99,18 @@ const AccountInfo = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
-        const result = await axios.get(`/api/users/current/user`, {
+        const result1 = await axios.get(`/api/users/current/user`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         });
-        const userInfo = result.data;
+        const result2 = await axios.get(`/api/auctions/current/bids`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        });
+        const userInfo = result1.data;
+        const myBids = result2.data;
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
@@ -117,6 +124,7 @@ const AccountInfo = () => {
           country: userInfo.Account[0].country,
           phoneNumber: userInfo.Account[0].phoneNumber,
         });
+        setUserBids(myBids);
       } catch (error) {
         console.log(error);
       }
@@ -128,6 +136,7 @@ const AccountInfo = () => {
   console.log(account);
   console.log(accountId);
   console.log(TOKEN);
+  console.log(userBids);
 
   return (
     <>
@@ -355,7 +364,7 @@ const AccountInfo = () => {
                     <Card style={{ width: "20rem" }}>
                       <Card.Img
                         variant="top"
-                        style={{height: "254px", width: "318px"}}
+                        style={{ height: "254px", width: "318px" }}
                         src={user.products.imageUrl}
                         alt={user.products.name}
                       />
@@ -389,6 +398,49 @@ const AccountInfo = () => {
                 })}
             </Accordion.Body>
           </Accordion.Item>
+          {!userBids ? (
+            <div></div>
+          ) : (
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>My Bids</Accordion.Header>
+              <Accordion.Body className="cards">
+                {userBids &&
+                  userBids.map((user, idx) => {
+                    return (
+                      <Card style={{ width: "20rem" }}>
+                        <Card.Img
+                          variant="top"
+                          style={{ height: "254px", width: "318px" }}
+                          src={user.products.imageUrl}
+                          alt={user.products.name}
+                        />
+                        <Card.Body>
+                          <Card.Title>{user.products.name}</Card.Title>
+                          <Card.Text>{user.products.description}</Card.Text>
+                        </Card.Body>
+                        <ListGroup className="list-group-flush">
+                          <ListGroup.Item>
+                            Current highest bid: ${user.currentBidPrice}
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            Time Left:{" "}
+                            {new Date(user.bidEndTime).toLocaleString()}
+                          </ListGroup.Item>
+                        </ListGroup>
+                        <Card.Body>
+                          <Card.Link href={`/store/${user.userId}`}>
+                            Sellers Store
+                          </Card.Link>
+                          <Card.Link href={`/${user.products.id}`}>
+                            Auctions Details
+                          </Card.Link>
+                        </Card.Body>
+                      </Card>
+                    );
+                  })}
+              </Accordion.Body>
+            </Accordion.Item>
+          )}
         </Accordion>
       )}
       {showMessage && (

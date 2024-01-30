@@ -56,9 +56,26 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//GET returns logged in user's ID
+router.get("/current/bids", verify, async (req, res, next) => {
+  try {
+    const currentUser = await prisma.auctions.findMany({
+      where: {
+        currentBidUserId: req.user.id,
+      },
+      include: {
+        products: true,
+      },
+    });
+    res.status(200).send(currentUser);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //GET gets all auctions related to user
 router.get("/seller/store/:id", async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const auction = await prisma.auctions.findMany({
       where: {
