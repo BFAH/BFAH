@@ -56,6 +56,7 @@ router.post('/', verify, async (req, res, next) => {
         description,
         price,
         stripePriceId: stripePrice.id,
+        stripeProductId: stripePrice.product,
         imageUrl,
         categoryId
       }

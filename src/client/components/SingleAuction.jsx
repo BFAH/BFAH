@@ -48,12 +48,13 @@ const SingleAuction = () => {
           },});
           setBuyerData(result.data);
           setPayerFlag(buyerData.id === auctionData.currentBidUserId);
+          console.log(payerFlag);
         }catch (error) {
         console.log(error);
       }
     }
     getBuyer();
-  },[]);
+  },[payerFlag]);
   useEffect(() => {
     const getUserName = async () => {
       try {
@@ -123,6 +124,10 @@ const SingleAuction = () => {
           setCurrentBid(response.data.currentBidPrice);
           setBidAmount("");
           setMinimumBid(Math.ceil(response.data.currentBidPrice * 1.05));
+
+          const response2 = await axios.post(`/api/stripe/update/price`,{
+            bidPrice: +bidAmount,
+          product: productData.stripeProductId});
         } catch (error) {
           console.log(error);
         }
@@ -150,7 +155,7 @@ const SingleAuction = () => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>Current highest bid: ${currentBid}</ListGroup.Item>
-            <ListGroup.Item>Time Left: {timeRemaining !== 'AUCTION ENDED' ? timeRemaining : payerFlag ? <Button onClick={()=> navigation("/payment")}>YOU WON! Checkout</Button> : <Button onClick={()=>navigation("/")}>YOU DID NOT WIN! Home</Button>}</ListGroup.Item>
+            <ListGroup.Item>Time Left: {timeRemaining !== 'AUCTION ENDED' ? timeRemaining : payerFlag ? <Button onClick={()=> navigation("/payment", {state: {auctionId: id}})}>YOU WON! Checkout</Button> : <Button onClick={()=>navigation("/")}>YOU DID NOT WIN! Home</Button>}</ListGroup.Item>
             <Form noValidate>
               <Form.Control
                 type="number"
