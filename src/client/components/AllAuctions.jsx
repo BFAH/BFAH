@@ -46,9 +46,10 @@ const AllAuctions = () => {
             {auctionData &&
               auctionData.map((auction) => {
                 return (
-                  <Card style={{ width: "20rem" }}>
+                  <Card style={{ width: "25rem" }}>
                     <Card.Img
                       variant="top"
+                      style={{height: "299px", width: "398px"}}
                       src={auction.products.imageUrl}
                       alt={auction.products.name}
                     />
@@ -87,10 +88,10 @@ const AllAuctions = () => {
             {auctionData &&
               auctionData.map((auction) => {
                 return (
-                  <Card style={{ width: "30rem" }}>
+                  <Card style={{ width: "25rem" }}>
                     <Card.Img
                       variant="top"
-                      style={{height: "359px", width: "478px"}}
+                      style={{height: "299px", width: "398px"}}
                       src={auction.products.imageUrl}
                       alt={auction.products.name}
                     />
@@ -100,7 +101,7 @@ const AllAuctions = () => {
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                       <ListGroup.Item>
-                        Current highest bid: ${auctionData.currentBidPrice}
+                        Current highest bid: ${auction.currentBidPrice}
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Time Left:{" "}
