@@ -106,7 +106,6 @@ const UserStore = () => {
 
   return (
     <>
-      <div className="accord">
         <div className="cards">
           {auctionData &&
             auctionData.map((auction) => {
@@ -148,7 +147,6 @@ const UserStore = () => {
               );
             })}
         </div>
-      </div>
     </>
   );
 };

@@ -165,7 +165,7 @@ const SingleAuction = () => {
             <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
           </ListGroup>
           <Card.Body>
-            <Card.Link href={`/${sellerUsername}`}>{username}</Card.Link>
+            <Card.Link href={`/store/${sellerUsername}`}>{username}</Card.Link>
             <Card.Link href="/">Home</Card.Link>
           </Card.Body>
         </Card>
