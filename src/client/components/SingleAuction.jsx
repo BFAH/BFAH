@@ -53,9 +53,7 @@ const SingleAuction = () => {
       }
     }
     getBuyer();
-  },[payerFlag]);
-console.log(buyerData);
-console.log(payerFlag);
+  },[]);
   useEffect(() => {
     const getUserName = async () => {
       try {
@@ -91,7 +89,6 @@ console.log(payerFlag);
     }
     else{setTimeRemaining('AUCTION ENDED'); 
     clearInterval(myinterval);
-    console.log("test");
   }
   }
    let myinterval = setInterval(timer, 1000);
