@@ -29,16 +29,6 @@ const AllAuctions = () => {
   }, []);
   console.log(auctionData);
 
-  // if (auctionData) {
-  //   for (let auction of auctionData) {
-  //     auction[auction.productId - 1].bidTime = new Date(
-  //       auction.bidEndTime
-  //     ).toLocaleString();
-  //     auction[auction.productId - 1].currentBid = auction.currentBidPrice;
-  //     auction[auction.productId - 1].sellerId = auction.userId;
-  //   }
-  // }
-
   const handleBuyNow = (price1, sellerId) => {
     console.log(price1);
     if (confirm("Confirm Buy Now")) {
@@ -68,10 +58,10 @@ const AllAuctions = () => {
                     </Card.Body>
                     <ListGroup className="list-group-flush">
                       <ListGroup.Item>
-                        Current highest bid: ${auctionData.currentBidPrice}
+                        Current highest bid: ${auction.currentBidPrice}
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        Time Left:{" "}
+                        Auction end date:{" "}
                         {new Date(auction.bidEndTime).toLocaleString()}
                       </ListGroup.Item>
                     </ListGroup>
