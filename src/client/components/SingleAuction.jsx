@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -15,10 +15,11 @@ const SingleAuction = () => {
    const [auctionEndTime, setAuctionEndTime] = useState("");
    const [currentBid, setCurrentBid] = useState("");
   const [timeRemaining, setTimeRemaining] = useState("");
-  // const [flag, setFlag] = useState(false);
-  // const [errorMsg, setErrorMsg] = useState("");
   const [sellerUsername, setSellerUsername] = useState({});
+  const [buyerData, setBuyerData] = useState({});
   const [username, setUsername] = useState(``);
+  const [payerFlag, setPayerFlag] = useState(false);
+  const navigation = useNavigate();
 
 
   useEffect(() => {
@@ -29,6 +30,8 @@ const SingleAuction = () => {
         setProductData(response.data.products);
         setSellerUsername(response.data.userId);
         setAuctionEndTime(response.data.bidEndTime);
+        setCurrentBid(response.data.currentBidPrice);
+        setMinimumBid(Math.floor(response.data.currentBidPrice * 1.05));
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -36,7 +39,21 @@ const SingleAuction = () => {
     getSingleAuction();
   }, []);
 
-
+  useEffect(()=> {
+    const getBuyer = async() => {
+      try {
+        const result = await axios.get(`/api/users/current/user`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },});
+          setBuyerData(result.data);
+          setPayerFlag(buyerData.id === auctionData.currentBidUserId);
+        }catch (error) {
+        console.log(error);
+      }
+    }
+    getBuyer();
+  },[]);
   useEffect(() => {
     const getUserName = async () => {
       try {
@@ -51,12 +68,9 @@ const SingleAuction = () => {
     getUserName();
   }, [sellerUsername]);
 
-  const handleEndAuction = () => {
-    setTimeRemaining("AUCTION HAS ENDED!");
-  }
 
-  const timer = (auction) => {
-    let secondsRemain = (auction/1000 + 50) - (Date.now() /1000) ;
+  const timer = () => {
+    let secondsRemain = (Date.parse(auctionEndTime)/1000 + 50) - (Date.now() /1000) ;
     let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
     let hoursRemain = Math.floor(
       (secondsRemain - daysRemain * (60 * 60 * 24)) / (60 * 60),
@@ -70,16 +84,25 @@ const SingleAuction = () => {
         hoursRemain * 60 * 60 -
         minutesRemain * 60,
     );
+    if(secondsRemain > 0 ){
     setTimeRemaining(`${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`);
-    if(secondsRemain < 1 ){
-      clearInterval(myinterval);
-      handleEndAuction();
+    }
+    else{setTimeRemaining('AUCTION ENDED'); 
+    clearInterval(myinterval);
+  }
+  }
+   let myinterval = setInterval(timer, 1000);
+  
+  const handleBidAmountChange = (event) => {
+    if(timeRemaining !== "AUCTION ENDED"){
+    const newBidAmount = parseFloat(event.target.value);
+    setBidAmount(newBidAmount);
     }
   };
-   const myinterval = setInterval(timer, 1000, Date.parse(auctionEndTime));
-  
+
   const handleSubmitBid = async (event) => {
     event.preventDefault();
+    console.log(bidAmount);
     if (!localStorage.getItem("TOKEN")) {
       alert("Must be logged in to place a bid!");
       setBidAmount("");
@@ -88,8 +111,8 @@ const SingleAuction = () => {
       if (bidAmount >= minimumBid) {
         try {
           const response = await axios.patch(
-            `/api/auctions/${product.id}`,
-            { currentBidPrice: bidAmount },
+            `/api/auctions/${auctionData.id}`,
+            { currentBidPrice: +bidAmount },
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("TOKEN"),
@@ -126,19 +149,20 @@ const SingleAuction = () => {
             <Card.Text>{productData.description}</Card.Text>
           </Card.Body>
           <ListGroup className="list-group-flush">
-            <ListGroup.Item>Current highest bid: ${auctionData.currentBidPrice}</ListGroup.Item>
-            <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
+            <ListGroup.Item>Current highest bid: ${currentBid}</ListGroup.Item>
+            <ListGroup.Item>Time Left: {timeRemaining !== 'AUCTION ENDED' ? timeRemaining : payerFlag ? <Button onClick={()=> navigation("/payment")}>YOU WON! Checkout</Button> : <Button onClick={()=>navigation("/")}>YOU DID NOT WIN! Home</Button>}</ListGroup.Item>
             <Form noValidate>
               <Form.Control
                 type="number"
                 id="bidAmount"
                 name="bidAmount"
                 placeholder="Enter your Bid here"
-                
+                value={bidAmount}
+                onChange={handleBidAmountChange}
               />
-              <Button variant="dark" >Bid</Button>
+              <Button variant="dark" onClick={handleSubmitBid}>Bid</Button>
             </Form>
-            <ListGroup.Item>Minimum Bid: $</ListGroup.Item>
+            <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
           </ListGroup>
           <Card.Body>
             <Card.Link href={`/${sellerUsername}`}>{username}</Card.Link>
