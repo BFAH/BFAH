@@ -51,7 +51,6 @@ const Login = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Enter your username"
             />
           </Form.Group>
           
@@ -62,7 +61,6 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
             />
           </Form.Group>
           
