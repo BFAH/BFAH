@@ -111,9 +111,15 @@ const SingleAuction = () => {
       // Check if the bid amount meets the minimum bid limit
       if (bidAmount >= minimumBid) {
         try {
+
+          const response2 = await axios.post(`/api/stripe/update/price`,{
+            bidPrice: +bidAmount,
+          product: productData.stripeProductId});
+      console.log(response2);
           const response = await axios.patch(
             `/api/auctions/${auctionData.id}`,
-            { currentBidPrice: +bidAmount },
+            { currentBidPrice: +bidAmount,
+              stripePriceId:response2.data.id },
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("TOKEN"),
@@ -124,10 +130,6 @@ const SingleAuction = () => {
           setCurrentBid(response.data.currentBidPrice);
           setBidAmount("");
           setMinimumBid(Math.ceil(response.data.currentBidPrice * 1.05));
-
-          const response2 = await axios.post(`/api/stripe/update/price`,{
-            bidPrice: +bidAmount,
-          product: productData.stripeProductId});
         } catch (error) {
           console.log(error);
         }
