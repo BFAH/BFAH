@@ -15,6 +15,11 @@ router.post("/create-checkout-session", async (req, res, next) => {
           price:price,
           quantity:quantity,
         }],
+        payment_intent_data: {
+          transer_data: {
+            destination: stripeAcct,
+          },
+        },
       
       success_url: `${process.env.SERVER_URL}/confirmation`,
       cancel_url: `${process.env.SERVER_URL}/payment`,
