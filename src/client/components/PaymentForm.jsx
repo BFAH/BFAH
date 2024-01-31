@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Card, ListGroup, Button, Alert } from "react-bootstrap";
 
 const PaymentForm = () => {
   const [priceData, setPriceData] = useState('');
@@ -10,6 +11,7 @@ const PaymentForm = () => {
   const [sellerData, setSellerData] = useState('');
   const [sellerStripeAcct, setSellerStripeAcct] = useState({});
   const [stripePrice, setStripePrice] = useState('');
+  const [auctionData, setAuctionData] = useState({});
   const location = useLocation();
 
   useEffect(()=> {
@@ -24,6 +26,7 @@ const PaymentForm = () => {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         });
+        setAuctionData(response2.data.products);
         setPriceData(response2.data.currentBidPrice);
         setProductData(response2.data.products.name);
         setBuyerData(response3.data.username);
@@ -48,7 +51,7 @@ const PaymentForm = () => {
       }
     }
     getSeller();
-  },[]);
+  },[sellerId]);
 
   const handleCheckout = async () => {
     try {
@@ -74,13 +77,30 @@ const PaymentForm = () => {
 
   return (
     <>
-    <div>
-      <h2>Seller Username: {sellerData.username}</h2>
-      <h2>Purchase Item:{productData}</h2>
-      <h2>Purchase Price: ${priceData}</h2>
-      <h2>Buyer Username: {buyerData}</h2>
-    </div>
-      <button onClick={handleCheckout}>Pay Now</button>
+    <div className="cards">
+        <Card style={{ width: "80rem" }}>
+          <Alert variant="warning">
+            Congratulations! Please click the "Pay Now" button at the bottom of the page to enter your payment information.
+          </Alert>
+          <Card.Img
+            variant="top"
+            src={auctionData.imageUrl}
+            alt={auctionData.name}
+          />
+          <Card.Body>
+            <Card.Title>{auctionData.name}</Card.Title>
+            <Card.Text>{auctionData.description}</Card.Text>
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+            <ListGroup.Item>Seller Username: 
+              <Card.Link href={`/store/${sellerId}`}> {sellerData.username}</Card.Link>
+            </ListGroup.Item>
+            <ListGroup.Item>Buyer Username: {buyerData}</ListGroup.Item>
+            <ListGroup.Item>Purchase Price: ${priceData}</ListGroup.Item>
+          </ListGroup>
+          <Button type="button" variant="btn btn-warning btn-lg" onClick={handleCheckout}>Pay Now</Button>
+        </Card>
+      </div>
     </>
   );
 };
