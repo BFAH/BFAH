@@ -40,11 +40,11 @@ const AllAuctions = () => {
 
   return (
     <>
-      <FilterBar setFiltered={setFiltered} />
+      <FilterBar auctionData = {auctionData} setFiltered={setFiltered} />
       {filtered ? (
           <div className="cards">
-            {auctionData &&
-              auctionData.map((auction) => {
+            {filtered &&
+              filtered.map((auction) => {
                 return (
                   <Card style={{ width: "25rem" }}>
                     <Card.Img
