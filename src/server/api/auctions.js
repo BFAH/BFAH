@@ -56,12 +56,29 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/order/history", verify, async (req, res, next) => {
+  try {
+    const currentUser = await prisma.auctions.findMany({
+      where: {
+        isActive: false
+      },
+      include: {
+        products: true,
+      },
+    });
+    res.status(200).send(currentUser);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //GET returns logged in user's ID
 router.get("/current/bids", verify, async (req, res, next) => {
   try {
     const currentUser = await prisma.auctions.findMany({
       where: {
         currentBidUserId: req.user.id,
+        isActive: true
       },
       include: {
         products: true,
@@ -115,6 +132,26 @@ router.post("/", verify, async (req, res, next) => {
   }
 });
 
+router.patch("/winner/complete/:id", async (req, res, next) => {
+  const { id } = req.params;
+  console.log(req.params)
+  
+  try {
+    const auction = await prisma.auctions.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        isActive: false
+      },
+    });
+    res.status(201).send(auction);
+    console.log(auction)
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //PATCH updates an auction
 router.patch("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
@@ -135,22 +172,6 @@ router.patch("/:id", verify, async (req, res, next) => {
   }
 });
 
-router.patch("/winner/complete", verify, async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const auction = await prisma.auctions.update({
-      where: {
-        id: +id,
-      },
-      data: {
-        isActive: false
-      },
-    });
-    res.status(201).send(auction);
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 //DELETE user deletes an auction
 router.delete("/:id", verify, async (req, res, next) => {

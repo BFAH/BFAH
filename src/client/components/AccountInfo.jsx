@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userBids, setUserBids] = useState(null);
+  const [orderHistory, setOrderHistory] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const location = useLocation();
@@ -109,8 +110,14 @@ const AccountInfo = () => {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         });
+        const result3 = await axios.get(`/api/auctions/order/history`, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("TOKEN"),
+          },
+        });
         const userInfo = result1.data;
         const myBids = result2.data;
+        const complete = result3.data
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
@@ -125,6 +132,7 @@ const AccountInfo = () => {
           phoneNumber: userInfo.Account[0].phoneNumber,
         });
         setUserBids(myBids);
+        setOrderHistory(complete)
       } catch (error) {
         console.log(error);
       }
@@ -137,6 +145,8 @@ const AccountInfo = () => {
   console.log(accountId);
   console.log(TOKEN);
   console.log(userBids);
+  console.log(orderHistory);
+
 
   return (
     <>
@@ -441,45 +451,45 @@ const AccountInfo = () => {
                     })}
                 </Accordion.Body>
               </Accordion.Item>
-              <Accordion.Item eventKey="3">
-                <Accordion.Header>My Bids</Accordion.Header>
-                <Accordion.Body className="cards">
-                  {userBids &&
-                    userBids.map((user, idx) => {
-                      return (
-                        <Card style={{ width: "20rem" }}>
-                          <Card.Img
-                            variant="top"
-                            style={{ height: "254px", width: "318px" }}
-                            src={user.products.imageUrl}
-                            alt={user.products.name}
-                          />
-                          <Card.Body>
-                            <Card.Title>{user.products.name}</Card.Title>
-                            <Card.Text>{user.products.description}</Card.Text>
-                          </Card.Body>
-                          <ListGroup className="list-group-flush">
-                            <ListGroup.Item>
-                              Current highest bid: ${user.currentBidPrice}
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              Time Left:{" "}
-                              {new Date(user.bidEndTime).toLocaleString()}
-                            </ListGroup.Item>
-                          </ListGroup>
-                          <Card.Body>
-                            <Card.Link href={`/store/${user.userId}`}>
-                              Sellers Store
-                            </Card.Link>
-                            <Card.Link href={`/${user.products.id}`}>
-                              Auctions Details
-                            </Card.Link>
-                          </Card.Body>
-                        </Card>
-                      );
-                    })}
-                </Accordion.Body>
-              </Accordion.Item>
+              {!orderHistory ? (
+                <div></div>
+              ) : (
+                <Accordion.Item eventKey="4">
+                  <Accordion.Header>Order History</Accordion.Header>
+                  <Accordion.Body className="cards">
+                    {orderHistory &&
+                      orderHistory.map((user, idx) => {
+                        return (
+                          <Card style={{ width: "20rem" }}>
+                            <Card.Img
+                              variant="top"
+                              style={{ height: "254px", width: "318px" }}
+                              src={user.products.imageUrl}
+                              alt={user.products.name}
+                            />
+                            <Card.Body>
+                              <Card.Title>{user.products.name}</Card.Title>
+                              <Card.Text>{user.products.description}</Card.Text>
+                            </Card.Body>
+                            <ListGroup className="list-group-flush">
+                              <ListGroup.Item>
+                                You've won this Auction!
+                              </ListGroup.Item>
+                            </ListGroup>
+                            <Card.Body>
+                              <Card.Link href={`/store/${user.userId}`}>
+                                Sellers Store
+                              </Card.Link>
+                              <Card.Link href={`/${user.products.id}`}>
+                                Auctions Details
+                              </Card.Link>
+                            </Card.Body>
+                          </Card>
+                        );
+                      })}
+                  </Accordion.Body>
+                </Accordion.Item>
+              )}
             </>
           )}
         </Accordion>

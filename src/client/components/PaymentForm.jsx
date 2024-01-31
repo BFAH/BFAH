@@ -51,6 +51,8 @@ const PaymentForm = () => {
   },[]);
 
   const handleCheckout = async () => {
+    let auctionId = location.state.auctionId;
+    
     try {
       const response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
@@ -58,6 +60,8 @@ const PaymentForm = () => {
         body: JSON.stringify({ price: stripePrice,
         quantity: 1, stripeAcct: sellerStripeAcct })  
       });
+
+      const response1= await axios.patch(`/api/auctions/winner/complete/${+auctionId}`)
 
       if (!response.ok) {
         const json = await response.json();
