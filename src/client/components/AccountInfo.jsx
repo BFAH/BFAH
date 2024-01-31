@@ -17,7 +17,7 @@ const AccountInfo = () => {
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const location = useLocation();
-  const TOKEN = location.state;
+  const TOKEN = localStorage.getItem("TOKEN");
   const [successMessage, setSuccessMessage] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
   const [accountForm, setAccountForm] = useState({
