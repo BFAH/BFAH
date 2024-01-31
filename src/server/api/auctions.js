@@ -155,7 +155,8 @@ router.patch("/winner/complete/:id", async (req, res, next) => {
 //PATCH updates an auction
 router.patch("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
-  const { currentBidPrice } = req.body;
+  const { currentBidPrice, stripePriceId} = req.body;
+  console.log(req.body);
   try {
     const auction = await prisma.auctions.update({
       where: {
@@ -164,6 +165,9 @@ router.patch("/:id", verify, async (req, res, next) => {
       data: {
         currentBidPrice,
         currentBidUserId: req.user.id,
+        products: {
+          update: {stripePriceId: stripePriceId}
+        },
       },
     });
     res.status(201).send(auction);
