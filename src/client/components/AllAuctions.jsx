@@ -29,11 +29,10 @@ const AllAuctions = () => {
   }, []);
   console.log(auctionData);
 
-  const handleBuyNow = (price1, sellerId) => {
-    console.log(price1);
+  const handleBuyNow = (id) => {
     if (confirm("Confirm Buy Now")) {
       return navigate("/payment", {
-        state: { price: price1, seller: sellerId },
+        state: { auctionId: id },
       });
     }
   };
@@ -115,7 +114,7 @@ const AllAuctions = () => {
                     </Card.Body>
                     <Button
                       variant="outline-secondary"
-                      onClick={() => handleBuyNow()}
+                      onClick={() => handleBuyNow(auction.id)}
                     >
                       Buy Now
                     </Button>
