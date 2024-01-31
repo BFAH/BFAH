@@ -150,7 +150,7 @@ const AccountInfo = () => {
 
   return (
     <>
-      {TOKEN ? (
+      {!TOKEN ? (
         <Alert variant="warning">
           <Alert.Heading>
             Welcome to Big Fancy Auction House! We're delighted to have you
