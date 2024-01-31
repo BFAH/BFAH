@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useLocation } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -117,7 +118,7 @@ const AccountInfo = () => {
         });
         const userInfo = result1.data;
         const myBids = result2.data;
-        const complete = result3.data
+        const complete = result3.data;
         setCurrentUser(userInfo);
         setAccount(userInfo.Account[0]);
         setAccountId(userInfo.Account[0].id);
@@ -132,7 +133,7 @@ const AccountInfo = () => {
           phoneNumber: userInfo.Account[0].phoneNumber,
         });
         setUserBids(myBids);
-        setOrderHistory(complete)
+        setOrderHistory(complete);
       } catch (error) {
         console.log(error);
       }
@@ -147,11 +148,25 @@ const AccountInfo = () => {
   console.log(userBids);
   console.log(orderHistory);
 
-
   return (
     <>
       {TOKEN ? (
-        <div></div>
+        <Alert variant="warning">
+          <Alert.Heading>
+            Welcome to Big Fancy Auction House! We're delighted to have you
+            here!
+          </Alert.Heading>
+          <p>
+            Step into a world of finding the best deals for just about anything
+            you want! But of course making moneeeey!! We're thrilled to share
+            this journey with you!
+          </p>
+          <hr />
+          <p className="mb-0">
+            Click around and see what surprises we have in store for you! Your
+            journey on Big Fancy Auction House starts with a single click!
+          </p>
+        </Alert>
       ) : (
         <Accordion>
           {!account ? (

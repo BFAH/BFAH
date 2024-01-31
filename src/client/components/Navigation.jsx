@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Route, Routes } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
-import { Container, Form, Button, Navbar, NavDropdown } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Navbar,
+  Alert,
+  AlertHeading,
+} from "react-bootstrap";
 import axios from "axios";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -19,12 +26,22 @@ const Navigation = () => {
   const navigate = useNavigate();
   const [logoutMessage, setLogoutMessage] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [show, setShow] = useState(true);
 
   const handleLogout = () => {
     Logout();
-    setLogoutMessage(
-      "Successfully logged out! Click OK to go back to the Homepage"
-    );
+    setLogoutMessage(() => {
+      if (show) {
+        return (
+          <>
+            <Alert variant="info" onClose={() => setShow(false)} dismissible>
+              <AlertHeading>You logged out!</AlertHeading>
+            </Alert>
+            ;
+          </>
+        );
+      }
+    });
     setTimeout(() => {
       setLogoutMessage(null);
       navigate("/", { state: { flag: false } });
@@ -71,7 +88,7 @@ const Navigation = () => {
               <Nav.Link href="/login">Register/Login</Nav.Link>
               <Nav.Link href="/sell">Sell My Stuff!</Nav.Link>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-              {logoutMessage && window.alert(logoutMessage)}
+              {logoutMessage}
             </Nav>
             {!currentUser.username ? (
               <div></div>
