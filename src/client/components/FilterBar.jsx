@@ -1,21 +1,37 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const FilterBar = ({ products, setFiltered }) => {
+const FilterBar = ( auctions ) => {
   const [category, setCategory] = useState(null);
   const [bidTime, setBidTime] = useState("");
   const [priceRange, setPriceRange] = useState("99999999999");
 
   const filterCategories = async (e) => {
     e.preventDefault();
-    console.log(products, category);
-    const filteredCategoryResults = await products.filter((product) => {
+    const auctionArray = auctions.auctionData;
+    console.log(auctions.auctionData, auctions, category);
+    const filteredCategoryResults = await auctionArray.filter((auction) => {
       return (
-        (category ? category === product.categoryId.toString() : true) &&
-        product.price < +priceRange
+        (category ? category === auction.products.categoryId.toString() : true) &&
+        auction.currentBidPrice < +priceRange
       );
     });
-    setFiltered(filteredCategoryResults);
+    console.log(filteredCategoryResults);
+    if(bidTime === "newest"){
+    const sortedArray = filteredCategoryResults.sort((a,b) => {
+      let dateA = Date.parse(a.bidEndTime);
+      let dateB = Date.parse(b.bidEndTime);
+      return dateB - dateA;
+    });
+    }
+    else{
+      const sortedArray = filteredCategoryResults.sort((a,b) => {
+        let dateA = Date.parse(a.bidEndTime);
+        let dateB = Date.parse(b.bidEndTime);
+        return dateA - dateB;
+      });
+    }
+    auctions.setFiltered(filteredCategoryResults);
   };
 
   return (
@@ -25,7 +41,7 @@ const FilterBar = ({ products, setFiltered }) => {
         onChange={(e) => setCategory(e.target.value)}
         style={{textAlign: "center"}}
       >
-        <option>Please Select a category you would like to find.</option>
+        <option value = "0">Please Select a category you would like to find.</option>
         <option value="1">Auto</option>
         <option value="2">Books</option>
         <option value="3">Clothes</option>
@@ -40,7 +56,10 @@ const FilterBar = ({ products, setFiltered }) => {
       </Form.Select>
       <Form.Select aria-label="Default select example" 
       name="selectedTime"
-      style={{textAlign: "center"}}>
+      style={{textAlign: "center"}}
+      onChange={(e)=> {
+        setBidTime(e.target.value);
+      }}>
         <option>Auction bid Times</option>
         <option value="newest">Newest</option>
         <option value="expiring">Expiring soon</option>
@@ -66,10 +85,11 @@ const FilterBar = ({ products, setFiltered }) => {
           variant="warning"
           size="lg"
           type="reset"
-          onClick={() => {
-            setFiltered(null);
+          onClick={(e) => {
+            auctions.setFiltered(null);
             setCategory(null);
             setPriceRange("99999999999");
+            window.location.reload();
           }}
         >
           Reset
