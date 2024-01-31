@@ -135,6 +135,23 @@ router.patch("/:id", verify, async (req, res, next) => {
   }
 });
 
+router.patch("/winner/complete", verify, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const auction = await prisma.auctions.update({
+      where: {
+        id: +id,
+      },
+      data: {
+        isActive: false
+      },
+    });
+    res.status(201).send(auction);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 //DELETE user deletes an auction
 router.delete("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
