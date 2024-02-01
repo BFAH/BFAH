@@ -8,6 +8,9 @@ import {
   Navbar,
   Alert,
   AlertHeading,
+  Image,
+  OverlayTrigger,
+  Tooltip
 } from "react-bootstrap";
 import axios from "axios";
 import Login from "./Login";
@@ -72,10 +75,30 @@ const Navigation = () => {
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
           <Navbar.Brand>
-            <img
-              src="../public/Logo_art.jpg"
-              style={{ width: "900px", border: "black double 10px" }}
-            />
+          <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip id="button-tooltip-2" style={{backgroundColor:"black", width: "1015px"}}><Image
+                style={{width: "1000px"}}
+                src="../public/Logo_art-2.jpg"
+              /></Tooltip>
+              }
+            >
+              {({ ref, ...triggerHandler }) => (
+                <Button
+                  variant="light"
+                  {...triggerHandler}
+                  className="d-inline-flex align-items-center"
+                >
+                  <Image
+                    ref={ref}
+                    style={{width: "1000px", border: "black double 10px"}}
+                    src="../public/Logo_art.jpg"
+                  />
+                  <span className="ms-1"></span>
+                </Button>
+              )}
+            </OverlayTrigger>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
