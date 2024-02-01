@@ -45,7 +45,7 @@ const AllAuctions = () => {
             {filtered &&
               filtered.map((auction) => {
                 return (
-                  <Card style={{ width: "25rem" }}>
+                  <Card key={auction.id} style={{ width: "25rem" }}>
                     <Card.Img
                       variant="top"
                       style={{height: "299px", width: "398px"}}
@@ -87,7 +87,7 @@ const AllAuctions = () => {
             {auctionData &&
               auctionData.map((auction) => {
                 return (
-                  <Card style={{ width: "25rem" }}>
+                  <Card key={auction.id} style={{ width: "25rem" }}>
                     <Card.Img
                       variant="top"
                       style={{height: "299px", width: "398px"}}
@@ -129,102 +129,3 @@ const AllAuctions = () => {
 
 export default AllAuctions;
 
-//    <div className="all-products">
-//   <div className="main">
-//     <FilterBar products={products} setFiltered={setFiltered} />
-//     {filtered ? (
-//       <div className="cards">
-//         {filtered &&
-//           filtered.map((product) => {
-//             return (
-//               <div key={product.id}>
-//                 <div
-//                   style={{
-//                     position: "relative",
-//                     top: "85%",
-//                     left: "10px",
-//                     zIndex: "2",
-//                   }}
-//                 >
-//                   <button onClick={() => handleBuyNow(product.stripePriceId)}>
-//                     Buy Now
-//                   </button>
-//                   :${product.price}
-//                 </div>
-//                 <Link to={`/${product.id}`} style={{ textDecoration: "none" }}>
-//                   <div
-//                     style={{
-//                       height: "380px",
-//                       width: "300px",
-//                       border: "black solid 4px",
-//                       margin: "20px",
-//                       backgroundColor: "#def2f1",
-//                       color: "black",
-//                     }}
-//                   >
-//                     <h3>{product.name}</h3>
-//                     <p>{product.description}</p>
-//                     <img
-//                       src={product.imageUrl}
-//                       style={{ height: "100px", width: "100px" }}
-//                     />
-//                     <h4>Current Bid: ${product.currentBid}</h4>
-//                     <h5>Bid End: {product.bidTime}</h5>
-//                   </div>
-//                 </Link>
-//               </div>
-//             );
-//           })}
-//       </div>
-//     ) : (
-//       <div className="cards">
-//         {products &&
-//           products.map((product) => {
-//             return (
-//               <div key={product.id}>
-//                 <div
-//                   style={{
-//                     position: "relative",
-//                     top: "85%",
-//                     left: "10px",
-//                     zIndex: "2",
-//                   }}
-//                 >
-//                   <button
-//                     onClick={() =>
-//                       handleBuyNow(product.stripePriceId, product.sellerId)
-//                     }
-//                   >
-//                     Buy Now
-//                   </button>
-//                   :${product.price}
-//                 </div>
-//                 <Link to={`/${product.id}`} style={{ textDecoration: "none" }}>
-//                   <div
-//                     style={{
-//                       height: "380px",
-//                       width: "300px",
-//                       border: "black solid 4px",
-//                       margin: "20px",
-//                       backgroundColor: "#def2f1",
-//                       color: "black",
-//                     }}
-//                   >
-//                     <h3>{product.name}</h3>
-//                     <p>{product.description}</p>
-//                     <img
-//                       src={product.imageUrl}
-//                       style={{ height: "100px", width: "100px" }}
-//                     />
-
-//                     <h4>Current Bid: ${product.currentBid}</h4>
-//                     <h5>Bid End: {product.bidTime}</h5>
-//                   </div>
-//                 </Link>
-//               </div>
-//             );
-//           })}
-//       </div>
-//     )}
-//   </div>
-// </div>;
