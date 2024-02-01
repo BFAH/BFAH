@@ -73,7 +73,7 @@ const Navigation = () => {
         <Container fluid>
           <Navbar.Brand>
             <img
-              src="./Logo_art.jpg"
+              src="../public/Logo_art.jpg"
               style={{ width: "900px", border: "black double 10px" }}
             />
           </Navbar.Brand>

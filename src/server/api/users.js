@@ -4,9 +4,18 @@ const router = require("express").Router();
 const { verify } = require("../util");
 
 //GET returns all users
-router.get("/", async (req, res, next) => {
+router.get("/", verify, async (req, res, next) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        Account: true,
+        Auctions: {
+          include: {
+            products: true,
+          },
+        },
+      },
+    });
     res.status(200).send(users);
   } catch (err) {
     console.error(err);
@@ -15,7 +24,7 @@ router.get("/", async (req, res, next) => {
 
 //GET UserName by User's ID
 router.get("/store/:id", async (req, res, next) => {
-  const  userId  = req.params;
+  const userId = req.params;
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -147,8 +156,8 @@ router.patch("/account/edit", verify, async (req, res, next) => {
 });
 
 //PATCH updates user isAdmin to true
-router.patch("/admin", async (req, res, next) => {
-  const { id } = req.body;
+router.patch("/admin/:id", async (req, res, next) => {
+  const { id } = req.params;
   try {
     const updateUser = await prisma.user.update({
       where: {
@@ -165,8 +174,8 @@ router.patch("/admin", async (req, res, next) => {
 });
 
 //PATCH updates user isAdmin to false
-router.patch("/admin/remove", async (req, res, next) => {
-  const { id } = req.body;
+router.patch("/admin/remove/:id", async (req, res, next) => {
+  const { id } = req.params;
   try {
     const updateUser = await prisma.user.update({
       where: {
