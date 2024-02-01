@@ -30,7 +30,7 @@ const createOneUser = async () => {
     username: `jj`,
     stripeAccount: '123456789',
     password: hashedPassword,
-    isAdmin: false,
+    isAdmin: true,
   })
   await prisma.user.create({
     data,
