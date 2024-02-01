@@ -16,7 +16,7 @@ router.post("/create-checkout-session", async (req, res, next) => {
           quantity:quantity,
         }],
         payment_intent_data: {
-          transer_data: {
+          transfer_data: {
             destination: stripeAcct,
           },
         },

@@ -54,7 +54,8 @@ const SingleAuction = () => {
       }
     }
     getBuyer();
-  },[payerFlag]);
+  },[]);
+
   useEffect(() => {
     const getUserName = async () => {
       try {
