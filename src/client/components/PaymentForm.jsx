@@ -17,7 +17,6 @@ const PaymentForm = () => {
 
   useEffect(() => {
     setAuctionId(location.state.auctionId);
-    console.log(auctionId);
 
     const getData = async () => {
       try {

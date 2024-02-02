@@ -3,11 +3,7 @@ const prisma = new PrismaClient();
 const router = require("express").Router();
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE);
-
 const { verify } = require('../util')
-
-// ROUTE: api/products
-// WHAT IT DOES: Returns all Auction Products in the database
 
 router.get("/", async (req, res, next) => {
   try {
@@ -19,7 +15,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//GET returns product by id
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -29,17 +24,14 @@ router.get("/:id", async (req, res, next) => {
       },
     });
     res.status(201).send(product)
-
   } catch (err) {
     console.error("ERROR - Could not FETCH the PRODUCT you REQUESTED!", err);
     res.status(500).json({ err: "SERVER ERROR" });
   }
 });
 
-//POST creates a new product
 router.post('/', verify, async (req, res, next) => {
   const { name, description, price, imageUrl, categoryId } = req.body;
-  console.log(req.body)
   try {
     const stripeProduct = await stripe.products.create({
       name: name,
@@ -49,7 +41,6 @@ router.post('/', verify, async (req, res, next) => {
       unit_amount: (price * 100),
       product: stripeProduct.id,
     });
-
     const product = await prisma.products.create({
       data: {
         name,
@@ -61,7 +52,6 @@ router.post('/', verify, async (req, res, next) => {
         categoryId
       }
     })
-    console.log(product);
     res.status(201).send(product)
   } catch (err) {
     console.error("ERROR - Could not CREATE your new PRODUCT!", err);
@@ -69,15 +59,11 @@ router.post('/', verify, async (req, res, next) => {
   }
 })
 
-// DELETE deletes a product by ID (only allowed for admins)
 router.delete("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
-  
-  // Check if the user making the request is an admin
   if (!req.user.isAdmin) {
     return res.status(403).json({ error: "Permission Denied. Only admins can delete products." });
   }
-
   try {
     const deletedProduct = await prisma.products.delete({
       where: {

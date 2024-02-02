@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -75,7 +75,6 @@ const UserStore = () => {
     if (!localStorage.getItem("TOKEN")) {
       setErrorMsg("Must be logged in to place a bid!");
     } else {
-      // Check if the bid amount meets the minimum bid limit
       if (bidAmount >= minimumBid) {
         try {
           const response = await axios.patch(
@@ -95,7 +94,6 @@ const UserStore = () => {
           console.log(error);
         }
       } else {
-        // Alert or display an error message for insufficient bid amount
         alert(`Bid amount must be at least ${minimumBid}`);
         setBidAmount("");
       }
