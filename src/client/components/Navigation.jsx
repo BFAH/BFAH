@@ -174,7 +174,7 @@ const Navigation = () => {
           }
         />
         <Route
-          path="/confirmation"
+          path="/confirmation/:id"
           element={
             <div>
               <AccountInfo />
