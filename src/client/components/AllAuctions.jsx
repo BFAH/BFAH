@@ -5,14 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import Auction from "./Auction";
-import PaymentForm from "./PaymentForm";
 
 const AllAuctions = () => {
   // const [products, setProducts] = useState();
   const [filtered, setFiltered] = useState(null);
   const [auctionData, setAuctionData] = useState();
-  const [seller, setSeller] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,14 +17,12 @@ const AllAuctions = () => {
       try {
         const response = await axios.get(`/api/auctions`);
         setAuctionData(response.data);
-        console.log(auctionData);
       } catch (error) {
         console.error("ERROR - Could Not Fetch All Products", error);
       }
     };
     getAllAuctions();
   }, []);
-  console.log(auctionData);
 
   const handleBuyNow = (id) => {
     if (confirm("Confirm Buy Now")) {
