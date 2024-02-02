@@ -10,7 +10,7 @@ import {
   AlertHeading,
   Image,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
 } from "react-bootstrap";
 import axios from "axios";
 import Login from "./Login";
@@ -68,20 +68,23 @@ const Navigation = () => {
     getCurrentUser();
   }, []);
 
-  console.log(currentUser);
-
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
           <Navbar.Brand>
-          <OverlayTrigger
+            <OverlayTrigger
               placement="bottom"
               overlay={
-                <Tooltip id="button-tooltip-2" style={{backgroundColor:"black", width: "1015px"}}><Image
-                style={{width: "1000px"}}
-                src="../public/Logo_art-2.jpg"
-              /></Tooltip>
+                <Tooltip
+                  id="button-tooltip-2"
+                  style={{ backgroundColor: "black", width: "1015px" }}
+                >
+                  <Image
+                    style={{ width: "1000px" }}
+                    src="../public/Logo_art-2.jpg"
+                  />
+                </Tooltip>
               }
             >
               {({ ref, ...triggerHandler }) => (
@@ -92,7 +95,7 @@ const Navigation = () => {
                 >
                   <Image
                     ref={ref}
-                    style={{width: "1000px", border: "black double 10px"}}
+                    style={{ width: "1000px", border: "black double 10px" }}
                     src="../public/Logo_art.jpg"
                   />
                   <span className="ms-1"></span>
@@ -114,7 +117,7 @@ const Navigation = () => {
               {logoutMessage}
             </Nav>
             {!currentUser.username ? (
-              <Login/>
+              <Login />
             ) : (
               <Navbar.Text style={{ marginRight: "20px" }}>
                 Signed in as: <a href="/login">{currentUser.username}</a>
@@ -205,48 +208,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-{
-  /* <nav>
-  <Link to="/">
-    <button>Home</button>
-  </Link>
-  <Link to="/login">
-    <button>Login</button>
-  </Link>
-  <Link to="/sell">
-    <button>Sell</button>
-  </Link>
-  <button onClick={handleLogout}>Logout</button>
-  {logoutMessage && window.alert(logoutMessage)}
-  <form>
-    <input type="text" placeholder="Search..." />
-    <button type="submit">Go!</button>
-  </form>
-</nav>; */
-}
-{
-  /* <Nav justify variant="tabs" defaultActiveKey="/home">
-        <Nav.Item>
-          <Nav.Link href="/" eventKey="link-1">
-            Home
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/login" eventKey="link-1">
-            Login/Register
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/sell" eventKey="link-1">
-            Sell my stuff!
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="link-1" onClick={handleLogout}>
-            Logout
-          </Nav.Link>
-          {logoutMessage && window.alert(logoutMessage)}
-        </Nav.Item>
-      </Nav> */
-}
