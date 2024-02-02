@@ -7,7 +7,6 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 const AllAuctions = () => {
-  // const [products, setProducts] = useState();
   const [filtered, setFiltered] = useState(null);
   const [auctionData, setAuctionData] = useState();
   const navigate = useNavigate();

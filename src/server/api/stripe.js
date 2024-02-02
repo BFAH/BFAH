@@ -4,7 +4,6 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE);
 
 router.post("/create-checkout-session", async (req, res, next) => {
-  console.log("body", req.body);
   const {price, quantity, stripeAcct, auctionId} = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
@@ -20,7 +19,6 @@ router.post("/create-checkout-session", async (req, res, next) => {
             destination: stripeAcct,
           },
         },
-      
         success_url: `${process.env.SERVER_URL}/confirmation/${+auctionId}`,
         cancel_url: `${process.env.SERVER_URL}/payment`,
       });

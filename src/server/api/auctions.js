@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 const router = require("express").Router();
 const { verify } = require("../util");
 
-//GET gets all auctions
 router.get("/", async (req, res, next) => {
   try {
     const auction = await prisma.auctions.findMany({
@@ -12,14 +11,11 @@ router.get("/", async (req, res, next) => {
       },
     });
     res.status(200).send(auction);
-    console.log(auction)
   } catch (err) {
     console.error(err);
   }
 });
 
-
-//GET gets all auctions related to user
 router.get("/user", verify, async (req, res, next) => {
   try {
     const auction = await prisma.auctions.findMany({
@@ -36,10 +32,8 @@ router.get("/user", verify, async (req, res, next) => {
   }
 });
 
-//GET get single auction by ID
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  console.log(req.params)
   try {
     const auction = await prisma.auctions.findFirst({
       where: {
@@ -50,7 +44,6 @@ router.get("/:id", async (req, res, next) => {
       },
     });
     res.status(200).send(auction);
-    console.log(auction)
   } catch (err) {
     console.error();
   }
@@ -72,7 +65,6 @@ router.get("/order/history", verify, async (req, res, next) => {
   }
 });
 
-//GET returns logged in user's ID
 router.get("/current/bids", verify, async (req, res, next) => {
   try {
     const currentUser = await prisma.auctions.findMany({
@@ -90,7 +82,6 @@ router.get("/current/bids", verify, async (req, res, next) => {
   }
 });
 
-//GET gets all auctions related to user
 router.get("/seller/store/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -108,12 +99,9 @@ router.get("/seller/store/:id", async (req, res, next) => {
   }
 });
 
-
-//POST creates a new auction
 router.post("/", verify, async (req, res, next) => {
   const { bidStartTime, bidEndTime, currentBidPrice, productId, isActive } =
     req.body;
-  console.log(req.body);
   try {
     const auction = await prisma.auctions.create({
       data: {
@@ -126,7 +114,6 @@ router.post("/", verify, async (req, res, next) => {
       },
     });
     res.status(201).send(auction);
-    console.log(auction);
   } catch (err) {
     console.error(err);
   }
@@ -134,8 +121,6 @@ router.post("/", verify, async (req, res, next) => {
 
 router.patch("/winner/complete/:id", async (req, res, next) => {
   const { id } = req.params;
-  console.log(req.params)
-  
   try {
     const auction = await prisma.auctions.update({
       where: {
@@ -146,17 +131,14 @@ router.patch("/winner/complete/:id", async (req, res, next) => {
       },
     });
     res.status(201).send(auction);
-    console.log(auction)
   } catch (err) {
     console.error(err);
   }
 });
 
-//PATCH updates an auction
 router.patch("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
   const { currentBidPrice, stripePriceId} = req.body;
-  console.log(req.body);
   try {
     const auction = await prisma.auctions.update({
       where: {
@@ -176,20 +158,16 @@ router.patch("/:id", verify, async (req, res, next) => {
   }
 });
 
-
-//DELETE user deletes an auction
 router.delete("/:id", verify, async (req, res, next) => {
   const { id } = req.params;
-
   try {
     const auction = await prisma.auctions.delete({
       where: {
         id: +id,
-        userId: req.user.id, // Ensure that the auction belongs to the authenticated user
+        userId: req.user.id,
       },
     });
-
-    res.status(204).send(); // 204 No Content - indicates successful deletion
+    res.status(201).send(auction);
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: "Internal Server Error" });

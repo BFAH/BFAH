@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 const router = require("express").Router();
 const { verify } = require("../util");
 
-//GET returns all users
 router.get("/", verify, async (req, res, next) => {
   try {
     const users = await prisma.user.findMany({
@@ -22,7 +21,6 @@ router.get("/", verify, async (req, res, next) => {
   }
 });
 
-//GET UserName by User's ID
 router.get("/store/:id", async (req, res, next) => {
   const userId = req.params;
   try {
@@ -37,9 +35,6 @@ router.get("/store/:id", async (req, res, next) => {
   }
 });
 
-
-
-//GET returns user by id
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -62,7 +57,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-//GET returns logged in user's ID
 router.get("/current/user", verify, async (req, res, next) => {
   try {
     const currentUser = await prisma.user.findFirst({
@@ -84,7 +78,6 @@ router.get("/current/user", verify, async (req, res, next) => {
   }
 });
 
-//POST creates users account profile information
 router.post("/account/create", verify, async (req, res, next) => {
   const {
     firstName,
@@ -116,7 +109,6 @@ router.post("/account/create", verify, async (req, res, next) => {
   }
 });
 
-//PATCH users can edit their account profile information
 router.patch("/account/edit", verify, async (req, res, next) => {
   const {
     firstName,
@@ -129,8 +121,6 @@ router.patch("/account/edit", verify, async (req, res, next) => {
     phoneNumber,
     accountId,
   } = req.body;
-  console.log(req.body);
-
   try {
     const account = await prisma.account.update({
       where: {
@@ -148,14 +138,12 @@ router.patch("/account/edit", verify, async (req, res, next) => {
       },
     });
     res.status(201).send(account);
-    console.log(account);
   } catch (err) {
     console.error(err);
     res.status(500).send(err.message);
   }
 });
 
-//PATCH updates user isAdmin to true
 router.patch("/admin/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -173,7 +161,6 @@ router.patch("/admin/:id", async (req, res, next) => {
   }
 });
 
-//PATCH updates user isAdmin to false
 router.patch("/admin/remove/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -191,37 +178,25 @@ router.patch("/admin/remove/:id", async (req, res, next) => {
   }
 });
 
-// DELETE deletes a user (only accessible to Admin)
 router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
-
   try {
-    // Check if the logged-in user is an admin
     if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "Permission denied. Admins only." });
+      return res.status(403).json({ message: "Permission denied. Admins only." });
     }
-
-    // Proceed with deleting the user
     const deletedUser = await prisma.user.delete({
       where: {
         id: +id,
       },
     });
 
-    res
-      .status(200)
-      .json({ message: "User deleted successfully.", user: deletedUser });
+    res.status(200).json({ message: "User deleted successfully.", user: deletedUser });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-module.exports = router;
-
-// Endpoint to handle shipping info submission
 router.post("/shipping-info", verify, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -234,7 +209,6 @@ router.post("/shipping-info", verify, async (req, res) => {
       zipCode,
       phoneNumber,
     } = req.body;
-
     await prisma.account.update({
       where: { userId },
       data: {
@@ -247,10 +221,7 @@ router.post("/shipping-info", verify, async (req, res) => {
         phoneNumber,
       },
     });
-
-    res
-      .status(200)
-      .json({ message: "Shipping information submitted successfully." });
+    res.status(200).json({ message: "Shipping information submitted successfully." });
   } catch (error) {
     console.error("Error submitting shipping information:", error);
     res.status(500).json({ error: "Internal Server Error" });
