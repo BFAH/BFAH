@@ -195,7 +195,7 @@ const AccountInfo = () => {
           {!account ? (
             <Accordion.Item eventKey="0">
               <Accordion.Header>Account Information</Accordion.Header>
-              <Accordion.Body>
+              <Accordion.Body style={{backgroundColor: "#def2f1"}}>
                 <Form noValidate>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -300,7 +300,7 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="1">
               <Accordion.Header>Account Information</Accordion.Header>
-              <Accordion.Body>
+              <Accordion.Body style={{backgroundColor: "#def2f1"}}>
                 <Form noValidate>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -405,7 +405,7 @@ const AccountInfo = () => {
           )}
           <Accordion.Item eventKey="2">
             <Accordion.Header>My Store</Accordion.Header>
-            <Accordion.Body className="cards">
+            <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
               {currentUser &&
                 currentUser.Auctions.map((user, idx) => {
                   return (
@@ -454,7 +454,7 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="3">
               <Accordion.Header>My Bids</Accordion.Header>
-              <Accordion.Body className="cards">
+              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
                 {userBids &&
                   userBids.map((user, idx) => {
                     return (
@@ -497,7 +497,7 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="4">
               <Accordion.Header>Order History</Accordion.Header>
-              <Accordion.Body className="cards">
+              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
                 {orderHistory &&
                   orderHistory.map((user, idx) => {
                     return (
@@ -536,11 +536,11 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="5">
               <Accordion.Header>Admin</Accordion.Header>
-              <Accordion.Body className="cards">
+              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
                 {allUsers &&
                   allUsers.map((user, idx) => {
                     return (
-                      <Card style={{ width: "20rem" }}>
+                      <Card style={{ width: "20rem", borderColor: "black" }}>
                         <Button
                           variant="success"
                           size="sm"
@@ -559,17 +559,15 @@ const AccountInfo = () => {
                         <div className="cards">
                           {user.Auctions.map((auction, idx) => {
                             return (
-                              <Card style={{ width: "8rem" }}>
+                              <Card style={{ width: "8rem", borderColor: "black"}}>
                                 <Card.Img
                                   variant="top"
                                   src={auction.products.imageUrl}
                                   alt={auction.products.name}
                                 />
-                                <ListGroup className="list-group-flush">
-                                  <ListGroup.Item>
-                                    {auction.products.name}
-                                  </ListGroup.Item>
-                                </ListGroup>
+                                <Card.Body>
+                                  <Card.Text>{auction.products.name}</Card.Text>
+                                </Card.Body>
                                 <Button
                                   variant="danger"
                                   onClick={() => handleDeleteAuction(user.id)}

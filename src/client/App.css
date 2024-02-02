@@ -41,6 +41,13 @@ h1 {
   row-gap: 20px;
 }
 
+.accordion-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  row-gap: 20px;
+}
+
 button {
   background-color: #feffff;
   border-radius: 10px;
