@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, ListGroup, Alert } from "react-bootstrap";
+import { Card, ListGroup, Alert, Button } from "react-bootstrap";
 
 const Confirmation = () => {
   const [priceData, setPriceData] = useState("");
@@ -62,13 +62,13 @@ const Confirmation = () => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>
-              Seller Username:
+              Seller: {" "}
               <Card.Link href={`/store/${sellerId}`}>
-                {" "}
-                {sellerData.username}
+                {""}
+                <Button variant="success">{sellerData.username}</Button>
               </Card.Link>
             </ListGroup.Item>
-            <ListGroup.Item>Buyer Username: {buyerData}</ListGroup.Item>
+            <ListGroup.Item>Buyer: {buyerData}</ListGroup.Item>
             <ListGroup.Item>Purchase Price: ${priceData}</ListGroup.Item>
           </ListGroup>
         </Card>
