@@ -11,16 +11,15 @@ const SingleAuction = () => {
   const [auctionData, setAuctionData] = useState({});
   const [productData, setProductData] = useState({});
   const [bidAmount, setBidAmount] = useState("");
-   const [minimumBid, setMinimumBid] = useState(0);
-   const [auctionEndTime, setAuctionEndTime] = useState("");
-   const [currentBid, setCurrentBid] = useState("");
+  const [minimumBid, setMinimumBid] = useState(0);
+  const [auctionEndTime, setAuctionEndTime] = useState("");
+  const [currentBid, setCurrentBid] = useState("");
   const [timeRemaining, setTimeRemaining] = useState("");
   const [sellerUsername, setSellerUsername] = useState({});
   const [buyerData, setBuyerData] = useState({});
   const [username, setUsername] = useState(``);
   const [payerFlag, setPayerFlag] = useState(false);
   const navigation = useNavigate();
-
 
   useEffect(() => {
     const getSingleAuction = async () => {
@@ -39,27 +38,27 @@ const SingleAuction = () => {
     getSingleAuction();
   }, []);
 
-  useEffect(()=> {
-    const getBuyer = async() => {
+  useEffect(() => {
+    const getBuyer = async () => {
       try {
         const result = await axios.get(`/api/users/current/user`, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
-          },});
-          setBuyerData(result.data);
-          setPayerFlag(buyerData.id === auctionData.currentBidUserId);
-          console.log(payerFlag);
-        }catch (error) {
+          },
+        });
+        setBuyerData(result.data);
+        setPayerFlag(buyerData.id === auctionData.currentBidUserId);
+        console.log(payerFlag);
+      } catch (error) {
         console.log(error);
       }
-    }
+    };
     getBuyer();
-  },[]);
+  }, []);
 
   useEffect(() => {
     const getUserName = async () => {
       try {
-
         const response = await axios.get(`/api/users/store/${sellerUsername}`);
         setUsername(response.data.username);
       } catch (error) {
@@ -70,35 +69,37 @@ const SingleAuction = () => {
     getUserName();
   }, [sellerUsername]);
 
-
   const timer = () => {
-    let secondsRemain = (Date.parse(auctionEndTime)/1000 + 50) - (Date.now() /1000) ;
+    let secondsRemain =
+      Date.parse(auctionEndTime) / 1000 + 50 - Date.now() / 1000;
     let daysRemain = Math.floor(secondsRemain / (60 * 60 * 24));
     let hoursRemain = Math.floor(
-      (secondsRemain - daysRemain * (60 * 60 * 24)) / (60 * 60),
+      (secondsRemain - daysRemain * (60 * 60 * 24)) / (60 * 60)
     );
     let minutesRemain = Math.floor(
-      (secondsRemain - daysRemain * 60 * 60 * 24 - hoursRemain * 60 * 60) / 60,
+      (secondsRemain - daysRemain * 60 * 60 * 24 - hoursRemain * 60 * 60) / 60
     );
     let finalSeconds = Math.floor(
       secondsRemain -
         daysRemain * 60 * 60 * 24 -
         hoursRemain * 60 * 60 -
-        minutesRemain * 60,
+        minutesRemain * 60
     );
-    if(secondsRemain > 0 ){
-    setTimeRemaining(`${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`);
+    if (secondsRemain > 0) {
+      setTimeRemaining(
+        `${daysRemain}d ${hoursRemain}h ${minutesRemain}m ${finalSeconds}s`
+      );
+    } else {
+      setTimeRemaining("AUCTION ENDED");
+      clearInterval(myinterval);
     }
-    else{setTimeRemaining('AUCTION ENDED'); 
-    clearInterval(myinterval);
-  }
-  }
-   let myinterval = setInterval(timer, 1000);
-  
+  };
+  let myinterval = setInterval(timer, 1000);
+
   const handleBidAmountChange = (event) => {
-    if(timeRemaining !== "AUCTION ENDED"){
-    const newBidAmount = parseFloat(event.target.value);
-    setBidAmount(newBidAmount);
+    if (timeRemaining !== "AUCTION ENDED") {
+      const newBidAmount = parseFloat(event.target.value);
+      setBidAmount(newBidAmount);
     }
   };
 
@@ -112,15 +113,14 @@ const SingleAuction = () => {
       // Check if the bid amount meets the minimum bid limit
       if (bidAmount >= minimumBid) {
         try {
-
-          const response2 = await axios.post(`/api/stripe/update/price`,{
+          const response2 = await axios.post(`/api/stripe/update/price`, {
             bidPrice: +bidAmount,
-          product: productData.stripeProductId});
-      console.log(response2);
+            product: productData.stripeProductId,
+          });
+          console.log(response2);
           const response = await axios.patch(
             `/api/auctions/${auctionData.id}`,
-            { currentBidPrice: +bidAmount,
-              stripePriceId:response2.data.id },
+            { currentBidPrice: +bidAmount, stripePriceId: response2.data.id },
             {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("TOKEN"),
@@ -142,7 +142,6 @@ const SingleAuction = () => {
     }
   };
 
-
   return (
     <>
       <div className="cards">
@@ -158,7 +157,24 @@ const SingleAuction = () => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>Current highest bid: ${currentBid}</ListGroup.Item>
-            <ListGroup.Item>Time Left: {timeRemaining !== 'AUCTION ENDED' ? timeRemaining : payerFlag ? <Button onClick={()=> navigation("/payment", {state: {auctionId: id}})}>YOU WON! Checkout</Button> : <Button onClick={()=>navigation("/")}>YOU DID NOT WIN! Home</Button>}</ListGroup.Item>
+            <ListGroup.Item>
+              Time Left:{" "}
+              {timeRemaining !== "AUCTION ENDED" ? (
+                timeRemaining
+              ) : payerFlag ? (
+                <Button
+                  onClick={() =>
+                    navigation("/payment", { state: { auctionId: id } })
+                  }
+                >
+                  YOU WON! Checkout
+                </Button>
+              ) : (
+                <Button onClick={() => navigation("/")}>
+                  YOU DID NOT WIN! Home
+                </Button>
+              )}
+            </ListGroup.Item>
             <Form noValidate>
               <Form.Control
                 type="number"
@@ -168,13 +184,21 @@ const SingleAuction = () => {
                 value={bidAmount}
                 onChange={handleBidAmountChange}
               />
-              <Button variant="dark" onClick={handleSubmitBid}>Bid</Button>
+              <Button variant="dark" onClick={handleSubmitBid}>
+                Bid
+              </Button>
             </Form>
             <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
           </ListGroup>
           <Card.Body>
-            <Card.Link href={`/store/${sellerUsername}`}>{username}</Card.Link>
-            <Card.Link href="/">Home</Card.Link>
+            <Card.Link href={`/store/${sellerUsername}`}>
+              {" "}
+              <Button variant="warning">{username}</Button>
+            </Card.Link>
+            <Card.Link href="/">
+              {" "}
+              <Button variant="success">Home</Button>
+            </Card.Link>
           </Card.Body>
         </Card>
       </div>

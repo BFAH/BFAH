@@ -106,47 +106,50 @@ const UserStore = () => {
 
   return (
     <>
-        <div className="cards">
-          {auctionData &&
-            auctionData.map((auction) => {
-              return (
-                <Card style={{ width: "30rem" }}>
-                  <Card.Img
-                    variant="top"
-                    src={auction.products.imageUrl}
-                    alt={auction.products.name}
-                  />
-                  <Card.Body>
-                    <Card.Title>{auction.products.name}</Card.Title>
-                    <Card.Text>{auction.products.description}</Card.Text>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                      Current highest bid: ${currentBid}
-                    </ListGroup.Item>
-                    <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
-                    <Form noValidate>
-                      <Form.Control
-                        type="number"
-                        id="bidAmount"
-                        name="bidAmount"
-                        placeholder="Enter your Bid here"
-                        value={bidAmount}
-                        onChange={handleBidAmountChange}
-                      />
-                      <Button variant="dark" onClick={handleSubmitBid}>
-                        Bid
-                      </Button>
-                    </Form>
-                    <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
-                  </ListGroup>
-                  <Card.Body>
-                    <Card.Link href="/">Home</Card.Link>
-                  </Card.Body>
-                </Card>
-              );
-            })}
-        </div>
+      <div className="cards">
+        {auctionData &&
+          auctionData.map((auction) => {
+            return (
+              <Card style={{ width: "30rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={auction.products.imageUrl}
+                  alt={auction.products.name}
+                />
+                <Card.Body>
+                  <Card.Title>{auction.products.name}</Card.Title>
+                  <Card.Text>{auction.products.description}</Card.Text>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                  <ListGroup.Item>
+                    Current highest bid: ${currentBid}
+                  </ListGroup.Item>
+                  <ListGroup.Item>Time Left: {timeRemaining}</ListGroup.Item>
+                  <Form noValidate>
+                    <Form.Control
+                      type="number"
+                      id="bidAmount"
+                      name="bidAmount"
+                      placeholder="Enter your Bid here"
+                      value={bidAmount}
+                      onChange={handleBidAmountChange}
+                    />
+                    <Button variant="dark" onClick={handleSubmitBid}>
+                      Bid
+                    </Button>
+                  </Form>
+                  <ListGroup.Item>Minimum Bid: ${minimumBid}</ListGroup.Item>
+                </ListGroup>
+                <Card.Body>
+                  <Card.Link href="/">
+                    {" "}
+                    <Button variant="success">Home</Button>
+                  </Card.Link>
+                </Card.Body>
+              </Card>
+            );
+          })}
+      </div>
     </>
   );
 };
