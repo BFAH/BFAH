@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -30,7 +30,10 @@ const Register = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "100vh" }}
+    >
       <div className="text-center">
         <h1>Register</h1>
         <br />
@@ -43,10 +46,8 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-
             />
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Username</Form.Label>
             <Form.Control
@@ -56,7 +57,6 @@ const Register = () => {
               onChange={handleChange}
             />
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -66,12 +66,10 @@ const Register = () => {
               onChange={handleChange}
             />
           </Form.Group>
-
-          <Button onClick={handleRegister} type="button" className="mb-3">Register</Button>
+          <Button onClick={handleRegister} type="button" className="mb-3">
+            Register
+          </Button>
         </Form>
-
-        <p>Or</p>
-        <Button onClick={() => navigate("/login")}>Login?</Button>
       </div>
     </div>
   );

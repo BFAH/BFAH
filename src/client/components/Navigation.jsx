@@ -108,13 +108,13 @@ const Navigation = () => {
               navbarScroll
             >
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/login">Register/Login</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
               <Nav.Link href="/sell">Sell My Stuff!</Nav.Link>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               {logoutMessage}
             </Nav>
             {!currentUser.username ? (
-              <div></div>
+              <Login/>
             ) : (
               <Navbar.Text style={{ marginRight: "20px" }}>
                 Signed in as: <a href="/login">{currentUser.username}</a>
@@ -143,7 +143,6 @@ const Navigation = () => {
             </div>
           }
         />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account-info" element={<AccountInfo />} />
         <Route

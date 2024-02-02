@@ -22,7 +22,6 @@ const UserStore = () => {
       try {
         const response = await axios.get(`/api/auctions/seller/store/${id}`);
         setAuctionData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -88,7 +87,6 @@ const UserStore = () => {
               },
             }
           );
-          console.log(response.data);
           setCurrentBid(response.data.currentBidPrice);
           setBidAmount("");
           setMinimumBid(Math.ceil(response.data.currentBidPrice * 1.05));

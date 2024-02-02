@@ -7,7 +7,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useLocation } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 const AccountInfo = () => {
@@ -18,7 +17,6 @@ const AccountInfo = () => {
   const [orderHistory, setOrderHistory] = useState(null);
   const [account, setAccount] = useState(null);
   const [accountId, setAccountId] = useState(null);
-  const location = useLocation();
   const TOKEN = localStorage.getItem("TOKEN");
   const [successMessage, setSuccessMessage] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
@@ -109,8 +107,6 @@ const AccountInfo = () => {
             Authorization: "Bearer " + localStorage.getItem("TOKEN"),
           },
         });
-
-        // // Refresh the AccountInfo page after successful deletion
         window.location.reload();
       } catch (error) {
         console.log("Error deleting auction:", error);
@@ -174,14 +170,6 @@ const AccountInfo = () => {
       setAdmin(true);
     }
   }, [currentUser]);
-
-  console.log(currentUser);
-  console.log(account);
-  console.log(accountId);
-  console.log(TOKEN);
-  console.log(userBids);
-  console.log(orderHistory);
-  console.log(allUsers);
 
   return (
     <>
