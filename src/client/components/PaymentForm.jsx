@@ -103,13 +103,13 @@ const PaymentForm = () => {
           </Card.Body>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>
-              Seller Username:
-              <Card.Link href={`/store/${sellerId}`}>
-                {" "}
-                {sellerData.username}
+              Seller: {" "}
+                <Card.Link href={`/store/${sellerId}`}>
+                {""}
+                <Button variant="success">{sellerData.username}</Button>
               </Card.Link>
             </ListGroup.Item>
-            <ListGroup.Item>Buyer Username: {buyerData}</ListGroup.Item>
+            <ListGroup.Item>Buyer: {buyerData}</ListGroup.Item>
             <ListGroup.Item>Purchase Price: ${priceData}</ListGroup.Item>
           </ListGroup>
           <Button
