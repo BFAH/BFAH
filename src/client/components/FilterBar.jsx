@@ -9,14 +9,12 @@ const FilterBar = ( auctions ) => {
   const filterCategories = async (e) => {
     e.preventDefault();
     const auctionArray = auctions.auctionData;
-    console.log(auctions.auctionData, auctions, category);
     const filteredCategoryResults = await auctionArray.filter((auction) => {
       return (
         (category ? category === auction.products.categoryId.toString() : true) &&
         auction.currentBidPrice < +priceRange
       );
     });
-    console.log(filteredCategoryResults);
     if(bidTime === "newest"){
     const sortedArray = filteredCategoryResults.sort((a,b) => {
       let dateA = Date.parse(a.bidEndTime);
