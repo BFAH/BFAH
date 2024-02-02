@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FilterBar from "./FilterBar";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
+import { Button, Card, ListGroup } from "react-bootstrap";
 
 const AllAuctions = () => {
   const [filtered, setFiltered] = useState(null);
