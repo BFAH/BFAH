@@ -442,9 +442,12 @@ const AccountInfo = () => {
                         </ListGroup.Item>
                       </ListGroup>
                       <Card.Body>
-                        <Card.Link href="/">Home</Card.Link>
+                        <Card.Link href="/">
+                          {" "}
+                          <Button variant="success">Home</Button>
+                        </Card.Link>
                         <Card.Link href={`/${user.products.id}`}>
-                          Auctions Details
+                          <Button variant="warning">Auction Details</Button>
                         </Card.Link>
                       </Card.Body>
                       <Button
@@ -489,10 +492,10 @@ const AccountInfo = () => {
                         </ListGroup>
                         <Card.Body>
                           <Card.Link href={`/store/${user.userId}`}>
-                            Sellers Store
+                            <Button variant="warning">Seller's store</Button>
                           </Card.Link>
                           <Card.Link href={`/${user.products.id}`}>
-                            Auctions Details
+                            <Button variant="success">Auction Details</Button>
                           </Card.Link>
                         </Card.Body>
                       </Card>
@@ -528,10 +531,10 @@ const AccountInfo = () => {
                         </ListGroup>
                         <Card.Body>
                           <Card.Link href={`/store/${user.userId}`}>
-                            Sellers Store
+                            <Button variant="warning">Seller's store</Button>
                           </Card.Link>
                           <Card.Link href={`/${user.products.id}`}>
-                            Auctions Details
+                            <Button variant="success">Auction Details</Button>
                           </Card.Link>
                         </Card.Body>
                       </Card>
@@ -557,8 +560,13 @@ const AccountInfo = () => {
                         >
                           Make Admin
                         </Button>
-                        <Card.Link href={`/store/${user.id}`}>
-                          {user.username}
+                        <Card.Link
+                          href={`/store/${user.id}`}
+                          style={{ marginTop: "10px" }}
+                        >
+                          <Button variant="outline-dark">
+                            {user.username}
+                          </Button>
                         </Card.Link>
                         <div className="cards">
                           {user.Auctions.map((auction, idx) => {
@@ -587,6 +595,7 @@ const AccountInfo = () => {
                         <Button
                           variant="warning"
                           size="sm"
+                          style={{ marginTop: "10px" }}
                           onClick={() => deleteAdmin(user.id)}
                         >
                           Delete Admin

@@ -39,93 +39,90 @@ const AllAuctions = () => {
 
   return (
     <>
-      <FilterBar auctionData = {auctionData} setFiltered={setFiltered} />
+      <FilterBar auctionData={auctionData} setFiltered={setFiltered} />
       {filtered ? (
-          <div className="cards">
-            {filtered &&
-              filtered.map((auction) => {
-                return (
-                  <Card key={auction.id} style={{ width: "25rem" }}>
-                    <Card.Img
-                      variant="top"
-                      style={{height: "299px", width: "398px"}}
-                      src={auction.products.imageUrl}
-                      alt={auction.products.name}
-                    />
-                    <Card.Body>
-                      <Card.Title>{auction.products.name}</Card.Title>
-                      <Card.Text>{auction.products.description}</Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush">
-                      <ListGroup.Item>
-                        Current highest bid: ${auction.currentBidPrice}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Auction end date:{" "}
-                        {new Date(auction.bidEndTime).toLocaleString()}
-                      </ListGroup.Item>
-                    </ListGroup>
-                    <Card.Body>
-                      <Card.Link href={`/${auction.id}`}>
+        <div className="cards">
+          {filtered &&
+            filtered.map((auction) => {
+              return (
+                <Card key={auction.id} style={{ width: "25rem" }}>
+                  <Card.Img
+                    variant="top"
+                    style={{ height: "299px", width: "398px" }}
+                    src={auction.products.imageUrl}
+                    alt={auction.products.name}
+                  />
+                  <Card.Body>
+                    <Card.Title>{auction.products.name}</Card.Title>
+                    <Card.Text>{auction.products.description}</Card.Text>
+                  </Card.Body>
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      Current highest bid: ${auction.currentBidPrice}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Auction end date:{" "}
+                      {new Date(auction.bidEndTime).toLocaleString()}
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <Card.Body>
+                    <Card.Link href={`/${auction.id}`}>
+                      <Button variant="outline-dark">
                         Look at my Auction!
-                      </Card.Link>
-                    </Card.Body>
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => handleBuyNow()}
-                    >
-                      Buy Now
-                    </Button>
-                  </Card>
-                );
-              })}
-          </div>
-        
+                      </Button>
+                    </Card.Link>
+                  </Card.Body>
+                  <Button variant="warning" onClick={() => handleBuyNow()}>
+                    Buy Now
+                  </Button>
+                </Card>
+              );
+            })}
+        </div>
       ) : (
-        
-          <div className="cards">
-            {auctionData &&
-              auctionData.map((auction) => {
-                return (
-                  <Card key={auction.id} style={{ width: "25rem" }}>
-                    <Card.Img
-                      variant="top"
-                      style={{height: "299px", width: "398px"}}
-                      src={auction.products.imageUrl}
-                      alt={auction.products.name}
-                    />
-                    <Card.Body>
-                      <Card.Title>{auction.products.name}</Card.Title>
-                      <Card.Text>{auction.products.description}</Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush">
-                      <ListGroup.Item>
-                        Current highest bid: ${auction.currentBidPrice}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Time Left:{" "}
-                        {new Date(auction.bidEndTime).toLocaleString()}
-                      </ListGroup.Item>
-                    </ListGroup>
-                    <Card.Body>
-                      <Card.Link href={`/${auction.productId}`}>
+        <div className="cards">
+          {auctionData &&
+            auctionData.map((auction) => {
+              return (
+                <Card key={auction.id} style={{ width: "25rem" }}>
+                  <Card.Img
+                    variant="top"
+                    style={{ height: "299px", width: "398px" }}
+                    src={auction.products.imageUrl}
+                    alt={auction.products.name}
+                  />
+                  <Card.Body>
+                    <Card.Title>{auction.products.name}</Card.Title>
+                    <Card.Text>{auction.products.description}</Card.Text>
+                  </Card.Body>
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      Current highest bid: ${auction.currentBidPrice}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Time Left: {new Date(auction.bidEndTime).toLocaleString()}
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <Card.Body>
+                    <Card.Link href={`/${auction.productId}`}>
+                      <Button variant="outline-dark">
                         Look at my Auction!
-                      </Card.Link>
-                    </Card.Body>
-                    <Button
-                      variant="outline-secondary"
-                      onClick={() => handleBuyNow(auction.id)}
-                    >
-                      Buy Now
-                    </Button>
-                  </Card>
-                );
-              })}
-          </div>
+                      </Button>
+                    </Card.Link>
+                  </Card.Body>
+                  <Button
+                    variant="warning"
+                    onClick={() => handleBuyNow(auction.id)}
+                  >
+                    Buy Now
+                  </Button>
+                </Card>
+              );
+            })}
+        </div>
       )}
     </>
   );
 };
 
 export default AllAuctions;
-
