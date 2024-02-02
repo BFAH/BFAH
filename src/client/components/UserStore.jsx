@@ -1,10 +1,7 @@
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+import { Button, Form, ListGroup, Card } from "react-bootstrap";
 
 const UserStore = () => {
   const { id } = useParams();

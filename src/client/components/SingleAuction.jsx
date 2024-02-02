@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Button } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+import { Button, Card, ListGroup, Form } from "react-bootstrap";
 
 const SingleAuction = () => {
   const { id } = useParams();
@@ -104,12 +101,11 @@ const SingleAuction = () => {
 
   const handleSubmitBid = async (event) => {
     event.preventDefault();
-  
+
     if (!localStorage.getItem("TOKEN")) {
       alert("Must be logged in to place a bid!");
       setBidAmount("");
     } else {
-      
       if (bidAmount >= minimumBid) {
         try {
           const response2 = await axios.post(`/api/stripe/update/price`, {

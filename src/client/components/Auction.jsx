@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
+import { Dropdown, Button, Col, Form, Row } from "react-bootstrap";
 
 const Auction = () => {
   const [newProductId, setNewProductId] = useState(null);
@@ -123,7 +119,7 @@ const Auction = () => {
                 onChange={handleProduct}
               />
             </Form.Group>
-            <Dropdown style={{marginTop: "10px"}}>
+            <Dropdown style={{ marginTop: "10px" }}>
               <Button variant="warning">
                 What category does this belong to?
               </Button>

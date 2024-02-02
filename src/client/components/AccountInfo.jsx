@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Accordion from "react-bootstrap/Accordion";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import Alert from "react-bootstrap/Alert";
+import {
+  Accordion,
+  Button,
+  Col,
+  Form,
+  Row,
+  Card,
+  ListGroup,
+  Alert,
+} from "react-bootstrap";
 
 const AccountInfo = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -195,7 +197,7 @@ const AccountInfo = () => {
           {!account ? (
             <Accordion.Item eventKey="0">
               <Accordion.Header>Account Information</Accordion.Header>
-              <Accordion.Body style={{backgroundColor: "#def2f1"}}>
+              <Accordion.Body style={{ backgroundColor: "#def2f1" }}>
                 <Form noValidate>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -300,7 +302,7 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="1">
               <Accordion.Header>Account Information</Accordion.Header>
-              <Accordion.Body style={{backgroundColor: "#def2f1"}}>
+              <Accordion.Body style={{ backgroundColor: "#def2f1" }}>
                 <Form noValidate>
                   <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -405,7 +407,10 @@ const AccountInfo = () => {
           )}
           <Accordion.Item eventKey="2">
             <Accordion.Header>My Store</Accordion.Header>
-            <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
+            <Accordion.Body
+              className="accordion-cards"
+              style={{ backgroundColor: "#def2f1" }}
+            >
               {currentUser &&
                 currentUser.Auctions.map((user, idx) => {
                   return (
@@ -454,7 +459,10 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="3">
               <Accordion.Header>My Bids</Accordion.Header>
-              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
+              <Accordion.Body
+                className="accordion-cards"
+                style={{ backgroundColor: "#def2f1" }}
+              >
                 {userBids &&
                   userBids.map((user, idx) => {
                     return (
@@ -497,7 +505,10 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="4">
               <Accordion.Header>Order History</Accordion.Header>
-              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
+              <Accordion.Body
+                className="accordion-cards"
+                style={{ backgroundColor: "#def2f1" }}
+              >
                 {orderHistory &&
                   orderHistory.map((user, idx) => {
                     return (
@@ -536,7 +547,10 @@ const AccountInfo = () => {
           ) : (
             <Accordion.Item eventKey="5">
               <Accordion.Header>Admin</Accordion.Header>
-              <Accordion.Body className="accordion-cards" style={{backgroundColor: "#def2f1"}}>
+              <Accordion.Body
+                className="accordion-cards"
+                style={{ backgroundColor: "#def2f1" }}
+              >
                 {allUsers &&
                   allUsers.map((user, idx) => {
                     return (
@@ -559,7 +573,9 @@ const AccountInfo = () => {
                         <div className="cards">
                           {user.Auctions.map((auction, idx) => {
                             return (
-                              <Card style={{ width: "8rem", borderColor: "black"}}>
+                              <Card
+                                style={{ width: "8rem", borderColor: "black" }}
+                              >
                                 <Card.Img
                                   variant="top"
                                   src={auction.products.imageUrl}
