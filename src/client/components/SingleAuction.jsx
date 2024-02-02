@@ -48,7 +48,6 @@ const SingleAuction = () => {
         });
         setBuyerData(result.data);
         setPayerFlag(buyerData.id === auctionData.currentBidUserId);
-        console.log(payerFlag);
       } catch (error) {
         console.log(error);
       }
@@ -105,19 +104,18 @@ const SingleAuction = () => {
 
   const handleSubmitBid = async (event) => {
     event.preventDefault();
-    console.log(bidAmount);
+  
     if (!localStorage.getItem("TOKEN")) {
       alert("Must be logged in to place a bid!");
       setBidAmount("");
     } else {
-      // Check if the bid amount meets the minimum bid limit
+      
       if (bidAmount >= minimumBid) {
         try {
           const response2 = await axios.post(`/api/stripe/update/price`, {
             bidPrice: +bidAmount,
             product: productData.stripeProductId,
           });
-          console.log(response2);
           const response = await axios.patch(
             `/api/auctions/${auctionData.id}`,
             { currentBidPrice: +bidAmount, stripePriceId: response2.data.id },
@@ -127,7 +125,6 @@ const SingleAuction = () => {
               },
             }
           );
-          console.log(response.data);
           setCurrentBid(response.data.currentBidPrice);
           setBidAmount("");
           setMinimumBid(Math.ceil(response.data.currentBidPrice * 1.05));
@@ -135,7 +132,6 @@ const SingleAuction = () => {
           console.log(error);
         }
       } else {
-        // Alert or display an error message for insufficient bid amount
         alert(`Bid amount must be at least ${minimumBid}`);
         setBidAmount("");
       }
