@@ -30,7 +30,7 @@ const Login = () => {
 
   return (
     <>
-      <Form inline>
+      <Form inline="true">
         <InputGroup>
           <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
           <Form.Control
@@ -42,7 +42,7 @@ const Login = () => {
           />
         </InputGroup>
       </Form>
-      <Form inline>
+      <Form inline="true">
         <InputGroup>
           <Form.Control
             type="password"
@@ -53,7 +53,7 @@ const Login = () => {
           />
         </InputGroup>
       </Form>
-      <Form inline>
+      <Form inline="true">
         <InputGroup style={{marginTop: "15px"}}>
           <Button
             variant="outline-success"
