@@ -40,7 +40,6 @@ const Navigation = () => {
             <Alert variant="info" onClose={() => setShow(false)} dismissible>
               <AlertHeading>You logged out!</AlertHeading>
             </Alert>
-            ;
           </>
         );
       }
