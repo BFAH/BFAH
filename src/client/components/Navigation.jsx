@@ -81,7 +81,7 @@ const Navigation = () => {
                 >
                   <Image
                     style={{ width: "1000px" }}
-                    src="../public/Logo_art-2.jpg"
+                    src="/Logo_art-2.jpg"
                   />
                 </Tooltip>
               }
@@ -95,7 +95,7 @@ const Navigation = () => {
                   <Image
                     ref={ref}
                     style={{ width: "1000px", border: "black double 10px" }}
-                    src="../public/Logo_art.jpg"
+                    src="/Logo_art.jpg"
                   />
                   <span className="ms-1"></span>
                 </Button>
